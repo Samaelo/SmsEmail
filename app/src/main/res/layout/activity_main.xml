@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <Button
         android:text="@string/email"
         android:layout_width="145dp"
