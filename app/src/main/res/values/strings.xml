@@ -2,4 +2,6 @@
     <string name="app_name">Mensajería</string>
     <string name="email">Email</string>
     <string name="sms">Sms</string>
+    <string name="remitente">Remitente</string>
+    <string name="destinatario">Destinatario</string>
 </resources>
