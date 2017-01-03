@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mensajería</string>
+    <string name="email">Email</string>
+    <string name="sms">Sms</string>
+</resources>
