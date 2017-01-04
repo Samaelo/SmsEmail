@@ -1,0 +1,7 @@
+#Wed Jan 04 13:16:14 CET 2017
+base.0=C\:\\Android_workspace\\SmsEmail1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_8e75af98ea246562d1000b8f0aa95c9ad98e500c
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Android_workspace\\SmsEmail1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_0452d2a8d21aadca55ffdfdd9a5cf00752eb7bd3\\classes.dex
+base.1=C\:\\Android_workspace\\SmsEmail1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_0452d2a8d21aadca55ffdfdd9a5cf00752eb7bd3
+file.0=C\:\\Android_workspace\\SmsEmail1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_8e75af98ea246562d1000b8f0aa95c9ad98e500c\\classes.dex
