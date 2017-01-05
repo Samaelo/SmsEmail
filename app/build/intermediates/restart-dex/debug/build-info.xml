@@ -5,40 +5,33 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="590144225269855"
+    timestamp="592706250942396"
     token="-6000804071067897745"
-    verifier="COMPATIBLE" >
+    verifier="BINARY_MANIFEST_FILE_CHANGE" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="875" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="226" />
     <task
         name="verifier"
-        duration="0" />
+        duration="24" />
 
     <artifact
-        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
-        type="RESOURCES" />
+        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="589676284505147"
-        verifier="FULL_BUILD_REQUESTED" >
+        timestamp="592706250942396"
+        verifier="BINARY_MANIFEST_FILE_CHANGE" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
-    </build>
-    <build
-        timestamp="590144225269855"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
-            type="RESOURCES" />
     </build>
 
 </instant-run>

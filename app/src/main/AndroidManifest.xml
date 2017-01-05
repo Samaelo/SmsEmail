@@ -22,6 +22,18 @@
             android:name=".ActivitySMS"
             android:label="@string/title_activity_sms"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.islasf.samaelmario.tuputamadre.PerfilActivity"
+            android:label="@string/title_activity_perfil"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.islasf.samaelmario.tuputamadre.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListaContactosActivity"
+            android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
+
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +17,7 @@ TODO: los XML de Strings siempre ir haciéndolos conforme avanzan las activities
 TODO: Puesto que hay que poner preferencias, vamos a poner que una de ellas sea poder modificar el tema. Por lo que hay que modificar también el XML de colores para crear los nuestros propios( al menos 4 temas en total).
 TODO: Lista de contactos agregados.
 TODO: Lista de Mensajes enviados.
-TODO: Actividades: Lista de contactos, lista de mensajes, preferencias, envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
+TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con preferences screen) , envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
  */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

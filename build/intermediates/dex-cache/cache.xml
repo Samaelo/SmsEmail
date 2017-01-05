@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="5d1ec34d2a8d88e77b3d7fbaef0e355f69bc0860">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
         sha1="aee64634871d88a419d59eb743c1258a60f19700">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.0_c2dd990b55174b71b0a25d2143ca781c001b2294\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="2a7b19a8e7ac6e8c64bdf413b9ea78cc4f2701ca">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
     </item>
     <item
         is-multidex="true"

@@ -13,4 +13,6 @@
     <string name="pista_mensaje_SMS">Mensaje a enviar</string>
     <string name="seleccionar_contacto">Selecciona un contacto al que enviar el mensaje SMS.</string>
     <string name="contacto_seleccionado">Contacto seleccionado: %1$s</string>
+    <string name="title_activity_lista_contactos">Lista de contactos</string>
+    <string name="title_activity_perfil">Visualización del perfil</string>
 </resources>

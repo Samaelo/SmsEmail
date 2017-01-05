@@ -34,15 +34,15 @@ public class ActivitySMS extends AppCompatActivity {
     }
 
     public void onEnviar(View v) {
-        Snackbar.make(v, "Aquí va el mensaje de enviado o no.", Snackbar.LENGTH_LONG)
+        Snackbar.make(v, "Aquí va el mensaje de enviado o no. Además, te envía a la actividad principal, eliminando ésta.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
     public void onCancelar(View v) {
-        Snackbar.make(v, "Aquí va el mensaje de \"Mensaje cancelado\".", Snackbar.LENGTH_LONG)
+        Snackbar.make(v, "Ésto abre la actividad de envío de mensaje.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
     public void onBuscarContacto(View v){
-        Snackbar.make(v, "Este botón abre una actividad de la lista de contactos.".", Snackbar.LENGTH_LONG)
+        Snackbar.make(v, "Este botón abre una actividad de la lista de contactos.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 }
