@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.islasf.samaelmario.tuputamadre.ActivitySMS">
+    tools:context=".ActivitySMS">
 
 
     <android.support.design.widget.AppBarLayout

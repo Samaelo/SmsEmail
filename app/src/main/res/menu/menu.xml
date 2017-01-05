@@ -3,9 +3,19 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
 <!-- Search, should appear as action button -->
 
 
-    <item android:id="@+id/email"
+    <item
+        android:icon="@android:drawable/sym_action_chat"
         android:title="@string/sms"
-        android:icon="@android:drawable/ic_dialog_email"
-        yourapp:showAsAction="ifRoom" />
-
+        yourapp:showAsAction="always" />
+    <item android:icon="@android:drawable/sym_action_email"
+        yourapp:showAsAction="always"
+        android:title="@string/email" />
+    <item android:title="@string/consultar_perfil"
+        android:visible="true"
+        android:enabled="true" />
+    <item android:title="@string/historial"
+        android:visible="true"
+        android:enabled="true" />
+    <item android:title="@string/preferencias" />
+    <item android:title="@string/acerca_de" />
 </menu>

@@ -13,19 +13,19 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label=""
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.islasf.samaelmario.SmsEmail.MainActivity" >
+        <activity android:name="com.islasf.samaelmario.vista.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.islasf.samaelmario.SmsEmail.Activity_Email" />
+        <activity android:name="com.islasf.samaelmario.vista.Activity_Email" />
         <activity
-            android:name="com.islasf.samaelmario.tuputamadre.ActivitySMS"
+            android:name="com.islasf.samaelmario.vista.ActivitySMS"
             android:label="@string/title_activity_sms"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

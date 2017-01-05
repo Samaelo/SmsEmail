@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">Mensajería</string>
+    <string name="app_name">Mensajería IF</string>
     <string name="email">Email</string>
     <string name="sms">Sms</string>
     <string name="remitente">Remitente</string>
     <string name="destinatario">Destinatario</string>
     <string name="title_activity_sms">ActivitySMS</string>
+    <string name="historial">Historial</string>
+    <string name="consultar_perfil">Consultar perfil</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="acerca_de">A cerca de</string>
 </resources>

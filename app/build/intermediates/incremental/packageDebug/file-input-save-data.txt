@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Thu Jan 05 12:38:21 CET 2017
+#Thu Jan 05 13:27:17 CET 2017
 210.set=ANDROID_RESOURCE
 14.set=ANDROID_RESOURCE
 180.file=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-v21\\avd_hide_password_2.xml
