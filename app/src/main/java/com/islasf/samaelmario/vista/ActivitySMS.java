@@ -41,4 +41,8 @@ public class ActivitySMS extends AppCompatActivity {
         Snackbar.make(v, "Aquí va el mensaje de \"Mensaje cancelado\".", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+    public void onBuscarContacto(View v){
+        Snackbar.make(v, "Este botón abre una actividad de la lista de contactos.".", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
 }

@@ -10,4 +10,7 @@
     <string name="preferencias">Preferencias</string>
     <string name="acerca_de">A cerca de</string>
     <string name="pista_tfno_receptor">Nº de teléfono del destinatario</string>
+    <string name="pista_mensaje_SMS">Mensaje a enviar</string>
+    <string name="seleccionar_contacto">Selecciona un contacto al que enviar el mensaje SMS.</string>
+    <string name="contacto_seleccionado">Contacto seleccionado: %1$s</string>
 </resources>

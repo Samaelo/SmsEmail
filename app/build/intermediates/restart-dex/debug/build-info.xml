@@ -5,7 +5,7 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="577006969806195"
+    timestamp="590144225269855"
     token="-6000804071067897745"
     verifier="COMPATIBLE" >
 
@@ -27,14 +27,14 @@
         type="RESOURCES" />
 
     <build
-        timestamp="576261329512334"
+        timestamp="589676284505147"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="577006969806195"
+        timestamp="590144225269855"
         verifier="COMPATIBLE" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
