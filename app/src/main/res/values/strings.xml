@@ -4,10 +4,10 @@
     <string name="sms">Sms</string>
     <string name="remitente">Remitente</string>
     <string name="destinatario">Destinatario</string>
-    <string name="title_activity_sms">ActivitySMS</string>
+    <string name="title_activity_sms">Envío de SMS</string>
     <string name="historial">Historial</string>
     <string name="consultar_perfil">Consultar perfil</string>
     <string name="preferencias">Preferencias</string>
     <string name="acerca_de">A cerca de</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="pista_tfno_receptor">Nº de teléfono del destinatario</string>
 </resources>
