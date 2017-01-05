@@ -4,4 +4,5 @@
     <string name="sms">Sms</string>
     <string name="remitente">Remitente</string>
     <string name="destinatario">Destinatario</string>
+    <string name="title_activity_sms">ActivitySMS</string>
 </resources>

@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.islasf.samaelmario.SmsEmail.Activity_Email" />
+        <activity
+            android:name="com.islasf.samaelmario.tuputamadre.ActivitySMS"
+            android:label="@string/title_activity_sms"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
-    abi="armeabi-v7a,armeabi"
+    abi="x86"
     api-level="23"
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="479765204180015"
-    token="-182906729067490920"
-    verifier="FULL_BUILD_REQUESTED" >
+    timestamp="564582375242399"
+    token="-6000804071067897745"
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="215" />
+        duration="120" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="332" />
+        duration="28" />
     <task
         name="verifier"
-        duration="68" />
+        duration="1" />
 
     <artifact
-        location="C:\Android_workspace\SmsEmail1\app\build\outputs\apk\app-debug.apk"
-        type="MAIN" />
+        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
+        type="DEX" />
 
     <build
-        timestamp="479765204180015"
+        timestamp="563884720953071"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="C:\Android_workspace\SmsEmail1\app\build\outputs\apk\app-debug.apk"
+            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
+    </build>
+    <build
+        timestamp="564582375242399"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_7\classes.dex"
+            type="DEX" />
     </build>
 
 </instant-run>
