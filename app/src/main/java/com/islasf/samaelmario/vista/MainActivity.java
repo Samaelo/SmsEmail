@@ -1,15 +1,10 @@
 package com.islasf.samaelmario.vista;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.TextView;
-
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 /*
@@ -26,7 +21,7 @@ TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con pref
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-
+        startActivity(new Intent(this,PerfilActivity.class));
 
 
     }

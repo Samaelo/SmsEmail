@@ -50,7 +50,7 @@ public class EnvioMensajes {
 
         try{
             emisor = SmsManager.getDefault();
-            emisor.sendTextMessage("5556",null,mensaje,null,null);
+            emisor.sendTextMessage(telefono,null,mensaje,null,null);
         }catch(Exception e){
             return false;
         }
@@ -68,4 +68,6 @@ public class EnvioMensajes {
         String[] lista_permisos = {PERMISOS_ENVIO_MENSAJES};
         ActivityCompat.requestPermissions(actividad,lista_permisos,123);
     }
+
+
 }

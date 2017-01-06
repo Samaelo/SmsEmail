@@ -10,9 +10,17 @@ public class Perfil {
 //
     private String nombre;
     private String apellidos;
-    private long num_telefono;
+    private String num_telefono_fijo;
+    private String num_telefono_movil;
     private String direccion_correo;
     private Date fecha_nacimiento;
 
-
+    public Perfil(String nombre, String apellidos, String num_telefono_fijo, String num_telefono_movil, String direccion_correo, Date fecha_nacimiento) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.num_telefono_fijo = num_telefono_fijo;
+        this.num_telefono_movil = num_telefono_movil;
+        this.direccion_correo = direccion_correo;
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
 }

@@ -4,12 +4,12 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
 
 
     <item
-        android:icon="@android:drawable/sym_action_chat"
+        android:icon="@android:drawable/stat_notify_chat"
         android:title="@string/sms"
         yourapp:showAsAction="always" />
-    <item android:icon="@android:drawable/sym_action_email"
-        yourapp:showAsAction="always"
-        android:title="@string/email" />
+    <item android:icon="@android:drawable/ic_dialog_email"
+        android:title="@string/email"
+        yourapp:showAsAction="always" />
     <item android:title="@string/consultar_perfil"
         android:visible="true"
         android:enabled="true" />

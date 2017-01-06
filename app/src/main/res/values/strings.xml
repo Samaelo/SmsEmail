@@ -16,4 +16,11 @@
     <string name="title_activity_lista_contactos">Lista de contactos</string>
     <string name="title_activity_perfil">Visualización del perfil</string>
     <string name="title_activity_main2">Visualización del perfil</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="pista_nombre">Nombre</string>
+    <string name="pista_apellidos">Apellidos</string>
+    <string name="pista_tfno_fijo">Teléfono fijo</string>
+    <string name="pista_tfno_movil">Teléfono móvil</string>
+    <string name="pista_correo_electronico">Correo electrónico</string>
+    <string name="action_settings">Settings</string>
 </resources>

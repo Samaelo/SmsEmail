@@ -18,10 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Email" />
+        <activity android:name=".EnvioSMSActivity" />
+
         <activity
             android:name=".PerfilActivity"
             android:label="@string/title_activity_perfil"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
