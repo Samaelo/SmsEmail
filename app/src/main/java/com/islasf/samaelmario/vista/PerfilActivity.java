@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class PerfilActivity extends AppCompatActivity {
 
     EditText etNombre, etApellidos, etTfnoFijo, etTfnoMovil, etCorreo, etFecha;
-
+    private PerfilActivity actividad = this;
     private int[] fecha;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class PerfilActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        cargar_campos();
 
 
 

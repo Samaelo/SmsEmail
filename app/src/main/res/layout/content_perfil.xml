@@ -60,7 +60,9 @@
             android:ems="10"
             android:id="@+id/etFecha"
             android:hint="@string/pista_fecha"
-            android:inputType="date" />
+            android:inputType="date"
+            android:focusable="false"
+            android:onClick="onFecha"/>
 
 
     </LinearLayout>
