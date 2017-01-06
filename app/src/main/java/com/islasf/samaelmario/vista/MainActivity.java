@@ -13,6 +13,7 @@ TODO: Puesto que hay que poner preferencias, vamos a poner que una de ellas sea 
 TODO: Lista de contactos agregados.
 TODO: Lista de Mensajes enviados.
 TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con preferences screen) , envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
+TODO:Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
  */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

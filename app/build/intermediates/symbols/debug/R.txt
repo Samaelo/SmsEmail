@@ -956,7 +956,6 @@ int layout select_dialog_singlechoice_material 0x7f04003f
 int layout support_simple_spinner_dropdown_item 0x7f040040
 int menu menu 0x7f0e0000
 int menu menu_perfil 0x7f0e0001
-int menu menu_scrolling 0x7f0e0002
 int mipmap ic_launcher 0x7f030000
 int string abc_action_bar_home_description 0x7f070000
 int string abc_action_bar_home_description_format 0x7f070001

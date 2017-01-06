@@ -39,7 +39,11 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
         fecha[0] = dia;
         fecha[1] = mes+1;
         fecha[2] = anno;
-        actividad.obtener_fecha(fecha);
+        Calendar cal = Calendar.getInstance();
+        cal.set(dia,Calendar.DAY_OF_MONTH);
+        cal.set(mes,Calendar.MONTH);
+        cal.set(anno,Calendar.YEAR);
+        actividad.establecer_fecha(cal);
     }
 
     @Override

@@ -27,6 +27,8 @@ public class EnvioSMSActivity extends AppCompatActivity {
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
+
+
     }
 
     @Override

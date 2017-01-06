@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,5 +23,22 @@ public class Perfil {
         this.num_telefono_movil = num_telefono_movil;
         this.direccion_correo = direccion_correo;
         this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public Perfil(){
+
+    }
+
+
+    public void establecer_perfil(String nombre, String apellidos, String num_telefono_fijo, String num_telefono_movil, String direccion_correo, Date fecha_nacimiento){
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.num_telefono_fijo = num_telefono_fijo;
+        this.num_telefono_movil = num_telefono_movil;
+        this.direccion_correo = direccion_correo;
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+    public void establecer_fecha(Calendar fecha_nueva){
+        Date fecha = fecha_nueva.getTime();
     }
 }

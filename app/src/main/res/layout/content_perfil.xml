@@ -20,7 +20,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etNombre"
-            android:hint="@string/pista_nombre" />
+            android:hint="@string/pista_nombre"
+            android:enabled="false" />
 
         <EditText
             android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etApellidos"
-            android:hint="@string/pista_apellidos" />
+            android:hint="@string/pista_apellidos"
+            android:enabled="false" />
 
         <EditText
             android:layout_width="match_parent"
@@ -36,7 +38,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etCorreo"
-            android:hint="@string/pista_correo_electronico" />
+            android:hint="@string/pista_correo_electronico"
+            android:enabled="false" />
 
         <EditText
             android:layout_width="match_parent"
@@ -44,7 +47,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etNumFijo"
-            android:hint="@string/pista_tfno_fijo" />
+            android:hint="@string/pista_tfno_fijo"
+            android:enabled="false" />
 
         <EditText
             android:layout_width="match_parent"
@@ -52,7 +56,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etNumMovil"
-            android:hint="@string/pista_tfno_movil" />
+            android:hint="@string/pista_tfno_movil"
+            android:enabled="false" />
 
         <EditText
             android:layout_width="match_parent"
@@ -62,7 +67,8 @@
             android:hint="@string/pista_fecha"
             android:inputType="date"
             android:focusable="false"
-            android:onClick="onFecha"/>
+            android:onClick="onFecha"
+            android:enabled="false" />
 
 
     </LinearLayout>
