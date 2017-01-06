@@ -5,33 +5,32 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="592706250942396"
+    timestamp="11420236876193"
     token="-6000804071067897745"
-    verifier="BINARY_MANIFEST_FILE_CHANGE" >
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="875" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="226" />
+        duration="0" />
     <task
         name="verifier"
-        duration="24" />
-
-    <artifact
-        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
-        type="MAIN" />
+        duration="0" />
 
     <build
-        timestamp="592706250942396"
-        verifier="BINARY_MANIFEST_FILE_CHANGE" >
+        timestamp="11354960897380"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
+    <build
+        timestamp="11420236876193"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

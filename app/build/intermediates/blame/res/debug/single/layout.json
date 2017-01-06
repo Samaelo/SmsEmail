@@ -32,6 +32,10 @@
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\select_dialog_multichoice_material.xml"
     },
     {
+        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_lista_contactos.xml",
+        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\layout\\activity_lista_contactos.xml"
+    },
+    {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view.xml",
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\abc_activity_chooser_view.xml"
     },
@@ -152,12 +156,20 @@
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\abc_popup_menu_header_item_layout.xml"
     },
     {
+        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_lista_contactos.xml",
+        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\layout\\content_lista_contactos.xml"
+    },
+    {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item_separator.xml",
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.1.0\\res\\layout\\design_navigation_item_separator.xml"
     },
     {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity__email.xml",
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\layout\\activity__email.xml"
+    },
+    {
+        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_perfil.xml",
+        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\layout\\activity_perfil.xml"
     },
     {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_bottom_sheet_dialog.xml",

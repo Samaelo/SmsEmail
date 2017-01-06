@@ -15,4 +15,5 @@
     <string name="contacto_seleccionado">Contacto seleccionado: %1$s</string>
     <string name="title_activity_lista_contactos">Lista de contactos</string>
     <string name="title_activity_perfil">Visualización del perfil</string>
+    <string name="title_activity_main2">Visualización del perfil</string>
 </resources>

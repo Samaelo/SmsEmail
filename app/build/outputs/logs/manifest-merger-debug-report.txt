@@ -66,22 +66,22 @@ ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml
 		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:24:13-56
 	android:name
 		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:22:13-40
-activity#com.islasf.samaelmario.tuputamadre.PerfilActivity
+activity#com.islasf.samaelmario.vista.PerfilActivity
 ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:25:9-28:59
 	android:label
 		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:27:13-58
 	android:theme
 		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:28:13-56
 	android:name
-		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:26:13-77
-activity#com.islasf.samaelmario.tuputamadre.Main2Activity
+		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:26:13-43
+activity#com.islasf.samaelmario.vista.ListaContactosActivity
 ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:29:9-32:59
 	android:label
-		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:31:13-57
+		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:31:13-67
 	android:theme
 		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:32:13-56
 	android:name
-		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:30:13-76
+		ADDED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml:30:13-51
 uses-sdk
 INJECTED from C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:25.1.0] C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\design\25.1.0\AndroidManifest.xml:21:5-23:62

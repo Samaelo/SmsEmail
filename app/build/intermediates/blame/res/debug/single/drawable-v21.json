@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.1.0\\res\\drawable-v21\\avd_show_password.xml"
     },
     {
-        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_bottom_navigation_item_background.xml",
-        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.1.0\\res\\drawable-v21\\design_bottom_navigation_item_background.xml"
-    },
-    {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\ic_menu_camera.xml",
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\drawable-v21\\ic_menu_camera.xml"
+    },
+    {
+        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\design_bottom_navigation_item_background.xml",
+        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.1.0\\res\\drawable-v21\\design_bottom_navigation_item_background.xml"
     },
     {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\ic_menu_share.xml",
@@ -44,12 +44,12 @@
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\25.1.0\\res\\drawable-v21\\avd_hide_password.xml"
     },
     {
-        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
-        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\drawable-v21\\abc_edit_text_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\ic_menu_send.xml",
         "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\src\\main\\res\\drawable-v21\\ic_menu_send.xml"
+    },
+    {
+        "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\drawable-v21\\abc_edit_text_material.xml"
     },
     {
         "merged": "C:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",

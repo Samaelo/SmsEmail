@@ -1,4 +1,4 @@
-package com.islasf.samaelmario.tuputamadre;
+package com.islasf.samaelmario.vista;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
