@@ -27,10 +27,6 @@
         <activity android:name="com.islasf.samaelmario.vista.Activity_Email" />
         <activity android:name="com.islasf.samaelmario.vista.EnvioSMSActivity" />
         <activity
-            android:name="com.islasf.samaelmario.tuputamadre.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.islasf.samaelmario.vista.PerfilActivity"
             android:label="@string/title_activity_perfil"
             android:theme="@style/AppTheme.NoActionBar" />

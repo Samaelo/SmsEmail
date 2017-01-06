@@ -5,71 +5,40 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="70385383306218"
+    timestamp="73404492605778"
     token="-6000804071067897745"
     verifier="COMPATIBLE" >
 
     <task
         name="javac"
-        duration="187" />
+        duration="0" />
     <task
         name="instant-run-dex"
-        duration="12" />
+        duration="0" />
     <task
         name="instant-run-transform"
-        duration="29" />
+        duration="0" />
     <task
         name="verifier"
-        duration="5" />
+        duration="0" />
 
     <artifact
-        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\reload-dex\debug\classes.dex"
-        type="RELOAD_DEX" />
+        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
+        type="RESOURCES" />
 
     <build
-        timestamp="62104435029606"
-        verifier="FULL_BUILD_REQUESTED" >
+        timestamp="73299645720266"
+        verifier="BINARY_MANIFEST_FILE_CHANGE" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="65813350436542"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_2\classes.dex"
-            type="DEX" />
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
-            type="DEX" />
-    </build>
-    <build
-        timestamp="65939103651574"
-        verifier="METHOD_DELETED" >
+        timestamp="73404492605778"
+        verifier="COMPATIBLE" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
             type="RESOURCES" />
-    </build>
-    <build
-        timestamp="70248746853448"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
-            type="DEX" />
-    </build>
-    <build
-        timestamp="70328934452327"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\builds\debug\70328934452327\classes.dex"
-            type="RELOAD_DEX" />
-    </build>
-    <build
-        timestamp="70385383306218"
-        verifier="COMPATIBLE" >
-        <artifact
-            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\reload-dex\debug\classes.dex"
-            type="RELOAD_DEX" />
     </build>
 
 </instant-run>

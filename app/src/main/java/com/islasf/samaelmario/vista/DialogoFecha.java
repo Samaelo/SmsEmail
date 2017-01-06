@@ -1,23 +1,20 @@
 package com.islasf.samaelmario.vista;
 
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 /**
  * Created by Mario on 06/01/2017.
  */
 
 public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     int[] fecha = new int[3];
-    private GregorianCalendar calendario;
 
     private PerfilActivity actividad;
 
@@ -37,7 +34,6 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
         return new DatePickerDialog(getActivity(), this, anno, mes, dia);
     }
 
-
     @Override
     public void onDateSet(DatePicker datePicker, int anno, int mes, int dia) {
         fecha[0] = dia;
@@ -45,8 +41,6 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
         fecha[2] = anno;
         actividad.obtener_fecha(fecha);
     }
-
-
 
     @Override
     public void onDismiss(DialogInterface dialog) {

@@ -620,6 +620,7 @@
     <string name="path_password_strike_through">M3.27,4.27 L19.74,20.74</string>
     <string name="pista_apellidos">Apellidos</string>
     <string name="pista_correo_electronico">Correo electrónico</string>
+    <string name="pista_fecha">Escoge una fecha</string>
     <string name="pista_mensaje_SMS">Mensaje a enviar</string>
     <string name="pista_nombre">Nombre</string>
     <string name="pista_tfno_fijo">Teléfono fijo</string>

@@ -23,4 +23,5 @@
     <string name="pista_tfno_movil">Teléfono móvil</string>
     <string name="pista_correo_electronico">Correo electrónico</string>
     <string name="action_settings">Settings</string>
+    <string name="pista_fecha">Escoge una fecha</string>
 </resources>

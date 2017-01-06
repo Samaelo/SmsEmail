@@ -54,19 +54,13 @@
             android:id="@+id/etNumMovil"
             android:hint="@string/pista_tfno_movil" />
 
-        <Button
-            android:text="Button"
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:onClick="onFecha"/>
-
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/calendarView2"
-            android:maxDate="12/31/2017"
-            android:minDate="01/01/2017" />
+            android:ems="10"
+            android:id="@+id/etFecha"
+            android:hint="@string/pista_fecha"
+            android:inputType="date" />
 
 
     </LinearLayout>
