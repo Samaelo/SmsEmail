@@ -27,7 +27,6 @@ TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con pref
         //   Personalización del ActionBar   //
         cargar_actionBar();
 
-        startActivity(new Intent(this, ActivitySMS.class));
 
 
     }
