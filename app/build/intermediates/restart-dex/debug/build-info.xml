@@ -5,32 +5,40 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="90655128743030"
+    timestamp="96430558393450"
     token="-6000804071067897745"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="845" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="41" />
     <task
         name="verifier"
-        duration="0" />
+        duration="5" />
+
+    <artifact
+        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+        type="DEX" />
 
     <build
-        timestamp="89669519360590"
+        timestamp="94501292614610"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="90655128743030"
-        verifier="COLD_SWAP_REQUESTED" />
+        timestamp="96430558393450"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+            type="DEX" />
+    </build>
 
 </instant-run>

@@ -18,12 +18,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Email" />
-        <activity android:name=".EnvioSMSActivity" />
-
         <activity
             android:name=".PerfilActivity"
             android:label="@string/title_activity_perfil"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.islasf.samaelmario.tuputamadre.EnvioSMS"
+            android:label="@string/title_activity_envio_sms"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EnvioSMSActivity"
+            android:label="@string/title_activity_envio_sms"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ListaContactosActivity"
+            android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

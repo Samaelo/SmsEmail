@@ -24,11 +24,18 @@
             </intent-filter>
         </activity>
         <activity android:name="com.islasf.samaelmario.vista.Activity_Email" />
-        <activity android:name="com.islasf.samaelmario.vista.EnvioSMSActivity" />
         <activity
             android:name="com.islasf.samaelmario.vista.PerfilActivity"
             android:label="@string/title_activity_perfil"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.islasf.samaelmario.tuputamadre.EnvioSMS"
+            android:label="@string/title_activity_envio_sms"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.islasf.samaelmario.vista.EnvioSMSActivity"
+            android:label="@string/title_activity_envio_sms"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

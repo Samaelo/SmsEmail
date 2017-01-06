@@ -23,20 +23,20 @@ TODO:Comprobar perfil anterior con el siguiente en algún método de la clase Pe
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-        startActivity(new Intent(this,PerfilActivity.class));
+        startActivity(new Intent(this,EnvioSMSActivity.class));
 
 
     }
 
     private void cargar_actionBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar4);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbMain);
         setSupportActionBar(toolbar);
-        /*
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
-        */
+
     }
 
     @Override

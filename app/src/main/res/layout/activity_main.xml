@@ -22,7 +22,6 @@
         android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar4"
-        app:navigationIcon="?attr/actionModeCloseDrawable" />
+        android:id="@+id/tbMain" />
 
 </RelativeLayout>

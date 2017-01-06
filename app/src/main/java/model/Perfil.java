@@ -41,4 +41,8 @@ public class Perfil {
     public void establecer_fecha(Calendar fecha_nueva){
         Date fecha = fecha_nueva.getTime();
     }
+
+    public String getNum_telefono_movil() {
+        return num_telefono_movil;
+    }
 }

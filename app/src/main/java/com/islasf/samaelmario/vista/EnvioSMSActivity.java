@@ -1,15 +1,23 @@
 package com.islasf.samaelmario.vista;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import model.Contacto;
 import model.EnvioMensajes;
+import model.Perfil;
 
 public class EnvioSMSActivity extends AppCompatActivity {
+
+    private EditText etTextoMensaje;
+    private Contacto contacto_seleccionado;
     EnvioMensajes envio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +31,19 @@ public class EnvioSMSActivity extends AppCompatActivity {
     }
 
     private void cargar_actionBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbEnvioSMS);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
 
 
+    }
+
+    private void cargar_componentes(){
+        etTextoMensaje = (EditText) findViewById(R.id.etMensaje);
     }
 
     @Override
@@ -44,13 +59,19 @@ public class EnvioSMSActivity extends AppCompatActivity {
 
     public void onEnviar(View v){
         String mensaje_resultado;
-
-        if(envio.enviar_SMS("","")){
-            mensaje_resultado = "El mensaje ha sido enviado con éxito.";
+        if(contacto_seleccionado!=null){
+            if(envio.enviar_SMS(etTextoMensaje.getText().toString(),contacto_seleccionado.obtener_tfno_movil())){
+                mensaje_resultado = "El mensaje ha sido enviado con éxito.";
+            }else{
+                mensaje_resultado = "El mensaje no ha sido enviado por algún error.";
+            }
+            Toast.makeText(this,mensaje_resultado,Toast.LENGTH_LONG).show();
         }else{
-            mensaje_resultado = "El mensaje no ha sido enviado por algún error.";
+            Snackbar.make(v, "Por favor, seleccione un contacto.", Snackbar.LENGTH_LONG)
+                    .show();
         }
-        Toast.makeText(this,mensaje_resultado,Toast.LENGTH_LONG).show();
+
+
     }
 
     public void onCancelar(View v){
@@ -58,5 +79,6 @@ public class EnvioSMSActivity extends AppCompatActivity {
     }
     public void onSeleccionar_contacto(View v){
         Toast.makeText(this,"joder",Toast.LENGTH_LONG).show();
+        contacto_seleccionado = new Contacto(new Perfil());
     }
 }

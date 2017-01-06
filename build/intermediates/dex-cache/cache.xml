@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="6b8aaa39e70d83d27c8923b09f9e02c43b7a19cc">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
         sha1="aee64634871d88a419d59eb743c1258a60f19700">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.0_c2dd990b55174b71b0a25d2143ca781c001b2294\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="f67a7d72b11c77c48f06c16766c1871480d0ebd9">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -97,7 +97,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
-        sha1="86cf962d4b79150c5fe57c6fd3c6ba8ee2b94472">
+        sha1="72542d4f664092344ba38698f50632c72f9afebf">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a5a97f1f4e1f71f25e9c653e77b91cf8bcc3cb64\classes.dex" />
     </item>
     <item
