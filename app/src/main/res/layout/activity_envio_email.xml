@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.islasf.samaelmario.vista.EnvioEmailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbEnvioEmail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEnviar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_send"
+        app:backgroundTint="@android:color/holo_green_light"
+        android:onClick="onEnviar"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCancelar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        app:backgroundTint="@color/rojo_oscuro"
+        android:onClick="onCancelar"/>
+
+    <include layout="@layout/content_envio_email" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:id="@+id/fabSeleccionarContacto"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:layout_marginTop="81dp"
+        android:onClick="seleccionar_Contacto"
+        tools:layout_gravity="top|right"
+        android:layout_marginEnd="30dp" />
+
+</android.support.design.widget.CoordinatorLayout>

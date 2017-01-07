@@ -22,14 +22,15 @@ public class EnvioSMSActivity extends AppCompatActivity {
     private TextView txtContacto;
     private Contacto contacto_seleccionado;
     EnvioMensajes envio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_envio_sms);
         //   Personalización del ActionBar   //
+        cargar_componentes();
         cargar_actionBar();
         envio = new EnvioMensajes(this);
-
 
     }
 
@@ -41,8 +42,6 @@ public class EnvioSMSActivity extends AppCompatActivity {
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
-
-
     }
 
     private void cargar_componentes(){
@@ -58,11 +57,12 @@ public class EnvioSMSActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     //Métodos para los listeners de los botones
 
     public void onEnviar(View v){
+
         String mensaje_resultado;
+
         if(contacto_seleccionado!=null){
             if(envio.enviar_SMS(etTextoMensaje.getText().toString(),contacto_seleccionado.obtener_tfno_movil())){
                 mensaje_resultado = "El mensaje ha sido enviado con éxito.";

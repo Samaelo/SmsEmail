@@ -29,7 +29,7 @@ TODO:Comprobar perfil anterior con el siguiente en algún método de la clase Pe
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-        startActivity(new Intent(this,PerfilActivity.class));
+        startActivity(new Intent(this,EnvioEmailActivity.class));
 
 
     }

@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.islasf.samaelmario.vista.Activity_Email" />
         <activity
             android:name="com.islasf.samaelmario.vista.PerfilActivity"
             android:label="@string/title_activity_perfil"
@@ -40,6 +39,10 @@
         <activity
             android:name="com.islasf.samaelmario.vista.ListaContactosActivity"
             android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.islasf.samaelmario.vista.EnvioEmailActivity"
+            android:label="@string/title_activity_email"
             android:theme="@style/AppTheme" />
     </application>
 
