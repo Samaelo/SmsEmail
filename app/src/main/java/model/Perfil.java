@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by Mario on 04/01/2017.
  */
 
-public class Perfil {
+public class Perfil implements Serializable {
 //
     private String nombre;
     private String apellidos;
@@ -29,7 +30,13 @@ public class Perfil {
 
     }
 
-
+    public void establecer_perfil(String nombre, String apellidos, String num_telefono_fijo, String num_telefono_movil, String direccion_correo){
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.num_telefono_fijo = num_telefono_fijo;
+        this.num_telefono_movil = num_telefono_movil;
+        this.direccion_correo = direccion_correo;
+    }
     public void establecer_perfil(String nombre, String apellidos, String num_telefono_fijo, String num_telefono_movil, String direccion_correo, Date fecha_nacimiento){
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -39,7 +46,7 @@ public class Perfil {
         this.fecha_nacimiento = fecha_nacimiento;
     }
     public void establecer_fecha(Calendar fecha_nueva){
-        Date fecha = fecha_nueva.getTime();
+        this.fecha_nacimiento = fecha_nueva.getTime();
     }
 
     public String getNum_telefono_movil() {

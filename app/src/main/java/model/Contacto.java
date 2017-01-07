@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by Mario on 06/01/2017.
  */
 
-public class Contacto {
+public class Contacto implements Serializable {
     private Perfil perfil;
 
     public Contacto(Perfil perfil){
@@ -31,5 +32,8 @@ public class Contacto {
     }
     public Date obtener_fecha(){
         return this.perfil.getFecha_nacimiento();
+    }
+    public Perfil obtener_perfil(){
+        return this.perfil;
     }
 }

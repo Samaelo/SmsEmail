@@ -34,8 +34,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_perfil" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEditarContacto"
         android:layout_width="60dp"
@@ -45,5 +43,7 @@
         android:layout_height="60dp"
         app:layout_anchorGravity="end"
         android:onClick="onEditar"/>
+
+    <include layout="@layout/content_perfil" />
 
 </android.support.design.widget.CoordinatorLayout>

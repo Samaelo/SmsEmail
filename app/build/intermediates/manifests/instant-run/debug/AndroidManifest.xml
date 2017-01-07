@@ -37,6 +37,10 @@
             android:name="com.islasf.samaelmario.vista.EnvioSMSActivity"
             android:label="@string/title_activity_envio_sms"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.islasf.samaelmario.vista.ListaContactosActivity"
+            android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

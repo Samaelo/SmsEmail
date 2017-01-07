@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="6b8aaa39e70d83d27c8923b09f9e02c43b7a19cc">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -21,30 +12,21 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="a68e30235817d69e8b1bc46e59056b1b1dda762d">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
         sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-25.1.0_fac1f41a6339eec3b6982cdadabe39ec19ac1f6b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.1.0_f31e12fcf44d12dc7fe1f18c3dd40426c01e977d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.1.0_5a1699a2b225a00e494d05a17265bb546b9266aa\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,6 +57,33 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.0_1f8be7d9e557fdcf2ba3b545a55ce62dc8c6635d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="ca3c7aa31e2726a400a6e552b93cb9f63c9a1e6d">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-25.1.0_f31e12fcf44d12dc7fe1f18c3dd40426c01e977d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="1630658fbc2d222b988603c27b4a4249586fbfe7">
+        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-25.1.0_5a1699a2b225a00e494d05a17265bb546b9266aa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\design\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -97,7 +106,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
-        sha1="72542d4f664092344ba38698f50632c72f9afebf">
+        sha1="11066f502113af47c452a306c4a286e236a063e2">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a5a97f1f4e1f71f25e9c653e77b91cf8bcc3cb64\classes.dex" />
     </item>
     <item
@@ -117,15 +126,6 @@
         revision="25.0.1"
         sha1="f02263e35e52668dd17b73bf961437e3d562b35f">
         <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-25.1.0_f4ca18f03e546e8d1b1904c09ed69907a7358cef\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="0a0ef86b7fa568a52bf6214a0326ca1f1d618da7">
-        <dex dex="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.1.0_1f8be7d9e557fdcf2ba3b545a55ce62dc8c6635d\classes.dex" />
     </item>
     <item
         is-multidex="true"

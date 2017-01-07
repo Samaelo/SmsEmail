@@ -7,14 +7,17 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 /**
  * Created by Mario on 06/01/2017.
  */
 
 public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    int[] fecha = new int[3];
+
 
     private PerfilActivity actividad;
 
@@ -36,14 +39,16 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
 
     @Override
     public void onDateSet(DatePicker datePicker, int anno, int mes, int dia) {
-        fecha[0] = dia;
-        fecha[1] = mes+1;
-        fecha[2] = anno;
         Calendar cal = Calendar.getInstance();
-        cal.set(dia,Calendar.DAY_OF_MONTH);
-        cal.set(mes,Calendar.MONTH);
-        cal.set(anno,Calendar.YEAR);
+        cal.clear();
+        cal.set(anno,mes,dia);
+
         actividad.establecer_fecha(cal);
+        try {
+            dismiss();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     @Override

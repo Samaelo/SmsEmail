@@ -1,6 +1,7 @@
 package com.islasf.samaelmario.vista;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,8 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.util.Calendar;
-import java.util.Date;
 
+import model.Contacto;
 import model.Perfil;
 
 public class PerfilActivity extends AppCompatActivity {
@@ -21,28 +22,42 @@ public class PerfilActivity extends AppCompatActivity {
     private EditText etNombre, etApellidos, etTfnoFijo, etTfnoMovil, etCorreo, etFecha;
     private FloatingActionButton fabEditarContacto;
 
-    private boolean edicion = false,editado=false;
-    private Perfil perfil;
+    private boolean edicion = false,editable;
+    private Contacto contacto_nuevo,contacto_antiguo;
+    private Perfil perfil_nuevo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tbPerfil);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
+        //Cargamos el actionBar
+        cargar_actionBar();
         //Cargamos los componentes
         cargar_componentes();
 
+
+
+    }
+
+    private void obtener_datos_intent(){
         //ESTE PERFIL SE RECIBE MEDIANTE UNA BÚSQUEDA EN LA BBDD EN RELACIÓN AL PERFIL SELECCIONADO
-        perfil = new Perfil();
+        Intent intent = getIntent();
+
+        //Si se abre desde la pantalla de envío de mensaje, no se permite la edición.
+        // Si obtenemos false, se da ese caso. Si obtenemos true, se ha accedido desde la pantalla de lista de contactos.
+        //Por defecto es false.
+        editable = intent.getBooleanExtra("EDITABLE",false);
+
+        if(editable == false){
+            fabEditarContacto.hide();
+        }
 
 
+        contacto_antiguo =  (Contacto) intent.getSerializableExtra("CONTACTO");
+        perfil_nuevo = new Perfil();
+
+        contacto_nuevo = new Contacto(perfil_nuevo);
     }
     public void onEditar(View v){
         if(edicion == true){
@@ -77,6 +92,16 @@ public class PerfilActivity extends AppCompatActivity {
         cambiar_iconoBoton(edicion);
     }
 
+    private void cargar_actionBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbPerfil);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                salir();
+            }
+        });
+    }
     private void cargar_componentes(){
         this.etNombre = (EditText) findViewById(R.id.etNombre);
         this.etApellidos = (EditText) findViewById(R.id.etApellidos);
@@ -86,6 +111,7 @@ public class PerfilActivity extends AppCompatActivity {
         this.etFecha = (EditText) findViewById(R.id.etFecha);
         this.fabEditarContacto = (FloatingActionButton) findViewById(R.id.fabEditarContacto);
     }
+
     public void onFecha(View v){
         DialogoFecha dialogo = new DialogoFecha();
         dialogo.setActivity(this);
@@ -93,29 +119,50 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     public void establecer_fecha(Calendar fecha){
-        this.perfil.establecer_fecha(fecha);
+        this.perfil_nuevo.establecer_fecha(fecha);
         this.etFecha.setText(fechaToString(fecha));
     }
     public String fechaToString(Calendar fecha){
-        return fecha.get(Calendar.DAY_OF_YEAR) + "/" + fecha.get(Calendar.MONTH) + "/" + fecha.get(Calendar.YEAR);
+        return fecha.get(Calendar.DAY_OF_MONTH) + "/" + (fecha.get(Calendar.MONTH)+1) + "/" + fecha.get(Calendar.YEAR);
 
     }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (editado == true && edicion == false) {
-            //Si se han llegado a editar los datos y se ha guardado al menos una vez, se procede a
-            //comprobar si  los datos son iguales a los obtenidos antes.. De lo contrario,
-            // no se ha llegado a hacer una modificación, los datos del perfil siguen como están.
+        salir();
+    }
+    private void salir(){
+        if (comprobar_cambios()) {//Se han detectado cambios
+
+            //aqui guardamos en la BBDD
 
         }
+        //Finalizamos la activity
+        finish();
     }
-
     private void recoger_datos(){
-        perfil.establecer_perfil(etNombre.getText().toString(),etApellidos.getText().toString(),
-                etTfnoFijo.getText().toString(),etTfnoMovil.getText().toString(),etCorreo.getText().toString(),new Date());
+        contacto_nuevo.obtener_perfil().establecer_perfil(etNombre.getText().toString(),etApellidos.getText().toString(),
+                etTfnoFijo.getText().toString(),etTfnoMovil.getText().toString(),etCorreo.getText().toString());
     }
 
+    /**
+     * Método que comprueba si se ha modificado algún dato del contacto que aparece en pantalla.
+     * @return - True ha detectado cambios o False si el perfil no ha sufrido modificaciones (mediante los campos de texto).
+     */
+    public boolean comprobar_cambios(){
+        recoger_datos();
+        if(contacto_nuevo.obtener_nombre().equals(contacto_antiguo.obtener_nombre())
+                || contacto_nuevo.obtener_apellidos().equals(contacto_antiguo.obtener_apellidos())
+                || contacto_nuevo.obtener_tfno_fijo().equals(contacto_antiguo.obtener_tfno_fijo())
+                || contacto_nuevo.obtener_tfno_movil().equals(contacto_antiguo.obtener_tfno_movil())
+                || contacto_nuevo.obtener_correo().equals(contacto_antiguo.obtener_correo())
+                || contacto_nuevo.obtener_fecha().equals(contacto_antiguo.obtener_fecha())){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
