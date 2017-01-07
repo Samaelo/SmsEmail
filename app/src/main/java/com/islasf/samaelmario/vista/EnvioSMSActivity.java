@@ -1,5 +1,6 @@
 package com.islasf.samaelmario.vista;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import model.Contacto;
@@ -17,6 +19,7 @@ import model.Perfil;
 public class EnvioSMSActivity extends AppCompatActivity {
 
     private EditText etTextoMensaje;
+    private TextView txtContacto;
     private Contacto contacto_seleccionado;
     EnvioMensajes envio;
     @Override
@@ -44,6 +47,7 @@ public class EnvioSMSActivity extends AppCompatActivity {
 
     private void cargar_componentes(){
         etTextoMensaje = (EditText) findViewById(R.id.etMensaje);
+        txtContacto = (TextView) findViewById(R.id.txtContacto);
     }
 
     @Override
@@ -70,15 +74,27 @@ public class EnvioSMSActivity extends AppCompatActivity {
             Snackbar.make(v, "Por favor, seleccione un contacto.", Snackbar.LENGTH_LONG)
                     .show();
         }
-
-
     }
 
     public void onCancelar(View v){
         finish();
     }
+
     public void onSeleccionar_contacto(View v){
         Toast.makeText(this,"joder",Toast.LENGTH_LONG).show();
-        contacto_seleccionado = new Contacto(new Perfil());
+        //Esperamos que nos devuelva el objeto contacto para poder extraer el número de teléfono de éste.
+        Intent intent = new Intent(this,ListaContactosActivity.class);
+
+        startActivityForResult(intent,1);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        contacto_seleccionado = (Contacto) data.getSerializableExtra("CONTACTO");
+        //Poner nombre en un textview
+        String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(),contacto_seleccionado.obtener_tfno_movil());
+        txtContacto.setText(textoContacto);
     }
 }

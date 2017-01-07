@@ -13,4 +13,10 @@
     tools:context="com.islasf.samaelmario.vista.ListaContactosActivity"
     tools:showIn="@layout/activity_lista_contactos">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/lvListaContactos" />
 </RelativeLayout>

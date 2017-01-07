@@ -45,4 +45,24 @@ public class Perfil {
     public String getNum_telefono_movil() {
         return num_telefono_movil;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public String getNum_telefono_fijo() {
+        return num_telefono_fijo;
+    }
+
+    public String getDireccion_correo() {
+        return direccion_correo;
+    }
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
 }

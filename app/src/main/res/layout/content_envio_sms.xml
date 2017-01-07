@@ -41,11 +41,11 @@
         android:text="@string/contacto_seleccionado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
+        android:id="@+id/txtContacto"
         android:textStyle="normal|bold"
         android:textSize="18sp"
         android:visibility="invisible"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="56dp"
         android:layout_above="@+id/etMensaje"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

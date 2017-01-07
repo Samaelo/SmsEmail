@@ -1,5 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+xmlns:yourapp="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <!-- Search, should appear as action button -->
 
 
@@ -10,12 +11,19 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
     <item android:icon="@android:drawable/ic_dialog_email"
         android:title="@string/email"
         yourapp:showAsAction="always" />
-    <item android:title="@string/consultar_perfil"
+    <item android:title="@string/title_activity_lista_contactos"
+        android:id="@+id/itemListaContactos"
+        app:showAsAction="never" />
+    <item android:title="@string/ver_perfil"
         android:visible="true"
-        android:enabled="true" />
+        android:enabled="true"
+        android:id="@+id/itemVerPerfil" />
     <item android:title="@string/historial"
         android:visible="true"
-        android:enabled="true" />
-    <item android:title="@string/preferencias" />
-    <item android:title="@string/acerca_de" />
+        android:enabled="true"
+        android:id="@+id/itemHistorial" />
+    <item android:title="@string/preferencias"
+        android:id="@+id/itemPreferencias" />
+    <item android:title="@string/acerca_de"
+        android:id="@+id/itemAcercaDe" />
 </menu>

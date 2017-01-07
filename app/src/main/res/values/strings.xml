@@ -6,13 +6,13 @@
     <string name="destinatario">Destinatario</string>
     <string name="title_activity_sms">Envío de SMS</string>
     <string name="historial">Historial</string>
-    <string name="consultar_perfil">Consultar perfil</string>
+    <string name="ver_perfil">Ver perfil</string>
     <string name="preferencias">Preferencias</string>
     <string name="acerca_de">A cerca de</string>
     <string name="pista_tfno_receptor">Nº de teléfono del destinatario</string>
     <string name="pista_mensaje_SMS">Mensaje a enviar</string>
     <string name="seleccionar_contacto">Selecciona un contacto al que enviar el mensaje SMS.</string>
-    <string name="contacto_seleccionado">Contacto seleccionado: %1$s</string>
+    <string name="contacto_seleccionado">Contacto seleccionado: %1$s, %2$s</string>
     <string name="title_activity_lista_contactos">Lista de contactos</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="pista_nombre">Nombre</string>

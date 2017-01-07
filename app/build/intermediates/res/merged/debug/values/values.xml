@@ -608,7 +608,6 @@
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
-    <string name="consultar_perfil">Consultar perfil</string>
     <string name="contacto_seleccionado">Contacto seleccionado: %1$s</string>
     <string name="destinatario">Destinatario</string>
     <string name="email">Email</string>
@@ -636,6 +635,7 @@
     <string name="title_activity_lista_contactos">Lista de contactos</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="title_activity_sms">Envío de SMS</string>
+    <string name="ver_perfil">Ver perfil</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

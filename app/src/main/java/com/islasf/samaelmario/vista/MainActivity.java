@@ -16,6 +16,12 @@ TODO: Lista de Mensajes enviados.
 TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con preferences screen) , envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
 TODO:Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
  */
+
+    /*
+    Fechas:
+    Calendar cal = Calendar.getInstance();
+    cal.setDate(Objeto de tipo Date);
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
