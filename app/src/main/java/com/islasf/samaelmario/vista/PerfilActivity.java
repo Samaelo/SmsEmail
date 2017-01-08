@@ -115,7 +115,7 @@ public class PerfilActivity extends AppCompatActivity {
     public void onFecha(View v){
         DialogoFecha dialogo = new DialogoFecha();
         dialogo.setActivity(this);
-        dialogo.show(getFragmentManager(),"datePicker");
+        dialogo.show(getFragmentManager(),"datePicker");//
     }
 
     public void establecer_fecha(Calendar fecha){
