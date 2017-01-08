@@ -2,17 +2,27 @@
     <string name="app_name">Mensajería IF</string>
     <string name="email">Email</string>
     <string name="sms">Sms</string>
+    <string name="de">De :</string>
+    <string name="para">Para :</string>
+    <string name="aseunto">Asunto :</string>
     <string name="remitente">Remitente</string>
-    <string name="destinatario">Destinatario</string>
+    <string name="destinatario">Destinatarios</string>
+    <string name="seleccionarContacto">Selecciona un contacto pulsando el icono</string>
+    <string name="informacionContactos">Si deseas agregar varios contactos, recuerda que deben ir separados por el símbolo ","</string>
     <string name="title_activity_sms">Envío de SMS</string>
     <string name="historial">Historial</string>
     <string name="ver_perfil">Ver perfil</string>
     <string name="preferencias">Preferencias</string>
     <string name="acerca_de">A cerca de</string>
     <string name="pista_tfno_receptor">Nº de teléfono del destinatario</string>
-    <string name="pista_mensaje_SMS">Mensaje a enviar</string>
+    <string name="pista_mensaje_SMS">Mensaje a enviar...</string>
+    <string name="pista_mensaje_Email">Texto del email...</string>
     <string name="seleccionar_contacto">Selecciona un contacto al que enviar el mensaje SMS.</string>
+    <string name="seleccionar_contacto2">Selecciona un contacto al que enviar el E-mail.</string>
     <string name="contacto_seleccionado">Contacto seleccionado: %1$s, %2$s</string>
+    <string name="remitenteVacio">El campo "Remitente" está vacío. Por favor, selecciona un remitente</string>
+    <string name="destinatariosVacio">El campo "Destinatarios" está vacío. Por favor, selecciona al menos un destinatario/s</string>
+    <string name="remitenteDestinatariosVacio">Los campos "Destinatario" y "Remitente" están vacíos. Por favor, añade un remitente y al menos un destinatario.</string>
     <string name="title_activity_lista_contactos">Lista de contactos</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="pista_nombre">Nombre</string>
@@ -23,4 +33,5 @@
     <string name="action_settings">Settings</string>
     <string name="pista_fecha">Escoge una fecha</string>
     <string name="title_activity_envio_sms">EnvioSMS</string>
+    <string name="title_activity_email">EmailActivity</string>
 </resources>

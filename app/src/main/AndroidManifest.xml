@@ -17,7 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_Email" />
         <activity
             android:name=".PerfilActivity"
             android:label="@string/title_activity_perfil"
@@ -33,6 +32,10 @@
         <activity
             android:name=".ListaContactosActivity"
             android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EnvioEmailActivity"
+            android:label="@string/title_activity_email"
             android:theme="@style/AppTheme"></activity>
     </application>
 

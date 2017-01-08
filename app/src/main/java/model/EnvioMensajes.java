@@ -20,31 +20,31 @@ public class EnvioMensajes {
         this.actividad = actividad;
     }
 
-    public boolean enviar_email(String mensaje, String direccion){
+    public boolean enviar_email(String[] ToCorreos, String[] ccRemitente, String mensaje, String asunto){
+
         Log.i("Send email", "");
-        String[] TO = {"miniftorres@hotmail.com"};
-        String[] CC = {"mariogarciarb@gmail.com"};
+        //String[] ToCorreos = {"miniftorres@hotmail.com"};
+       // String[] ccRemitente = {"mariogarciarb@gmail.com"};
+
         try {
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-            emailIntent.putExtra(Intent.EXTRA_CC, CC);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
-
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, ToCorreos);
+            emailIntent.putExtra(Intent.EXTRA_CC, ccRemitente);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, asunto);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, mensaje);
 
             this.actividad.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.i("q", e.getMessage());
             return false;
         }
-
         return true;
-
     }
+    
     public boolean enviar_SMS(String mensaje, String telefono){
         SmsManager emisor;
 
@@ -56,7 +56,9 @@ public class EnvioMensajes {
         }
         return true;
     }
+
     public void verificar_permisos(Activity actividad){
+
         String PERMISOS_ENVIO_MENSAJES = Manifest.permission.SEND_SMS;
 
         int permisos = ActivityCompat.checkSelfPermission(actividad, PERMISOS_ENVIO_MENSAJES);
@@ -64,10 +66,10 @@ public class EnvioMensajes {
             solicitar_permisos(actividad, PERMISOS_ENVIO_MENSAJES);
         }
     }
+
+
     public void solicitar_permisos(Activity actividad, String PERMISOS_ENVIO_MENSAJES){
         String[] lista_permisos = {PERMISOS_ENVIO_MENSAJES};
         ActivityCompat.requestPermissions(actividad,lista_permisos,123);
     }
-
-
 }
