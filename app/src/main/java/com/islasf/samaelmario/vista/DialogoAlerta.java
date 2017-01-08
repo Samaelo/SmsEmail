@@ -14,6 +14,7 @@ public class DialogoAlerta extends DialogFragment {
     private String mensaje,titulo;
     private String[] opciones;
     private int codigo_tipo;
+    private Alerta actividad;
 
     AlertDialog.Builder builder;
     @Override
@@ -33,11 +34,12 @@ public class DialogoAlerta extends DialogFragment {
      * @param opciones
      * @param codigo_tipo
      */
-    public void setDialogo(String mensaje, String titulo, String[]opciones, int codigo_tipo) {
+    public void setDialogo(Alerta actividad,String mensaje, String titulo, String[]opciones, int codigo_tipo) {
         this.mensaje = mensaje;
         this.titulo = titulo;
         this.opciones = opciones;
         this.codigo_tipo = codigo_tipo;
+        this.actividad = actividad;
 
     }
 
@@ -60,6 +62,7 @@ public class DialogoAlerta extends DialogFragment {
                         .setTitle(titulo)
                         .setPositiveButton(opciones[0], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                actividad.onAlerta();
                                 dialog.cancel();
                             }
                         })

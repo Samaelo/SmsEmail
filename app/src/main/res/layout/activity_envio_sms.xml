@@ -42,7 +42,7 @@
         android:onClick="onSeleccionar_contacto"/>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabEnviar"
+        android:id="@+id/fabEnviarSMS"
         app:backgroundTint="@android:color/holo_green_light"
         android:layout_width="60dp"
         android:layout_height="60dp"
