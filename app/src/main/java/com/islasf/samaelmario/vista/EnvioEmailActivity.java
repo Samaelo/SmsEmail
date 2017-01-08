@@ -70,6 +70,7 @@ public class EnvioEmailActivity extends AppCompatActivity {
                 String[] opciones =  {"Aceptar"};
                 dialogo.setDialogo("Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail erróneo", opciones, 1);
                 dialogo.show(getFragmentManager(), "tagAlerta");
+
             }
         }
     }
@@ -153,7 +154,7 @@ public class EnvioEmailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void seleccionar_Contacto(){
+    public void seleccionar_Contacto(View v){
 
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
         Intent intent = new Intent(this, ListaContactosActivity.class);

@@ -1,5 +1,6 @@
 package com.islasf.samaelmario.vista;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,24 +12,38 @@ import com.islasf.samaelmario.vista.R;
 
 public class ListaContactosActivity extends AppCompatActivity {
 
+    private  FloatingActionButton fabAgregarContacto;
+
+    boolean lista_editable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contactos);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //Cargamos los componentes
+        cargar_componentes();
+
+        //Obtenemos los datos del intent
+        obtener_datos_intent();
     }
 
+    private void aplicar_editable(){
+        if(lista_editable == false){//Si no es editable, la pantalla irá destinada a escoger un
+            // contacto al que enviar un mensaje, por lo que se cambia el icono al de guardar.
+
+            fabAgregarContacto.setImageResource(android.R.drawable.ic_menu_save);
+        }
+    }
+
+    private void obtener_datos_intent(){
+        Intent intent = getIntent();
+        lista_editable = intent.getBooleanExtra("EDITABLE",false);
 
 
+    }
+    private void cargar_componentes(){
+        fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
+    }
 }

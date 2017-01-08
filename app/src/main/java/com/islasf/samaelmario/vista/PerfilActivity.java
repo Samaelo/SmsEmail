@@ -47,13 +47,6 @@ public class PerfilActivity extends AppCompatActivity {
         //Si se abre desde la pantalla de envío de mensaje, no se permite la edición.
         // Si obtenemos false, se da ese caso. Si obtenemos true, se ha accedido desde la pantalla de lista de contactos.
         //Por defecto es false.
-        editable = intent.getBooleanExtra("EDITABLE",false);
-
-        if(editable == false){
-            fabEditarContacto.hide();
-        }
-
-
         contacto_antiguo =  (Contacto) intent.getSerializableExtra("CONTACTO");
         perfil_nuevo = new Perfil();
 

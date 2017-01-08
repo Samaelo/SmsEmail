@@ -1,7 +1,7 @@
-#Sat Jan 07 20:18:29 CET 2017
-base.0=C\:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_b488f1a1c2bb8cb1ff3fcdd795906a57da398695
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=C\:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_bf9ebd850702f19afead38f1ea1beeea0f644a1f\\classes.dex
-base.1=C\:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_bf9ebd850702f19afead38f1ea1beeea0f644a1f
-file.0=C\:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_b488f1a1c2bb8cb1ff3fcdd795906a57da398695\\classes.dex
+#Sun Jan 08 10:08:09 CET 2017
+base.0=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_a5a97f1f4e1f71f25e9c653e77b91cf8bcc3cb64\\classes.dex
+base.1=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_a5a97f1f4e1f71f25e9c653e77b91cf8bcc3cb64
+file.0=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1\\classes.dex

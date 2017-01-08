@@ -35,5 +35,7 @@ public class Contacto implements Serializable {
     }
     public Perfil obtener_perfil(){
         return this.perfil;
+
     }
+
 }

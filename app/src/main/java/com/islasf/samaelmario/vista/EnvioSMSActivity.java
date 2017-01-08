@@ -81,10 +81,8 @@ public class EnvioSMSActivity extends AppCompatActivity {
     }
 
     public void onSeleccionar_contacto(View v){
-        Toast.makeText(this,"joder",Toast.LENGTH_LONG).show();
         //Esperamos que nos devuelva el objeto contacto para poder extraer el número de teléfono de éste.
         Intent intent = new Intent(this,ListaContactosActivity.class);
-
         startActivityForResult(intent,1);
 
     }
