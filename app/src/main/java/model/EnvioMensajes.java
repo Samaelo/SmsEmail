@@ -70,6 +70,6 @@ public class EnvioMensajes {
 
     public void solicitar_permisos(Activity actividad, String PERMISOS_ENVIO_MENSAJES){
         String[] lista_permisos = {PERMISOS_ENVIO_MENSAJES};
-        ActivityCompat.requestPermissions(actividad,lista_permisos,123);
+        ActivityCompat.requestPermissions(actividad,lista_permisos,0);
     }
 }
