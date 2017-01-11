@@ -51,6 +51,7 @@ public class DialogoAlerta extends DialogFragment {
                         .setTitle(titulo)
                         .setPositiveButton(opciones[0], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                actividad.onAlerta(1);
                                 dialog.cancel();
                             }
                         });
@@ -62,7 +63,7 @@ public class DialogoAlerta extends DialogFragment {
                         .setTitle(titulo)
                         .setPositiveButton(opciones[0], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                actividad.onAlerta();
+                                actividad.onAlerta(2);
                                 dialog.cancel();
                             }
                         })

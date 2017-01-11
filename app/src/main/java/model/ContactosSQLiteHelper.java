@@ -9,12 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class ContactosSQLiteHelper extends SQLiteOpenHelper {
+
     private final String CTABLE = "create table Contactos(_id int not null AUTO_INCREMENT, nombre varchar(15) not null, constraint pk_id PRIMARY KEY (_id))";
 
-    public ContactosSQLiteHelper(Context c, String nombreBD, SQLiteDatabase.CursorFactory cursor, int version){
-        super(c, nombreBD, cursor, version);
-    }
 
+    public ContactosSQLiteHelper(Context contexto, String nombreBD, SQLiteDatabase.CursorFactory cursor, int version){
+        super(contexto, nombreBD, cursor, version);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -23,7 +24,8 @@ public class ContactosSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//Se elimina la versión anterior de la tabla
+
+        //Se elimina la versión anterior de la tabla
         db.execSQL("DROP TABLE IF EXISTS Contactos");
 
         //Se crea la nueva versión de la tabla
