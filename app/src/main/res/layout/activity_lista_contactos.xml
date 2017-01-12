@@ -31,9 +31,4 @@
 
     <include layout="@layout/content_lista_contactos" />
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </android.support.design.widget.CoordinatorLayout>

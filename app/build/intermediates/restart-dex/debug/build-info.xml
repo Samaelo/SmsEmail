@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="x86"
-    api-level="24"
-    density="xhdpi"
+    api-level="23"
+    density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="382011553389317"
-    token="9114537365156845911"
+    timestamp="607127378470391"
+    token="-6000804071067897745"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="237" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="24" />
     <task
         name="verifier"
-        duration="0" />
+        duration="2" />
+
+    <artifact
+        location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+        type="DEX" />
 
     <build
-        timestamp="381182137206218"
+        timestamp="603428407704556"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\outputs\apk\app-debug.apk"
+            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\outputs\apk\app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="381964120761268"
-        verifier="R_CLASS_CHANGE" >
+        timestamp="607127378470391"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\intermediates\instant-run-resources\resources-debug.ir.ap_"
-            type="RESOURCES" />
-        <artifact
-            location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_0\classes.dex"
-            type="DEX" />
-        <artifact
-            location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+            location="C:\Users\Yo\Desktop\SMSMAIL\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
             type="DEX" />
     </build>
-    <build
-        timestamp="382011553389317"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import model.Perfil;
 public class ListaContactosActivity extends AppCompatActivity {
 
     private  FloatingActionButton fabAgregarContacto;
-    private ListView listaContactos;
+    ListView lvListaContactos;
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
     ArrayList<Contacto> contactos = new ArrayList<Contacto>();
@@ -38,7 +39,7 @@ public class ListaContactosActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_listview_listacontactos);
+        setContentView(R.layout.content_lista_contactos);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,16 +61,15 @@ public class ListaContactosActivity extends AppCompatActivity {
 
     private void cargar_componentes(){
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
-        listaContactos = (ListView)findViewById(R.id.lvLista_mensajes);
-
         crearListaDeContactos();
     }
 
     private ArrayList<Contacto> cargarAgenda(){
 
-        ArrayList<Contacto> listaContactos = new ArrayList<Contacto>();
+        ArrayList<Contacto> lista_contactos = new ArrayList<Contacto>();
         String ID_contacto;
-        String nombre, apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto;
+        String nombre, apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
+        String[] splitNombre;
         Date fecha_nacimiento = null;
 
         Cursor posicionContacto = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
@@ -77,16 +77,22 @@ public class ListaContactosActivity extends AppCompatActivity {
         while(posicionContacto.moveToNext()){
 
             ID_contacto = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts._ID));
-            nombre = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-            //apellidos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+            apellidos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE));
             telefonos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-
             // -- TRATAR FECHA DE NACIMIENTO -- //
 
-            fecha_contacto =  ContactsContract.CommonDataKinds.Event.START_DATE; // 1º Obtenemos la fecha de nacimiento a través de la constante START_DATE que es de tipo String
+             // 1º Obtenemos la fecha de nacimiento a través de la constante START_DATE que es de tipo String
+
+            Cursor cursor_fecha = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, null, null, null);
+            if (cursor_fecha.getCount() > 0) {
+                while (cursor_fecha.moveToNext()) {
+
+                }
+            }
+            cursor_fecha.close();
 
             // Para obtener la fecha de nacimiento, debemos hacer un SimpleDateFormat
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy"); // 2º Con la clase SimpleDateFormat creamos el formato de la fecha que deseemos, en nuestro caso -> dia/mes/año
+            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/mm/yyyy"); // 2º Con la clase SimpleDateFormat creamos el formato de la fecha que deseemos, en nuestro caso -> dia/mes/año
 
             if(!fecha_contacto.matches("dd/MM/yyyy")) {
 
@@ -128,6 +134,7 @@ public class ListaContactosActivity extends AppCompatActivity {
                                 telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 break;
                     }
+
                 }
                 cursor_Telefono.close();
             }
@@ -143,36 +150,43 @@ public class ListaContactosActivity extends AppCompatActivity {
 
                   email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
 
+
                 }
             cursor_Email.close();
 
             /* Añadimos un contacto a la lista de contactos. Para ello creamos un Contacto, cuyo Perfil que recibe en su constructor, está compuesto por los atributos que hemos obtenidos consultando los datos
                de dicho contacto en la agenda del teléfono */
-            contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
+
+            splitNombre = apellidos.split(",");
+            apellidos = splitNombre[0];
+            nombre = splitNombre[1];
+
+            lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
 
             }
 
         posicionContacto.close();
-        return listaContactos;
-    } // Find de cargarAgenda()
+        return lista_contactos;
+    } // Fin de cargarAgenda()
 
     public void crearListaDeContactos(){
 
-        listaContactos = (ListView)findViewById(R.id.listView); // Volcamos en el atributo 'lista' el listView definido en el xml con su id
+        lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
         ArrayList<Contacto> listado = cargarAgenda(); // Creamos un ArrayList denominado 'listado' de tipo Titular (hace referencia a la clase 'Titular'
 
         ContactosAdapter adaptador = new ContactosAdapter(this,listado); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
-        listaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
+        lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
 
-        listaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
+        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
             public void onItemClick(AdapterView adapter, View view, int position, long id) {
 
 
             }
 
         });
+
     }
 
     // --- PETICIÓN DE PERMISOS PARA ACCEDER A LA LISTA DE CONTACTOS DEL TELÉFONO --- //
@@ -254,8 +268,8 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
             holder = (ViewHolder)item.getTag();
         }
 
-        holder.nombre.setText(contactos.get(posicion).obtener_nombre() + contactos.get(posicion).obtener_apellidos());
-        holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + contactos.get(posicion).obtener_correo());
+        holder.nombre.setText(contactos.get(posicion).obtener_nombre() + " " + contactos.get(posicion).obtener_apellidos());
+        holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + " | " + contactos.get(posicion).obtener_correo());
 
         return item;
     }
