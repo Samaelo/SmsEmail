@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,8 +47,6 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         //Cargamos los componentes
         cargar_componentes();
-
-        ContactosAdapter listadoDeContactos = new ContactosAdapter(this, cargarAgenda());
     }
 
     private void aplicar_editable(){
@@ -68,10 +67,10 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         ArrayList<Contacto> lista_contactos = new ArrayList<Contacto>();
         String ID_contacto;
-        String nombre, apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
+        String nombre="", apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
         String[] splitNombre;
         Date fecha_nacimiento = null;
-
+        boolean salir=false;
         Cursor posicionContacto = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
 
         while(posicionContacto.moveToNext()){
@@ -79,22 +78,27 @@ public class ListaContactosActivity extends AppCompatActivity {
             ID_contacto = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts._ID));
             apellidos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE));
             telefonos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-            // -- TRATAR FECHA DE NACIMIENTO -- //
-
-             // 1º Obtenemos la fecha de nacimiento a través de la constante START_DATE que es de tipo String
-
             Cursor cursor_fecha = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, null, null, null);
             if (cursor_fecha.getCount() > 0) {
-                while (cursor_fecha.moveToNext()) {
+                while (cursor_fecha.moveToNext() && salir == false) {
+                    fecha_contacto = cursor_fecha.getString(cursor_fecha.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
+                    if(fecha_contacto!=null && fecha_contacto.matches("dd/MM/yyyy")){
+                        Toast.makeText(this,fecha_contacto,Toast.LENGTH_SHORT).show();
+                        salir = true;
+                    }
 
-                }
             }
             cursor_fecha.close();
+
+        }
+
+
+
 
             // Para obtener la fecha de nacimiento, debemos hacer un SimpleDateFormat
             SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/mm/yyyy"); // 2º Con la clase SimpleDateFormat creamos el formato de la fecha que deseemos, en nuestro caso -> dia/mes/año
 
-            if(!fecha_contacto.matches("dd/MM/yyyy")) {
+            if(fecha_contacto!=null && !fecha_contacto.matches("dd/MM/yyyy")) {
 
                 fecha_nacimiento = null;
             }
@@ -107,6 +111,8 @@ public class ListaContactosActivity extends AppCompatActivity {
                 catch (ParseException e) {
                     /* Como siempre se va a comprobar primero si la fecha que obtenemos de la constante START_DATE es correcto, esta excepción nunca se va a generar, ya que el compilador sólo entraría en
                        esta sección, si intentase parsear algo que no fuese del formato ' dd/MM/yyyy ' */
+                }catch(Exception e){
+
                 }
             }
 
@@ -156,10 +162,15 @@ public class ListaContactosActivity extends AppCompatActivity {
 
             /* Añadimos un contacto a la lista de contactos. Para ello creamos un Contacto, cuyo Perfil que recibe en su constructor, está compuesto por los atributos que hemos obtenidos consultando los datos
                de dicho contacto en la agenda del teléfono */
+            if(apellidos!=null){
+                splitNombre = apellidos.split(",");
+                if(splitNombre.length>1){
+                    apellidos = splitNombre[0];
+                    nombre = splitNombre[1];
+                }
+            }
 
-            splitNombre = apellidos.split(",");
-            apellidos = splitNombre[0];
-            nombre = splitNombre[1];
+
 
             lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
 
