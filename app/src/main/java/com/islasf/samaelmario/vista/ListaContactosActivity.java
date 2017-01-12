@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -12,12 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +34,12 @@ import model.Perfil;
 public class ListaContactosActivity extends AppCompatActivity {
 
     private  FloatingActionButton fabAgregarContacto;
-    ListView lvListaContactos;
+    private ListView lvListaContactos;
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
-    ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+    private ArrayList<Contacto> listado_contactos;
+    private ArrayList<Contacto> contactos_seleccionados = new ArrayList<Contacto>();
+   private  int COLOR_SELECCION,COLOR_DESELECCION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,8 @@ public class ListaContactosActivity extends AppCompatActivity {
 
     private void cargar_componentes(){
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
+        COLOR_SELECCION = getResources().getColor(R.color.verde_claro,null);
+        COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
     }
 
@@ -184,18 +190,51 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
-        ArrayList<Contacto> listado = cargarAgenda(); // Creamos un ArrayList denominado 'listado' de tipo Titular (hace referencia a la clase 'Titular'
+        listado_contactos = cargarAgenda(); // Creamos un ArrayList denominado 'listado_contactos' de tipo Titular (hace referencia a la clase 'Titular'
 
-        ContactosAdapter adaptador = new ContactosAdapter(this,listado); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+        ContactosAdapter adaptador = new ContactosAdapter(this, listado_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
+        lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
 
-        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
-            public void onItemClick(AdapterView adapter, View view, int position, long id) {
+        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int posicion, long id) {
+                LinearLayout layout;
+                Contacto contacto_seleccionado;
 
+                if(!contactos_seleccionados.isEmpty()){
+                    layout = (LinearLayout)view;
+                    contacto_seleccionado = listado_contactos.get(posicion);
+
+                    if(contactos_seleccionados.contains(contacto_seleccionado)){
+                        contactos_seleccionados.remove(contacto_seleccionado);
+                        layout.setBackgroundColor(COLOR_DESELECCION);
+                    }else{
+                        contactos_seleccionados.add(contacto_seleccionado);
+                        layout.setBackgroundColor(COLOR_SELECCION);
+                    }
+                }
 
             }
+        });
+        lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int posicion, long id) {
+                LinearLayout layout = (LinearLayout)view;
+                Contacto contacto_seleccionado = listado_contactos.get(posicion);
 
+                if(contactos_seleccionados.contains(contacto_seleccionado)){
+                    contactos_seleccionados.remove(contacto_seleccionado);
+                    layout.setBackgroundColor(COLOR_DESELECCION);
+                }else{
+                    contactos_seleccionados.add(contacto_seleccionado);
+                    layout.setBackgroundColor(COLOR_SELECCION);
+
+                }
+
+                return true;
+            }
         });
 
     }
@@ -258,7 +297,7 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
      */
     @Override
     public View getView(int posicion, View convertView, ViewGroup parent) {
-
+        final int COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         View item = convertView;
         ViewHolder holder;
 
@@ -268,6 +307,7 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
 
             LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(R.layout.layout_listview_listacontactos, null);
+            item.setBackgroundColor(COLOR_DESELECCION);
             holder = new ViewHolder();
             holder.nombre = (TextView)item.findViewById(R.id.tv_listView_Nombre);
             holder.datos = (TextView)item.findViewById(R.id.tv_listView_Datos);
