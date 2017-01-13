@@ -1,5 +1,8 @@
 package model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,9 +10,8 @@ import java.util.Date;
 /**
  * Created by Mario on 04/01/2017.
  */
-
-public class Perfil implements Serializable {
-//
+public class Perfil implements Parcelable {
+    //
     private String nombre;
     private String apellidos;
     private String num_telefono_fijo;
@@ -72,4 +74,42 @@ public class Perfil implements Serializable {
     public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
+
+    protected Perfil(Parcel in) {
+        nombre = in.readString();
+        apellidos = in.readString();
+        num_telefono_fijo = in.readString();
+        num_telefono_movil = in.readString();
+        direccion_correo = in.readString();
+        long tmpFecha_nacimiento = in.readLong();
+        fecha_nacimiento = tmpFecha_nacimiento != -1 ? new Date(tmpFecha_nacimiento) : null;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nombre);
+        dest.writeString(apellidos);
+        dest.writeString(num_telefono_fijo);
+        dest.writeString(num_telefono_movil);
+        dest.writeString(direccion_correo);
+        dest.writeLong(fecha_nacimiento != null ? fecha_nacimiento.getTime() : -1L);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Perfil> CREATOR = new Parcelable.Creator<Perfil>() {
+        @Override
+        public Perfil createFromParcel(Parcel in) {
+            return new Perfil(in);
+        }
+
+        @Override
+        public Perfil[] newArray(int size) {
+            return new Perfil[size];
+        }
+    };
 }

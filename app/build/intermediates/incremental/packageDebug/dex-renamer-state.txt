@@ -1,4 +1,4 @@
-#Thu Jan 12 22:12:05 CET 2017
+#Fri Jan 13 10:05:05 CET 2017
 base.0=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_068daa3dd2d7116cd59196ce2a8d5fb8e13ec5e1
 renamed.1=classes.dex
 renamed.0=classes2.dex

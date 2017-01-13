@@ -14,7 +14,13 @@ TODO: Puesto que hay que poner preferencias, vamos a poner que una de ellas sea 
 TODO: Lista de contactos agregados.
 TODO: Lista de Mensajes enviados.
 TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con preferences screen) , envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
-TODO:Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
+TODO: Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
+TODO: Añadir botón de refresh para volver a cargar contactos.
+TODO: Comprobación de que si el array de contactos del intent del startactivity está vacío, que los cargue de partida.
+TODO: Operación de cargar contactos en AsyncTask
+TODO: Operación de cargar mensajes en AsyncTask
+TODO: No mostrar usuarios que tengan mail no válido( en la lista de elección de contactos de envío de email)
+TODO: No mostrar usuarios que tengan un teléfono no válido (en la lista de elección de contactos de envio de SMS)
  */
 
     /*

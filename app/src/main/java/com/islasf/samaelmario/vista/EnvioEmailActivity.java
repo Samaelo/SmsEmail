@@ -26,11 +26,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import model.Constantes;
 import model.Contacto;
 import model.EnvioMensajes;
 
 public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
+    private ArrayList<Contacto>  lista_contactos,lista_contactos_seleccionados;
     private EnvioMensajes envioMensajes;
     private Contacto contacto_seleccionado;
     private EditText et_Remitente, et_Destinatarios, et_Asunto, et_TextoEmail;
@@ -53,7 +55,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
     }
 
-    public void onEnviar(View v){
+    public void onEnviarMail(View v){
 
         envioMensajes = new EnvioMensajes(this);
 
@@ -91,6 +93,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         }
     }
 
+
     @Override
     public void onAlerta(Object... objeto){
         int opcion = (int) objeto[0];
@@ -112,29 +115,39 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
             int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
 
-            emails = new String[numeroEmails]; // El array de Strings de los emails será igual al número de tokens
+            emails = new String[numeroEmails + lista_contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
 
+            /**
+             * Rellenamos el array con los emails de los campos de texto.
+             */
             // Mientras haya tokens después de un serparador por ","
 
-                for(int i = 0; i < emails.length; i++){ // Para la longitud del array
+            for(int i = 0; i < numeroEmails; i++){ // Para la longitud del array
 
-                    String email = tokenizador.nextToken();
+                String email = tokenizador.nextToken();
 
-                        if(email.matches(patronEmail)){
+                if(email.matches(patronEmail)){
 
-                            emails[i] = email; // La posición del email será igual a la posición del token
-                        }
-                        else throw new Exception();
-                    }
+                    emails[i] = email; // La posición del email será igual a la posición del token
+                }
+                else throw new Exception();
+            }
+
+        }else if(textoDestinatarios.matches(patronEmail)){
+
+            emails = new String[1];
+            emails[0] = textoDestinatarios;
+        }else{
+            throw new Exception("Alguno de los emails no cumple un patrón correcto");
         }
 
-        else if(textoDestinatarios.matches(patronEmail)){
-
-                emails = new String[1];
-                emails[0] = textoDestinatarios;
-            }
-            else throw new Exception("Alguno de los emails no cumple un patrón correcto");
-
+        /**
+         * Rellenamos el array con los emails de los contactos que han sido seleccionados
+         * en caso de que no haya habido un error.
+         */
+        for(int i=emails.length; i<lista_contactos_seleccionados.size();i++){
+            emails[i] = lista_contactos_seleccionados.get(i).obtener_correo();
+        }
         return emails;
     }
 
@@ -180,25 +193,42 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void seleccionar_Contacto(View v){
-
+    public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
         Intent intent = new Intent(this, ListaContactosActivity.class);
-        startActivityForResult(intent,1);
+
+        intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
+        intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
+
+        startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Obtenemos el contacto seleccionado
-        contacto_seleccionado = (Contacto)data.getSerializableExtra("CONTACTO");
+        //Leemos los datos del intent recibido de la actividad llamada.
+        if(requestCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
+            ArrayList<Contacto> lista_contactos_recibida = data.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+            ArrayList<Contacto> lista_contactos_seleccionados_recibida = data.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+
+
+            if(lista_contactos.size()!= lista_contactos_recibida.size()){
+                lista_contactos = lista_contactos_recibida;
+            }
+
+            if(lista_contactos_seleccionados.size()!= lista_contactos_seleccionados_recibida.size()){
+                lista_contactos_seleccionados = lista_contactos_seleccionados_recibida;
+            }
+
 
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
 
-        String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_tfno_movil());
-        tv_ContactoSuperior.setText(textoContacto);
+            String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
+            tv_ContactoSuperior.setText(textoContacto);
+        }
+
     }
 
     /**

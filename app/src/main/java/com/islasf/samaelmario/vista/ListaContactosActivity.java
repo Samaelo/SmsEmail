@@ -2,10 +2,10 @@ package com.islasf.samaelmario.vista;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -15,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.Constantes;
 import model.Contacto;
 import model.Perfil;
 
@@ -37,33 +40,65 @@ public class ListaContactosActivity extends AppCompatActivity {
     private ListView lvListaContactos;
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
-    private ArrayList<Contacto> listado_contactos;
-    private ArrayList<Contacto> contactos_seleccionados = new ArrayList<Contacto>();
-   private  int COLOR_SELECCION,COLOR_DESELECCION;
+    private ArrayList<Contacto> lista_contactos, lista_contactos_seleccionados;
+    private  int COLOR_SELECCION,COLOR_DESELECCION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_lista_contactos);
+        setContentView(R.layout.activity_lista_contactos);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Cargamos los datos recibidos de la actividad llamante
+        cargar_datos_intent();
 
         //Cargamos los componentes
         cargar_componentes();
     }
 
+    private void cargar_datos_intent(){
+        Intent intent_recibido = getIntent();
+
+        lista_contactos = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+        lista_contactos_seleccionados = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+        lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
+    }
+
+    /**
+     * Método que selecciona los contactos ya seleccionados antes al haber cerrado la acticvidad para volver a abrirla.
+     * Cuando  el mensaje ha sido enviado, se pierden éstos datos.
+     */
+    private void seleccionar_contactos(){
+
+    }
     private void aplicar_editable(){
 
-        if(lista_editable == false){//Si no es editable, la pantalla irá destinada a escoger un
+        if(!lista_editable){//Si no es editable, la pantalla irá destinada a escoger un
             // contacto al que enviar un mensaje, por lo que se cambia el icono al de guardar.
 
             fabAgregarContacto.setImageResource(android.R.drawable.ic_menu_save);
         }
     }
 
+    /**
+     * Método que se ejecuta cuando se pulsa el botón flotante(FloatingActionButton fabAgregarContactos)
+     * cuya finalidad es devolver los contactos seleccionados a la actividad llamante. Además devuelve
+     * los contactos ya cargados
+     * @param v
+     */
+    public void onFabGuardarContacto(View v){
+        Intent intent_devuelto = new Intent();
+        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
+        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
+        setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
+        finish();
+    }
+
     private void cargar_componentes(){
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
+        aplicar_editable();
         COLOR_SELECCION = getResources().getColor(R.color.verde_claro,null);
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
@@ -190,9 +225,9 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
-        listado_contactos = cargarAgenda(); // Creamos un ArrayList denominado 'listado_contactos' de tipo Titular (hace referencia a la clase 'Titular'
+        lista_contactos = cargarAgenda(); // Creamos un ArrayList denominado 'lista_contactos' de tipo Titular (hace referencia a la clase 'Titular'
 
-        ContactosAdapter adaptador = new ContactosAdapter(this, listado_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+        ContactosAdapter adaptador = new ContactosAdapter(this, lista_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
         lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
@@ -203,15 +238,15 @@ public class ListaContactosActivity extends AppCompatActivity {
                 LinearLayout layout;
                 Contacto contacto_seleccionado;
 
-                if(!contactos_seleccionados.isEmpty()){
+                if(!lista_contactos_seleccionados.isEmpty()){
                     layout = (LinearLayout)view;
-                    contacto_seleccionado = listado_contactos.get(posicion);
+                    contacto_seleccionado = lista_contactos.get(posicion);
 
-                    if(contactos_seleccionados.contains(contacto_seleccionado)){
-                        contactos_seleccionados.remove(contacto_seleccionado);
+                    if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
+                        lista_contactos_seleccionados.remove(contacto_seleccionado);
                         layout.setBackgroundColor(COLOR_DESELECCION);
                     }else{
-                        contactos_seleccionados.add(contacto_seleccionado);
+                        lista_contactos_seleccionados.add(contacto_seleccionado);
                         layout.setBackgroundColor(COLOR_SELECCION);
                     }
                 }
@@ -222,13 +257,13 @@ public class ListaContactosActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int posicion, long id) {
                 LinearLayout layout = (LinearLayout)view;
-                Contacto contacto_seleccionado = listado_contactos.get(posicion);
+                Contacto contacto_seleccionado = lista_contactos.get(posicion);
 
-                if(contactos_seleccionados.contains(contacto_seleccionado)){
-                    contactos_seleccionados.remove(contacto_seleccionado);
+                if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
+                    lista_contactos_seleccionados.remove(contacto_seleccionado);
                     layout.setBackgroundColor(COLOR_DESELECCION);
                 }else{
-                    contactos_seleccionados.add(contacto_seleccionado);
+                    lista_contactos_seleccionados.add(contacto_seleccionado);
                     layout.setBackgroundColor(COLOR_SELECCION);
 
                 }
@@ -253,6 +288,18 @@ public class ListaContactosActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CONTACTS},MY_PERMISSIONS_REQUEST_READ_CONTACTS);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if(lista_editable){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu,menu);
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
