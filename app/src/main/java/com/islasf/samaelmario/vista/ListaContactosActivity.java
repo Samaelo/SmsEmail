@@ -30,6 +30,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
 import model.Perfil;
@@ -105,7 +106,7 @@ public class ListaContactosActivity extends AppCompatActivity {
     }
 
     private ArrayList<Contacto> cargarAgenda(){
-
+        AccesoDatos acceso = new AccesoDatos(this);
         ArrayList<Contacto> lista_contactos = new ArrayList<Contacto>();
         String ID_contacto;
         String nombre="", apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
@@ -127,13 +128,9 @@ public class ListaContactosActivity extends AppCompatActivity {
                         Toast.makeText(this,fecha_contacto,Toast.LENGTH_SHORT).show();
                         salir = true;
                     }
-
+                }
+                cursor_fecha.close();
             }
-            cursor_fecha.close();
-
-        }
-
-
 
 
             // Para obtener la fecha de nacimiento, debemos hacer un SimpleDateFormat
@@ -170,16 +167,16 @@ public class ListaContactosActivity extends AppCompatActivity {
                         // Insertamos switch cases para manejar todos los tipos de números de teléfono.
 
                         case ContactsContract.CommonDataKinds.Phone.TYPE_HOME :
-                                telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                break;
+                            telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            break;
 
                         case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE :
-                                telefonoMovil = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                break;
+                            telefonoMovil = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            break;
 
                         default:
-                                telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                break;
+                            telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            break;
                     }
 
                 }
@@ -195,10 +192,10 @@ public class ListaContactosActivity extends AppCompatActivity {
 
             while(cursor_Email.moveToNext()){
 
-                  email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+                email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
 
 
-                }
+            }
             cursor_Email.close();
 
             /* Añadimos un contacto a la lista de contactos. Para ello creamos un Contacto, cuyo Perfil que recibe en su constructor, está compuesto por los atributos que hemos obtenidos consultando los datos
@@ -211,13 +208,12 @@ public class ListaContactosActivity extends AppCompatActivity {
                 }
             }
 
-
-
             lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
 
-            }
+        }
 
         posicionContacto.close();
+
         return lista_contactos;
     } // Fin de cargarAgenda()
 

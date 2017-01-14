@@ -2,17 +2,10 @@ package com.islasf.samaelmario.vista;
 
 import java.lang.Exception;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.app.FragmentManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,11 +19,12 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
 import model.EnvioMensajes;
 
-public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
+public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
 
     private ArrayList<Contacto>  lista_contactos,lista_contactos_seleccionados;
     private EnvioMensajes envioMensajes;
@@ -71,12 +65,10 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
             try {
                 toDestinatarios = recogerEmails(et_Destinatarios.getText().toString());
 
+                String[] opciones =  {"Aceptar", "Cancelar"};
                 if(asunto.toString().trim().isEmpty()){
 
-                    DialogoAlerta dialogo = new DialogoAlerta();
-                    String[] opciones =  {"Aceptar", "Cancelar"};
-                    dialogo.setDialogo(this,"¿ Deseas enviar el mensaje sin asunto ?", "E-mail sin asunto", opciones, 2);
-                    dialogo.show(getFragmentManager(), "tagAlerta");
+                    mostrar_dialogo(2,opciones,"¿ Deseas enviar el mensaje sin asunto ?", "E-mail sin asunto");
                 }else{
                     if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
                         Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -84,23 +76,36 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
                 }
             }
             catch (Exception e) {
-                DialogoAlerta dialogo = new DialogoAlerta();
                 String[] opciones =  {"Aceptar"};
-                dialogo.setDialogo(this,"Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail erróneo", opciones, 1);
-                dialogo.show(getFragmentManager(), "tagAlerta");
-
+                mostrar_dialogo(1,opciones,"Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail no enviado");
             }
         }
     }
 
-
+    public DialogoAlerta mostrar_dialogo(int opcion,String[] opciones, String mensaje, String titulo){
+        DialogoAlerta dialogo = new DialogoAlerta();
+        dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
+        return dialogo;
+    }
     @Override
     public void onAlerta(Object... objeto){
         int opcion = (int) objeto[0];
 
-        if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false && opcion == 2){
-            Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        switch(opcion){
+            case 0:
+                iniciar_lista_contactos();
+                break;
+            case 2:
+                if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
+                    Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+                break;
+            case 50:
+                String[] opciones = {"Aceptar"};
+                mostrar_dialogo(1,opciones,"Por favor, espere a que se carguen todos los contactos...","Cargando");
+                break;
         }
+
     }
 
     public String[] recogerEmails(String textoDestinatarios) throws Exception {
@@ -195,6 +200,13 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
     public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
+
+        AccesoDatos acceso = new AccesoDatos(this);
+
+        acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
+    }
+
+    private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
 
         intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
@@ -202,7 +214,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
         startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

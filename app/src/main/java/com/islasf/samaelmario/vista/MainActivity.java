@@ -35,7 +35,7 @@ TODO: No mostrar usuarios que tengan un teléfono no válido (en la lista de ele
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-        startActivity(new Intent(this,ListaContactosActivity.class));
+        startActivity(new Intent(this,EnvioEmailActivity.class));
 
 
     }

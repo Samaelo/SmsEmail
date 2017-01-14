@@ -34,7 +34,7 @@ public class DialogoAlerta extends DialogFragment {
      * @param opciones
      * @param codigo_tipo
      */
-    public void setDialogo(Alerta actividad,String mensaje, String titulo, String[]opciones, int codigo_tipo) {
+    public void setDialogo(Alerta actividad, String mensaje, String titulo, String[]opciones, int codigo_tipo) {
         this.mensaje = mensaje;
         this.titulo = titulo;
         this.opciones = opciones;
@@ -45,7 +45,9 @@ public class DialogoAlerta extends DialogFragment {
 
     private void crear_dialogo(){
         switch (codigo_tipo) {
-
+            case 0:
+                builder.setMessage(mensaje).setTitle(titulo);
+                break;
             case 1:
                 builder.setMessage(mensaje)
                         .setTitle(titulo)
@@ -74,5 +76,11 @@ public class DialogoAlerta extends DialogFragment {
                         });
                 break;
         }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        actividad.onAlerta(0);
     }
 }
