@@ -45,10 +45,64 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
         setContentView(R.layout.activity_envio_email);
 
         cargarComponentes();
-        cargarActionBar();
+
+        this.lista_contactos = new ArrayList<Contacto>();
+        this.lista_contactos_seleccionados = new ArrayList<Contacto>();
 
     }
 
+    //////////////////////////////////
+    //      Carga de elementos      //
+    //////////////////////////////////
+
+    /**
+     *Método encargado de vaciar los campos de texto de la actividad.
+     */
+    public void limpiarTextos(){
+
+        et_Remitente.setText("");
+        et_Destinatarios.setText("");
+    }
+
+    /**
+     * Carga los distintos componentes gráficos que se van a usar programáticamente a lo largo de
+     * la vida de la actividad. Tiene como finalidad realizar el menor número de accesos a los
+     * recursos de la aplicación  para el menor consumo de batería.
+     *
+     * Se invoca en el onCreate de la actividad.
+     */
+    public void cargarComponentes(){
+        cargarActionBar();
+
+        et_Remitente = (EditText)findViewById(R.id.et_Remitente);
+        et_Destinatarios = (EditText)findViewById(R.id.et_Destinatarios);
+        et_Asunto = (EditText)findViewById(R.id.et_Asunto);
+        et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
+        tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
+        fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
+        boton = (Button)findViewById(R.id.button);
+    }
+
+    /**
+     *Método
+     */
+    public void cargarActionBar(){
+
+        Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbEnvioEmail);
+        setSupportActionBar(toolbarEmail);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setTitle("");
+    }
+
+
+
+    /**
+     *
+     * @param v
+     */
     public void onEnviarMail(View v){
 
         envioMensajes = new EnvioMensajes(this);
@@ -161,33 +215,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
         finish();
     }
 
-    public void limpiarTextos(){
 
-        et_Remitente.setText("");
-        et_Destinatarios.setText("");
-    }
-
-    public void cargarComponentes(){
-
-        et_Remitente = (EditText)findViewById(R.id.et_Remitente);
-        et_Destinatarios = (EditText)findViewById(R.id.et_Destinatarios);
-        et_Asunto = (EditText)findViewById(R.id.et_Asunto);
-        et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
-        tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
-        fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
-        boton = (Button)findViewById(R.id.button);
-    }
-
-    public void cargarActionBar(){
-
-        Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbEnvioEmail);
-        setSupportActionBar(toolbarEmail);
-
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_launcher);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setTitle("");
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

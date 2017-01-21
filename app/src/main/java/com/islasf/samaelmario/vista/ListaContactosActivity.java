@@ -59,6 +59,11 @@ public class ListaContactosActivity extends AppCompatActivity {
         cargar_componentes();
     }
 
+    /**
+     * Método encargado de cargar los datos recibidos de la actividad que invoca a ésta. Mediante
+     * el método getIntent(), se obtiene la lista de contactos ya cargados, y la lista de los
+     * contactos seleccionados en el anterior acceso.
+     */
     private void cargar_datos_intent(){
         Intent intent_recibido = getIntent();
 
@@ -272,6 +277,10 @@ public class ListaContactosActivity extends AppCompatActivity {
 
     // --- PETICIÓN DE PERMISOS PARA ACCEDER A LA LISTA DE CONTACTOS DEL TELÉFONO --- //
 
+    /**
+     * Este método comprueba si la aplicación tiene permisos garantizados, si es así
+     *
+     */
     public void requestPermissions(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
@@ -314,10 +323,25 @@ public class ListaContactosActivity extends AppCompatActivity {
     }
 }
 
+/**
+ * Clase que hereda de ArrayAdapter de tipo Contacto, que está destinada a actuar como modelo
+ * de datos de la listview o lista de contactos.
+ *
+ * Cada Item de la lista se infla sólo si no ha sido
+ * inflado antes. De esta manera reducimos el uso del procesador, debido a que los items ya creados
+ * anteriormente son guardados en memoria y mostrados mediante referencias, gracias al ViewHolder.
+ */
 class ContactosAdapter extends ArrayAdapter<Contacto> {
 
-    private Context contexto; // Atributo 'contexto' de tipo Context
-    private ArrayList<Contacto> contactos; // Atributo 'titulares' de tipo ArrayList
+    /**
+     * Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
+     */
+    private Context contexto;
+
+    /**
+     * Lista de contactos que recibe el adaptador por el constructor para
+     */
+    private ArrayList<Contacto> contactos;
 
     /**
      * Constructor de la clase TitularAdapter. Recibe un contexto(donde se va a implementar) y un ArrayList(que contiene la información de los datos que se van a mostrar)
@@ -347,7 +371,6 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
         // Siempre que exista algún layout que pueda ser reutilizado éste se va a recibir a través del parámetro convertView del método getView().
         // De esta forma, en los casos en que éste no sea null podremos obviar el trabajo de inflar el layout
         if (item == null) {
-
             LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             item = inflater.inflate(R.layout.layout_listview_listacontactos, null);
             item.setBackgroundColor(COLOR_DESELECCION);
@@ -357,8 +380,7 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
 
             item.setTag(holder);
         }
-        else
-        {
+        else{
             holder = (ViewHolder)item.getTag();
         }
 
@@ -369,7 +391,6 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
     }
 
     public class ViewHolder {
-
         TextView nombre;
         TextView datos;
     }
