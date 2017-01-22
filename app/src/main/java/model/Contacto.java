@@ -11,9 +11,9 @@ import java.util.Date;
  * Created by Mario on 06/01/2017.
  */
 
-public class Contacto implements Parcelable {
-    private Perfil perfil;
+public class Contacto implements Serializable {
 
+    private Perfil perfil;
     public Contacto(Perfil perfil){
         this.perfil = perfil;
     }
@@ -37,14 +37,15 @@ public class Contacto implements Parcelable {
         return this.perfil.getFecha_nacimiento();
     }
     public Perfil obtener_perfil(){
-        return this.perfil;
 
+        return this.perfil;
     }
 
-
+/*
     protected Contacto(Parcel in) {
         perfil = (Perfil) in.readValue(Perfil.class.getClassLoader());
     }
+
 
     @Override
     public int describeContents() {
@@ -68,4 +69,6 @@ public class Contacto implements Parcelable {
             return new Contacto[size];
         }
     };
+     */
+
 }

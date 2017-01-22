@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.islasf.samaelmario.vista.DialogoAlerta;
+import com.islasf.samaelmario.vista.FuncionalidadesComunes;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -132,36 +133,36 @@ public class AccesoDatos {
     //
 
 
-    public void establecer_contactos(ArrayList<Contacto> lista_contactos){
-        this.lista_contactos = lista_contactos;
-    }
-    public ArrayList<Contacto> obtener_contactos(){
-        return this.lista_contactos;
-    }
 
-    public void ejecutar_carga_contactos(DialogoAlerta dialogo, Activity actividad){
+
+
+    public void ejecutar_carga_contactos(DialogoAlerta dialogo, FuncionalidadesComunes funcionalidadesComunes){
         this.dialogo = dialogo;
-        this.actividad_dialogo = actividad;
+        this.actividad_dialogo = (Activity)funcionalidadesComunes;
+
+        lista_contactos = new ArrayList<Contacto>();
         CargaContactos carga = new CargaContactos();
-        carga.execute(actividad);
+        carga.execute(funcionalidadesComunes);
+
     }
 
 
-    class CargaContactos extends AsyncTask<Activity,Void,ArrayList<Contacto>> {
+    class CargaContactos extends AsyncTask<FuncionalidadesComunes,Void,ArrayList<Contacto>> {
+
+        private FuncionalidadesComunes funcionalidades_recibidas;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             if(dialogo!=null){
                 dialogo.show(actividad_dialogo.getFragmentManager(), "alerta_cargando_contactos");
             }
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<Contacto> contactos) {
             super.onPostExecute(contactos);
-            establecer_contactos(contactos);
-            Toast.makeText(contexto,"ee",Toast.LENGTH_SHORT).show();
+
+            funcionalidades_recibidas.onAsyncTask(contactos);
 
             if(dialogo!=null){
                 dialogo.dismiss();
@@ -169,9 +170,12 @@ public class AccesoDatos {
         }
 
         @Override
-        protected ArrayList<Contacto> doInBackground(Activity... params) {
-            lista_contactos = new ArrayList<Contacto>();
-            Activity actividad_llamante = params[0];
+        protected ArrayList<Contacto> doInBackground(FuncionalidadesComunes... params) {
+
+
+            Activity actividad_llamante = (Activity) params[0];
+            funcionalidades_recibidas = params[0];
+
             String ID_contacto;
             String nombre="", apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
             String[] splitNombre;
@@ -252,7 +256,7 @@ public class AccesoDatos {
                         ContactsContract.CommonDataKinds.Email.TYPE},ContactsContract.CommonDataKinds.Email.CONTACT_ID + "='" + ID_contacto + "'", null, null);
 
                 while(cursor_Email.moveToNext()){
-                    Log.i("ENFERMO",cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)));
+
                     email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
 
 

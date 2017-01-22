@@ -7,7 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+import model.AccesoDatos;
+import model.Constantes;
+import model.Contacto;
+
+public class MainActivity extends AppCompatActivity implements  FuncionalidadesComunes{
 /*
 TODO: los XML de Strings siempre ir haciéndolos conforme avanzan las activities.
 TODO: Puesto que hay que poner preferencias, vamos a poner que una de ellas sea poder modificar el tema. Por lo que hay que modificar también el XML de colores para crear los nuestros propios( al menos 4 temas en total).
@@ -33,6 +39,9 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
     Calendar cal = Calendar.getInstance();
     cal.setDate(Objeto de tipo Date);
      */
+
+    private ArrayList<Contacto> contactos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +49,11 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-        startActivity(new Intent(this,EnvioEmailActivity.class));
 
+
+        AccesoDatos acceso = new AccesoDatos(this);
+
+        acceso.ejecutar_carga_contactos(null,this);
 
     }
 
@@ -66,5 +78,19 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onAlerta(Object... objeto) {
+
+    }
+
+    @Override
+    public void onAsyncTask(Object... objeto) {
+        this.contactos = (ArrayList<Contacto>) objeto[0];
+
+        Intent intent = new Intent(this,EnvioEmailActivity.class);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
+        startActivity(intent);
     }
 }

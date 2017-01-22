@@ -38,6 +38,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     private String mensaje, asunto;
     private  AccesoDatos acceso;
 
+    ArrayList<Contacto> lista_contactos_recibida;
+    ArrayList<Contacto> lista_contactos_seleccionados_recibida;
+
 
 
     @Override
@@ -47,8 +50,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
         cargarComponentes();
 
-        this.lista_contactos = new ArrayList<Contacto>();
-        this.lista_contactos_seleccionados = new ArrayList<Contacto>();
+        cargar_intent();
+        lista_contactos_seleccionados = new ArrayList<Contacto>();
 
     }
 
@@ -100,7 +103,10 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         getSupportActionBar().setTitle("");
     }
 
-
+    private void cargar_intent(){
+        Intent intent = getIntent();
+        this.lista_contactos = (ArrayList<Contacto>) intent.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+    }
 
     /**
      *
@@ -144,13 +150,19 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
         return dialogo;
     }
+
+    @Override
+    public void onAsyncTask(Object... objeto){
+      //  this.lista_contactos = (ArrayList<Contacto>) objeto[0];
+    }
+
     @Override
     public void onAlerta(Object... objeto){
         int opcion = (int) objeto[0];
 
         switch(opcion){
             case 0:
-                iniciar_lista_contactos();
+                //iniciar_lista_contactos();
                 break;
             case 2:
                 if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
@@ -231,37 +243,29 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
 
 
-
-        acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
+        iniciar_lista_contactos();
+        //acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
     }
 
     private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
-        this.lista_contactos = this.acceso.obtener_contactos();
+       // this.lista_contactos = this.acceso.obtener_contactos();
 
-        intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
-        intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS, lista_contactos);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, lista_contactos_seleccionados);
 
         startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         //Leemos los datos del intent recibido de la actividad llamada.
-        if(requestCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
-            ArrayList<Contacto> lista_contactos_recibida = data.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
-            ArrayList<Contacto> lista_contactos_seleccionados_recibida = data.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+        if(resultCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
 
-
-            if(lista_contactos.size()!= lista_contactos_recibida.size()){
-                lista_contactos = lista_contactos_recibida;
-            }
-
-            if(lista_contactos_seleccionados.size()!= lista_contactos_seleccionados_recibida.size()){
-                lista_contactos_seleccionados = lista_contactos_seleccionados_recibida;
-            }
-
+           lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+           lista_contactos_seleccionados = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
 
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
@@ -270,11 +274,10 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
             String txt = "";
             for(int i=0;i<lista_contactos_seleccionados.size();i++){
-                txt+=lista_contactos_seleccionados.get(i).obtener_nombre() + " " + lista_contactos_seleccionados.get(i).obtener_apellidos() + " , ";
+                txt += lista_contactos_seleccionados.get(i).obtener_nombre() + " " + lista_contactos_seleccionados.get(i).obtener_apellidos() + " , ";
             }
             tv_ContactoSuperior.setText(txt);
         }
-
     }
 
     /**

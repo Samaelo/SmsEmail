@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,12 +34,13 @@ public class ListaContactosActivity extends AppCompatActivity {
     private ListView lvListaContactos;
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
-    private ArrayList<Contacto> lista_contactos, lista_contactos_seleccionados;
+    private ArrayList<Contacto> contactos;
+    private ArrayList<Contacto> contactos_seleccionados;
     private  int COLOR_SELECCION,COLOR_DESELECCION;
-    private ArrayList<LinearLayout> lista_layouts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contactos);
 
@@ -51,7 +53,6 @@ public class ListaContactosActivity extends AppCompatActivity {
         //Cargamos los componentes
         cargar_componentes();
 
-
     }
 
     /**
@@ -62,27 +63,10 @@ public class ListaContactosActivity extends AppCompatActivity {
     private void cargar_datos_intent(){
         Intent intent_recibido = getIntent();
 
-        lista_contactos = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
-        lista_contactos_seleccionados = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+        contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+        contactos_seleccionados = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
 
-    }
-
-    /**
-     * Método que selecciona los contactos ya seleccionados antes al haber cerrado la acticvidad para volver a abrirla.
-     * Cuando  el mensaje ha sido enviado, se pierden estos datos.
-     */
-    private void seleccionar_contactos(){
-
-        Contacto contacto_seleccionado;
-        if(!this.lista_contactos_seleccionados.isEmpty()){
-            for(int i=0;i<lista_contactos_seleccionados.size();i++){
-                contacto_seleccionado = lista_contactos_seleccionados.get(i);
-                if(contacto_seleccionado!=null){
-                    lista_layouts.get(i).setBackgroundColor(COLOR_DESELECCION);
-                }
-            }
-        }
     }
 
 
@@ -102,76 +86,72 @@ public class ListaContactosActivity extends AppCompatActivity {
      * @param v
      */
     public void onFabGuardarContacto(View v){
-        Intent intent_devuelto = new Intent();
-        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
-        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
-        setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
-        finish();
+        volver();
     }
 
     private void volver(){
-        Intent intent_devuelto = new Intent();
-        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
-        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
-        setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
 
+        Intent intent_devuelto = new Intent();
+        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,contactos_seleccionados);
+        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,contactos);
+        setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
 
         finish();
     }
 
     private void cargar_componentes(){
+
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
         aplicar_editable();
         COLOR_SELECCION = getResources().getColor(R.color.verde_claro,null);
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
 
-        seleccionar_contactos();
     }
 
     private void seleccionar_contacto(View view, int posicion, int listener){
+
         LinearLayout layout;
-        Contacto contacto_seleccionado = lista_contactos.get(posicion);
+        Contacto contacto_seleccionado = contactos.get(posicion);
 
         if(listener == 1){//onItemLongClickListener
             layout = (LinearLayout)view;
 
-
-            if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
-                lista_contactos_seleccionados.remove(contacto_seleccionado);
+            if(contactos_seleccionados.contains(contacto_seleccionado)){
+                contactos_seleccionados.remove(contacto_seleccionado);
                 layout.setBackgroundColor(COLOR_DESELECCION);
+                Toast.makeText(null,contacto_seleccionado + "", Toast.LENGTH_SHORT).show();
             }else{
-                lista_contactos_seleccionados.add(contacto_seleccionado);
+                contactos_seleccionados.add(contacto_seleccionado);
                 layout.setBackgroundColor(COLOR_SELECCION);
             }
         }else{//OnItemClickListener
-            if(!lista_contactos_seleccionados.isEmpty()){
+            if(!contactos_seleccionados.isEmpty()){
 
                 layout = (LinearLayout)view;
 
-                if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
-                    lista_contactos_seleccionados.remove(contacto_seleccionado);
+                if(contactos_seleccionados.contains(contacto_seleccionado)){
+                    contactos_seleccionados.remove(contacto_seleccionado);
                     layout.setBackgroundColor(COLOR_DESELECCION);
                 }else{
-                    lista_contactos_seleccionados.add(contacto_seleccionado);
+                    contactos_seleccionados.add(contacto_seleccionado);
                     layout.setBackgroundColor(COLOR_SELECCION);
                 }
             }else{
-                lista_contactos_seleccionados.add(contacto_seleccionado);
+                contactos_seleccionados.add(contacto_seleccionado);
                 volver();
             }
 
         }
 
-
-
     }
+
     public void crearListaDeContactos(){
 
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
-        ContactosAdapter adaptador = new ContactosAdapter(this, lista_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
-        this.lista_layouts = adaptador.obtener_lista_layouts();
+        ContactosAdapter adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+
 
         lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
@@ -238,94 +218,95 @@ public class ListaContactosActivity extends AppCompatActivity {
         }
     }
 
-}
 
-/**
- * Clase que hereda de ArrayAdapter de tipo Contacto, que está destinada a actuar como modelo
- * de datos de la listview o lista de contactos.
- *
- * Cada Item de la lista se infla sólo si no ha sido
- * inflado antes. De esta manera reducimos el uso del procesador, debido a que los items ya creados
- * anteriormente son guardados en memoria y mostrados mediante referencias, gracias al ViewHolder.
- */
-class ContactosAdapter extends ArrayAdapter<Contacto> {
 
     /**
-     * Lista de layouts que corresponden a cada uno de los items de la lista. Sirve para poder
-     * seleccionar los elementos de la lista que han sido seleccionados
+     * Clase que hereda de ArrayAdapter de tipo Contacto, que está destinada a actuar como modelo
+     * de datos de la listview o lista de contactos.
+     *
+     * Cada Item de la lista se infla sólo si no ha sido
+     * inflado antes. De esta manera reducimos el uso del procesador, debido a que los items ya creados
+     * anteriormente son guardados en memoria y mostrados mediante referencias, gracias al ViewHolder.
      */
-    private ArrayList<LinearLayout> lista_layouts;
+    class ContactosAdapter extends ArrayAdapter<Contacto> {
 
-    /**
-     * Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
-     */
-    private Context contexto;
+        /**
+         * Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
+         */
+        private Context contexto;
 
-    /**
-     * Lista de contactos que recibe el adaptador por el constructor para
-     */
-    private ArrayList<Contacto> contactos;
+        /**
+         * Lista de contactos que recibe el adaptador por el constructor para
+         */
+        private ArrayList<Contacto> contactos_adapter;
 
-    /**
-     * Constructor de la clase TitularAdapter. Recibe un contexto(donde se va a implementar) y un ArrayList(que contiene la información de los datos que se van a mostrar)
-     * @param contexto Hace referencia al contexto en el cual se va a implementar el TitularAdapter
-     * @param contactos Hace referencia al modelo de datos que recibe el TitularAdapter, que contiene la información que será mostrada en el ListView
-     */
-    public ContactosAdapter(Context contexto, ArrayList<Contacto> contactos) {
-
-
-        super(contexto, -1, contactos); // Llamamos al constructor del padre y le pasamos el contexto que queremos y el ArrayList
-        this.contactos = contactos;
-        this.contexto = contexto;
-        this.lista_layouts = new ArrayList<LinearLayout>();
-    }
-
-    /**
-     * Sobreescribimos el método getView para poder adaptar
-     * @param posicion
-     * @param convertView
-     * @param parent
-     * @return
-     */
-    @Override
-    public View getView(int posicion, View convertView, ViewGroup parent) {
-        final int COLOR_DESELECCION = Color.parseColor("#FAFAFA");
-        View item = convertView;
-        ViewHolder holder;
+        /**
+         * Constructor de la clase TitularAdapter. Recibe un contexto(donde se va a implementar) y un ArrayList(que contiene la información de los datos que se van a mostrar)
+         * @param contexto Hace referencia al contexto en el cual se va a implementar el TitularAdapter
+         * @param contactos_adapter Hace referencia al modelo de datos que recibe el TitularAdapter, que contiene la información que será mostrada en el ListView
+         */
+        public ContactosAdapter(Context contexto, ArrayList<Contacto> contactos_adapter) {
 
 
-        // Siempre que exista algún layout que pueda ser reutilizado éste se va a recibir a través del parámetro convertView del método getView().
-        // De esta forma, en los casos en que éste no sea null podremos obviar el trabajo de inflar el layout
-        if (item == null) {
-            LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            item = inflater.inflate(R.layout.layout_listview_listacontactos, null);
-            item.setBackgroundColor(COLOR_DESELECCION);
-            holder = new ViewHolder();
-            holder.nombre = (TextView)item.findViewById(R.id.tv_listView_Nombre);
-            holder.datos = (TextView)item.findViewById(R.id.tv_listView_Datos);
-
-            item.setTag(holder);
-        }
-        else{
-            holder = (ViewHolder)item.getTag();
+            super(contexto, -1, contactos_adapter); // Llamamos al constructor del padre y le pasamos el contexto que queremos y el ArrayList
+            this.contactos_adapter = contactos_adapter;
+            this.contexto = contexto;
         }
 
-        holder.nombre.setText(contactos.get(posicion).obtener_nombre() + " " + contactos.get(posicion).obtener_apellidos());
-        holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + " | " + contactos.get(posicion).obtener_correo());
+        /**
+         * Sobreescribimos el método getView para poder adaptar
+         * @param posicion
+         * @param convertView
+         * @param parent
+         * @return
+         */
+        @Override
+        public View getView(int posicion, View convertView, ViewGroup parent) {
 
-        this.lista_layouts.add((LinearLayout)item);
-        return item;
+            View item = convertView;
+            ViewHolder holder;
+
+            // Siempre que exista algún layout que pueda ser reutilizado éste se va a recibir a través del parámetro convertView del método getView().
+            // De esta forma, en los casos en que éste no sea null podremos obviar el trabajo de inflar el layout
+            if (item == null) {
+
+                LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                item = inflater.inflate(R.layout.layout_listview_listacontactos, null);
+
+                Toast.makeText(contexto, contactos_seleccionados + "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(contexto, contactos + "", Toast.LENGTH_SHORT).show();
+                if(contactos_seleccionados.contains(contactos.get(posicion))){
+
+                    item.setBackgroundColor(COLOR_SELECCION);
+                }else{
+                    item.setBackgroundColor(COLOR_DESELECCION);
+                }
+
+                holder = new ViewHolder();
+                holder.nombre = (TextView)item.findViewById(R.id.tv_listView_Nombre);
+                holder.datos = (TextView)item.findViewById(R.id.tv_listView_Datos);
+
+                item.setTag(holder);
+            }
+            else{
+                holder = (ViewHolder)item.getTag();
+            }
+
+            holder.nombre.setText(contactos_adapter.get(posicion).obtener_nombre() + " " + contactos_adapter.get(posicion).obtener_apellidos());
+            holder.datos.setText(contactos_adapter.get(posicion).obtener_tfno_movil() + " | " + contactos_adapter.get(posicion).obtener_correo());
+
+            return item;
+        }
+
+        public class ViewHolder {
+            TextView nombre;
+            TextView datos;
+        }
+
+
     }
 
-    public class ViewHolder {
-        TextView nombre;
-        TextView datos;
-    }
 
-    public ArrayList<LinearLayout> obtener_lista_layouts(){
-
-        return this.lista_layouts;
-    }
 }
 
 

@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by Mario on 04/01/2017.
  */
-public class Perfil implements Parcelable {
+public class Perfil implements Serializable {
     //
     private String nombre;
     private String apellidos;
@@ -75,6 +75,7 @@ public class Perfil implements Parcelable {
         return fecha_nacimiento;
     }
 
+    /*
     protected Perfil(Parcel in) {
         nombre = in.readString();
         apellidos = in.readString();
@@ -112,4 +113,6 @@ public class Perfil implements Parcelable {
             return new Perfil[size];
         }
     };
+
+    */
 }
