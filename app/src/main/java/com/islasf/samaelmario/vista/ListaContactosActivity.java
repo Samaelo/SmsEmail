@@ -4,11 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,16 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
-import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
-import model.Perfil;
 
 public class ListaContactosActivity extends AppCompatActivity {
 
@@ -43,6 +35,7 @@ public class ListaContactosActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
     private ArrayList<Contacto> lista_contactos, lista_contactos_seleccionados;
     private  int COLOR_SELECCION,COLOR_DESELECCION;
+    private ArrayList<LinearLayout> lista_layouts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +50,8 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         //Cargamos los componentes
         cargar_componentes();
+
+
     }
 
     /**
@@ -70,15 +65,27 @@ public class ListaContactosActivity extends AppCompatActivity {
         lista_contactos = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
         lista_contactos_seleccionados = intent_recibido.getParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
+
     }
 
     /**
      * Método que selecciona los contactos ya seleccionados antes al haber cerrado la acticvidad para volver a abrirla.
-     * Cuando  el mensaje ha sido enviado, se pierden éstos datos.
+     * Cuando  el mensaje ha sido enviado, se pierden estos datos.
      */
     private void seleccionar_contactos(){
 
+        Contacto contacto_seleccionado;
+        if(!this.lista_contactos_seleccionados.isEmpty()){
+            for(int i=0;i<lista_contactos_seleccionados.size();i++){
+                contacto_seleccionado = lista_contactos_seleccionados.get(i);
+                if(contacto_seleccionado!=null){
+                    lista_layouts.get(i).setBackgroundColor(COLOR_DESELECCION);
+                }
+            }
+        }
     }
+
+
     private void aplicar_editable(){
 
         if(!lista_editable){//Si no es editable, la pantalla irá destinada a escoger un
@@ -102,163 +109,45 @@ public class ListaContactosActivity extends AppCompatActivity {
         finish();
     }
 
+    private void volver(){
+        Intent intent_devuelto = new Intent();
+        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
+        intent_devuelto.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
+        setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
+
+
+        finish();
+    }
+
     private void cargar_componentes(){
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
         aplicar_editable();
         COLOR_SELECCION = getResources().getColor(R.color.verde_claro,null);
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
+
+        seleccionar_contactos();
     }
 
-    private ArrayList<Contacto> cargarAgenda(){
-        AccesoDatos acceso = new AccesoDatos(this);
-        ArrayList<Contacto> lista_contactos = new ArrayList<Contacto>();
-        String ID_contacto;
-        String nombre="", apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
-        String[] splitNombre;
-        Date fecha_nacimiento = null;
-        boolean salir=false;
-        Cursor posicionContacto = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
+    private void seleccionar_contacto(View view, int posicion, int listener){
+        LinearLayout layout;
+        Contacto contacto_seleccionado = lista_contactos.get(posicion);
 
-        while(posicionContacto.moveToNext()){
+        if(listener == 1){//onItemLongClickListener
+            layout = (LinearLayout)view;
 
-            ID_contacto = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts._ID));
-            apellidos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE));
-            telefonos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-            Cursor cursor_fecha = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, null, null, null);
-            if (cursor_fecha.getCount() > 0) {
-                while (cursor_fecha.moveToNext() && salir == false) {
-                    fecha_contacto = cursor_fecha.getString(cursor_fecha.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
-                    if(fecha_contacto!=null && fecha_contacto.matches("dd/MM/yyyy")){
-                        Toast.makeText(this,fecha_contacto,Toast.LENGTH_SHORT).show();
-                        salir = true;
-                    }
-                }
-                cursor_fecha.close();
+
+            if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
+                lista_contactos_seleccionados.remove(contacto_seleccionado);
+                layout.setBackgroundColor(COLOR_DESELECCION);
+            }else{
+                lista_contactos_seleccionados.add(contacto_seleccionado);
+                layout.setBackgroundColor(COLOR_SELECCION);
             }
+        }else{//OnItemClickListener
+            if(!lista_contactos_seleccionados.isEmpty()){
 
-
-            // Para obtener la fecha de nacimiento, debemos hacer un SimpleDateFormat
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/mm/yyyy"); // 2º Con la clase SimpleDateFormat creamos el formato de la fecha que deseemos, en nuestro caso -> dia/mes/año
-
-            if(fecha_contacto!=null && !fecha_contacto.matches("dd/MM/yyyy")) {
-
-                fecha_nacimiento = null;
-            }
-
-            else{
-
-                try {
-                    fecha_nacimiento = formatoDeFecha.parse(fecha_contacto);
-                }
-                catch (ParseException e) {
-                    /* Como siempre se va a comprobar primero si la fecha que obtenemos de la constante START_DATE es correcto, esta excepción nunca se va a generar, ya que el compilador sólo entraría en
-                       esta sección, si intentase parsear algo que no fuese del formato ' dd/MM/yyyy ' */
-                }catch(Exception e){
-
-                }
-            }
-
-            if(Integer.parseInt(telefonos) == 1){
-
-                Cursor cursor_Telefono = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "='"+ ID_contacto +"'",null, null);
-
-                while(cursor_Telefono.moveToNext()){
-
-                    String tipo_numero = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-
-                    switch(Integer.parseInt(tipo_numero)){
-
-                        // Insertamos switch cases para manejar todos los tipos de números de teléfono.
-
-                        case ContactsContract.CommonDataKinds.Phone.TYPE_HOME :
-                            telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            break;
-
-                        case ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE :
-                            telefonoMovil = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            break;
-
-                        default:
-                            telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            break;
-                    }
-
-                }
-                cursor_Telefono.close();
-            }
-            else{
-                telefonoFijo = "";
-                telefonoMovil = "";
-            }
-
-            Cursor cursor_Email = this.getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,new String[]{ ContactsContract.CommonDataKinds.Email.DATA,
-                    ContactsContract.CommonDataKinds.Email.TYPE},ContactsContract.CommonDataKinds.Email.CONTACT_ID + "='" + ID_contacto + "'", null, null);
-
-            while(cursor_Email.moveToNext()){
-
-                email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
-
-
-            }
-            cursor_Email.close();
-
-            /* Añadimos un contacto a la lista de contactos. Para ello creamos un Contacto, cuyo Perfil que recibe en su constructor, está compuesto por los atributos que hemos obtenidos consultando los datos
-               de dicho contacto en la agenda del teléfono */
-            if(apellidos!=null){
-                splitNombre = apellidos.split(",");
-                if(splitNombre.length>1){
-                    apellidos = splitNombre[0];
-                    nombre = splitNombre[1];
-                }
-            }
-
-            lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
-
-        }
-
-        posicionContacto.close();
-
-        return lista_contactos;
-    } // Fin de cargarAgenda()
-
-    public void crearListaDeContactos(){
-
-        lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
-
-        lista_contactos = cargarAgenda(); // Creamos un ArrayList denominado 'lista_contactos' de tipo Titular (hace referencia a la clase 'Titular'
-
-        ContactosAdapter adaptador = new ContactosAdapter(this, lista_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
-
-        lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
-
-        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int posicion, long id) {
-                LinearLayout layout;
-                Contacto contacto_seleccionado;
-
-                if(!lista_contactos_seleccionados.isEmpty()){
-                    layout = (LinearLayout)view;
-                    contacto_seleccionado = lista_contactos.get(posicion);
-
-                    if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
-                        lista_contactos_seleccionados.remove(contacto_seleccionado);
-                        layout.setBackgroundColor(COLOR_DESELECCION);
-                    }else{
-                        lista_contactos_seleccionados.add(contacto_seleccionado);
-                        layout.setBackgroundColor(COLOR_SELECCION);
-                    }
-                }
-
-            }
-        });
-        lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int posicion, long id) {
-                LinearLayout layout = (LinearLayout)view;
-                Contacto contacto_seleccionado = lista_contactos.get(posicion);
+                layout = (LinearLayout)view;
 
                 if(lista_contactos_seleccionados.contains(contacto_seleccionado)){
                     lista_contactos_seleccionados.remove(contacto_seleccionado);
@@ -266,9 +155,37 @@ public class ListaContactosActivity extends AppCompatActivity {
                 }else{
                     lista_contactos_seleccionados.add(contacto_seleccionado);
                     layout.setBackgroundColor(COLOR_SELECCION);
-
                 }
+            }else{
+                lista_contactos_seleccionados.add(contacto_seleccionado);
+                volver();
+            }
 
+        }
+
+
+
+    }
+    public void crearListaDeContactos(){
+
+        lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
+
+        ContactosAdapter adaptador = new ContactosAdapter(this, lista_contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+        this.lista_layouts = adaptador.obtener_lista_layouts();
+
+        lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
+
+        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int posicion, long id) {
+                seleccionar_contacto(view,posicion,0);
+            }
+        });
+        lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int posicion, long id) {
+                seleccionar_contacto(view,posicion,1);
                 return true;
             }
         });
@@ -303,7 +220,6 @@ public class ListaContactosActivity extends AppCompatActivity {
             inflater.inflate(R.menu.menu,menu);
         }
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -321,6 +237,7 @@ public class ListaContactosActivity extends AppCompatActivity {
             }
         }
     }
+
 }
 
 /**
@@ -332,6 +249,12 @@ public class ListaContactosActivity extends AppCompatActivity {
  * anteriormente son guardados en memoria y mostrados mediante referencias, gracias al ViewHolder.
  */
 class ContactosAdapter extends ArrayAdapter<Contacto> {
+
+    /**
+     * Lista de layouts que corresponden a cada uno de los items de la lista. Sirve para poder
+     * seleccionar los elementos de la lista que han sido seleccionados
+     */
+    private ArrayList<LinearLayout> lista_layouts;
 
     /**
      * Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
@@ -350,9 +273,11 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
      */
     public ContactosAdapter(Context contexto, ArrayList<Contacto> contactos) {
 
+
         super(contexto, -1, contactos); // Llamamos al constructor del padre y le pasamos el contexto que queremos y el ArrayList
         this.contactos = contactos;
         this.contexto = contexto;
+        this.lista_layouts = new ArrayList<LinearLayout>();
     }
 
     /**
@@ -367,6 +292,7 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
         final int COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         View item = convertView;
         ViewHolder holder;
+
 
         // Siempre que exista algún layout que pueda ser reutilizado éste se va a recibir a través del parámetro convertView del método getView().
         // De esta forma, en los casos en que éste no sea null podremos obviar el trabajo de inflar el layout
@@ -387,12 +313,18 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
         holder.nombre.setText(contactos.get(posicion).obtener_nombre() + " " + contactos.get(posicion).obtener_apellidos());
         holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + " | " + contactos.get(posicion).obtener_correo());
 
+        this.lista_layouts.add((LinearLayout)item);
         return item;
     }
 
     public class ViewHolder {
         TextView nombre;
         TextView datos;
+    }
+
+    public ArrayList<LinearLayout> obtener_lista_layouts(){
+
+        return this.lista_layouts;
     }
 }
 

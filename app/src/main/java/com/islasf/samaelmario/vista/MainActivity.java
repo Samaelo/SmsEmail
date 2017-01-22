@@ -21,6 +21,8 @@ TODO: Operación de cargar contactos en AsyncTask
 TODO: Operación de cargar mensajes en AsyncTask
 TODO: No mostrar usuarios que tengan mail no válido( en la lista de elección de contactos de envío de email)
 TODO: No mostrar usuarios que tengan un teléfono no válido (en la lista de elección de contactos de envio de SMS)
+TODO: Indicar en al how-to que hemos hecho el campo de direcciones de mail multivalor por comodidad, que somos conscientes de que habría que crear una tabla, pero lo importante de ésto es aprender android.
+TODO:
 
 java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.util.ArrayList.isEmpty()' on a null object reference
                       at com.islasf.samaelmario.vista.ListaContactosActivity$1.onItemClick(ListaContactosActivity.java:237)
@@ -51,6 +53,10 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
+
+    }
+
+    private void cargar_contactos(){
 
     }
 

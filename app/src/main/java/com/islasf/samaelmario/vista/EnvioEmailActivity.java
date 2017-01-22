@@ -24,7 +24,7 @@ import model.Constantes;
 import model.Contacto;
 import model.EnvioMensajes;
 
-public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
+public class EnvioEmailActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
     private ArrayList<Contacto>  lista_contactos,lista_contactos_seleccionados;
     private EnvioMensajes envioMensajes;
@@ -36,6 +36,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
 
     private String [] toDestinatarios, ccRemitente;
     private String mensaje, asunto;
+    private  AccesoDatos acceso;
 
 
 
@@ -81,6 +82,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
         tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
         fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
         boton = (Button)findViewById(R.id.button);
+
+        acceso = new AccesoDatos(this);
     }
 
     /**
@@ -215,8 +218,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
         finish();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -229,13 +230,14 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
     public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
 
-        AccesoDatos acceso = new AccesoDatos(this);
+
 
         acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
     }
 
     private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
+        this.lista_contactos = this.acceso.obtener_contactos();
 
         intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.lista_contactos);
         intent.putParcelableArrayListExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,this.lista_contactos_seleccionados);
@@ -264,8 +266,13 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta {
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
 
-            String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
-            tv_ContactoSuperior.setText(textoContacto);
+            //String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
+
+            String txt = "";
+            for(int i=0;i<lista_contactos_seleccionados.size();i++){
+                txt+=lista_contactos_seleccionados.get(i).obtener_nombre() + " " + lista_contactos_seleccionados.get(i).obtener_apellidos() + " , ";
+            }
+            tv_ContactoSuperior.setText(txt);
         }
 
     }

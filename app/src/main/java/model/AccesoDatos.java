@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.islasf.samaelmario.vista.DialogoAlerta;
@@ -124,6 +125,8 @@ public class AccesoDatos {
 
         return cursor;
     }
+
+
     //
     //  Acceso a los contactos
     //
@@ -144,11 +147,14 @@ public class AccesoDatos {
     }
 
 
-    class CargaContactos extends AsyncTask<Activity,String,ArrayList<Contacto>> {
+    class CargaContactos extends AsyncTask<Activity,Void,ArrayList<Contacto>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialogo.show(actividad_dialogo.getFragmentManager(), "alerta_cargando_contactos");
+            if(dialogo!=null){
+                dialogo.show(actividad_dialogo.getFragmentManager(), "alerta_cargando_contactos");
+            }
+
         }
 
         @Override
@@ -156,13 +162,16 @@ public class AccesoDatos {
             super.onPostExecute(contactos);
             establecer_contactos(contactos);
             Toast.makeText(contexto,"ee",Toast.LENGTH_SHORT).show();
-            dialogo.dismiss();
 
+            if(dialogo!=null){
+                dialogo.dismiss();
+            }
         }
 
         @Override
         protected ArrayList<Contacto> doInBackground(Activity... params) {
             lista_contactos = new ArrayList<Contacto>();
+            Activity actividad_llamante = params[0];
             String ID_contacto;
             String nombre="", apellidos = "", telefonos, telefonoFijo = "",  telefonoMovil = "", email = "",  fecha_contacto="";
             String[] splitNombre;
@@ -175,7 +184,8 @@ public class AccesoDatos {
                 ID_contacto = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts._ID));
                 apellidos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE));
                 telefonos = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-                Cursor cursor_fecha = params[0].getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, null, null, null);
+                Cursor cursor_fecha = actividad_llamante.getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, null, null, null);
+
                 if (cursor_fecha.getCount() > 0) {
                     while (cursor_fecha.moveToNext() && salir == false) {
                         fecha_contacto = cursor_fecha.getString(cursor_fecha.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE));
@@ -207,7 +217,7 @@ public class AccesoDatos {
 
                 if(Integer.parseInt(telefonos) == 1){
 
-                    Cursor cursor_Telefono = params[0].getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "='"+ ID_contacto +"'",null, null);
+                    Cursor cursor_Telefono = actividad_llamante.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "='"+ ID_contacto +"'",null, null);
 
                     while(cursor_Telefono.moveToNext()){
 
@@ -238,11 +248,11 @@ public class AccesoDatos {
                     telefonoMovil = "";
                 }
 
-                Cursor cursor_Email = params[0].getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,new String[]{ ContactsContract.CommonDataKinds.Email.DATA,
+                Cursor cursor_Email = actividad_llamante.getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,new String[]{ ContactsContract.CommonDataKinds.Email.DATA,
                         ContactsContract.CommonDataKinds.Email.TYPE},ContactsContract.CommonDataKinds.Email.CONTACT_ID + "='" + ID_contacto + "'", null, null);
 
                 while(cursor_Email.moveToNext()){
-
+                    Log.i("ENFERMO",cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS)));
                     email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
 
 
@@ -259,11 +269,17 @@ public class AccesoDatos {
                     }
                 }
 
+
                 lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
+                nombre = ""; apellidos =""; telefonoFijo = ""; telefonoMovil = ""; email = ""; fecha_nacimiento=null;
+
+
             }
 
             posicionContacto.close();
             return lista_contactos;
         }
     }
+
+
 }

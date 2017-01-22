@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/grupo_preferencias_permisos">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:title="@string/checkbox_permitirSMS"
+            android:key="checkbox_permisos_SMS"
+            android:summary="@string/checkbox_permitirContactos" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:title="@string/checkbox_permitirContactos"
+            android:key="checkbox_permisos_contactos" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Preference category">
+
+        <MultiSelectListPreference
+            android:title="Multi select list preference"
+            android:defaultValue="@android:array/emailAddressTypes"
+            android:entries="@android:array/emailAddressTypes"
+            android:entryValues="@android:array/emailAddressTypes"
+            android:key="multi_select_list_preference_1" />
+    </PreferenceCategory>
+</PreferenceScreen>

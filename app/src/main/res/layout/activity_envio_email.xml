@@ -15,6 +15,20 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:id="@+id/fabSeleccionarContacto"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="onSeleccionar_Contacto"
+
+        android:layout_marginTop="100sp"
+        android:layout_marginStart="140sp" />
+
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEnviarMail"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -22,6 +36,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_send"
         app:backgroundTint="@android:color/holo_green_light"
+        app:fabSize="mini"
         android:onClick="onEnviarMail"/>
 
     <android.support.design.widget.FloatingActionButton
@@ -32,23 +47,8 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
         app:backgroundTint="@color/rojo_oscuro"
-        android:onClick="onCancelar"/>
-
-    <include layout="@layout/content_envio_email"
-        android:id="@+id/include" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:clickable="true"
         app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        android:id="@+id/fabSeleccionarContacto"
-        app:layout_anchorGravity="top|center_horizontal"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        android:onClick="onSeleccionar_Contacto"
-        tools:layout_gravity="top|center"
-        android:layout_marginTop="80dp" />
+        android:onClick="onCancelar"/>
 
     <Button
         android:text="Button"
@@ -58,6 +58,7 @@
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="center_vertical|right"
         android:layout_gravity="top|left"
+        app:fabSize="mini"
         android:onClick="a"/>
 
     <android.support.v7.widget.Toolbar
@@ -66,5 +67,9 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <include layout="@layout/content_envio_email"
+        android:id="@+id/include" />
+
 
 </android.support.design.widget.CoordinatorLayout>
