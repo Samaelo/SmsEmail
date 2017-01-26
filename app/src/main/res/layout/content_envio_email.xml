@@ -15,28 +15,6 @@
 
     <EditText
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/et_Remitente"
-        android:hint="@string/remitente"
-        android:layout_marginEnd="23dp"
-        android:layout_alignBaseline="@+id/tv_De"
-        android:layout_alignBottom="@+id/tv_De"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/et_Asunto"
-        android:layout_alignBaseline="@+id/tv_Asunto"
-        android:layout_alignBottom="@+id/tv_Asunto"
-        android:layout_alignStart="@+id/et_Destinatarios" />
-
-    <EditText
-        android:layout_width="wrap_content"
         android:ems="10"
         android:id="@+id/et_TextoEmail"
         android:background="@color/verde_muy_claro"
@@ -72,20 +50,17 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_Asunto"
         android:layout_above="@+id/et_TextoEmail"
         android:layout_toEndOf="@+id/tv_Asunto"
-        android:layout_marginBottom="11dp" />
+        android:layout_marginBottom="11dp"
+        android:inputType="textEmailSubject" />
 
     <TextView
-        android:text="@string/para"
+        android:text="@string/aseunto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_Para"
-        android:textSize="24sp"
-        android:layout_centerVertical="true" />
         android:id="@+id/tv_Asunto"
         android:textSize="18sp"
         android:layout_alignBaseline="@+id/et_Asunto"
@@ -95,7 +70,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/et_Destinatarios"
         android:hint="@string/destinatario"
@@ -123,7 +98,6 @@
         android:layout_alignStart="@+id/et_Destinatarios" />
 
     <TextView
-        android:text="@string/aseunto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"

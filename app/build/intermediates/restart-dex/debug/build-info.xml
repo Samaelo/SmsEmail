@@ -5,29 +5,29 @@
     density="xhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="1131898508838801"
+    timestamp="1139639714009327"
     token="9114537365156845911"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="10098" />
+        duration="1958" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="2061" />
+        duration="1322" />
     <task
         name="verifier"
-        duration="310" />
+        duration="361" />
 
     <artifact
         location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\outputs\apk\app-debug.apk"
         type="MAIN" />
 
     <build
-        timestamp="1131898508838801"
+        timestamp="1139639714009327"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\outputs\apk\app-debug.apk"

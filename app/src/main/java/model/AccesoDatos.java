@@ -1,38 +1,25 @@
 package model;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.text.DateTimePatternGenerator;
-import android.util.Log;
-import android.widget.Toast;
-
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.islasf.samaelmario.vista.DialogoAlerta;
 import com.islasf.samaelmario.vista.FuncionalidadesComunes;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  * Created by Mario on 07/01/2017.
  */
 
 public class AccesoDatos {
-
-    private Context contexto;
     private ArrayList<Contacto> lista_contactos;
 
     private DialogoAlerta dialogo;

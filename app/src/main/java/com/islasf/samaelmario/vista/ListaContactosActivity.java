@@ -43,6 +43,7 @@ import model.Perfil;
 
 public class ListaContactosActivity extends AppCompatActivity {
 
+
     private  FloatingActionButton fabAgregarContacto;
     private ListView lvListaContactos;
     boolean lista_editable;
@@ -73,7 +74,6 @@ public class ListaContactosActivity extends AppCompatActivity {
         //Cargamos los componentes
         cargar_componentes();
 
-        listadoDeContactos = new ContactosAdapter(this, cargarAgenda());
         iconoEmails = findViewById(R.id.item_Mostrar_Emails);
 
         seleccionar_contactos();
@@ -86,17 +86,6 @@ public class ListaContactosActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
-     * @param menu Objeto de la clase Menu
-     * @return Retorna true si se puede crear el menú
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
     /**
      * Método encargado de cargar los datos recibidos de la actividad que invoca a ésta. Mediante
@@ -309,21 +298,7 @@ public class ListaContactosActivity extends AppCompatActivity {
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
 
 
-        /*
-        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int posicion, long id) {
-                seleccionar_contacto(view,posicion,0);
-            }
-        });
-        lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int posicion, long id) {
-                seleccionar_contacto(view,posicion,1);
-                return true;
-            }
-        });
-        */
+
 
     }
 
@@ -353,6 +328,13 @@ public class ListaContactosActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -378,8 +360,6 @@ public class ListaContactosActivity extends AppCompatActivity {
             }
         }
     }
-}
-
 
 
     /**
@@ -472,6 +452,9 @@ public class ListaContactosActivity extends AppCompatActivity {
 
 
 }
+
+
+
 
 
 

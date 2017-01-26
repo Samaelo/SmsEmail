@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import model.AccesoDatos;
@@ -24,7 +26,7 @@ import model.EnvioMensajes;
 
 public class EnvioEmailActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
-    private ArrayList<Contacto>  lista_contactos;
+    private ArrayList<Contacto> lista_contactos;
     private ArrayList<Integer> contactos_seleccionados;
     private EnvioMensajes envioMensajes;
     private Contacto contacto_seleccionado;
@@ -70,6 +72,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
      * Se invoca en el onCreate de la actividad.
      */
     public void cargarComponentes(){
+
         cargarActionBar();
 
         et_Remitente = (EditText)findViewById(R.id.et_Remitente);
@@ -79,7 +82,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
         fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
 
-        acceso = new AccesoDatos(this);
+        accesoDatos = new AccesoDatos(this);
     }
 
     /**
@@ -137,6 +140,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         }
     }
 
+
     public DialogoAlerta mostrar_dialogo(int opcion,String[] opciones, String mensaje, String titulo){
         DialogoAlerta dialogo = new DialogoAlerta();
         dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
@@ -152,104 +156,77 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     public void onAlerta(Object... objeto){
         int opcion = (int) objeto[0];
 
-        if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2){
+        if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2) {
             Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        switch(opcion){
-            case 0:
-                //iniciar_lista_contactos();
-                break;
-            case 2:
-                if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
-                    Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                }
-                break;
-            case 50:
-                String[] opciones = {"Aceptar"};
-                mostrar_dialogo(1,opciones,"Por favor, espere a que se carguen todos los contactos...","Cargando");
-                break;
+            switch (opcion) {
+                case 0:
+                    //iniciar_lista_contactos();
+                    break;
+                case 2:
+                    if (envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false) {
+                        Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }
+                    break;
+                case 50:
+                    String[] opciones = {"Aceptar"};
+                    mostrar_dialogo(1, opciones, "Por favor, espere a que se carguen todos los contactos...", "Cargando");
+                    break;
+            }
         }
-
     }
 
-    public String[] recogerEmails(String textoDestinatarios) throws Exception {
+    private String[] recogerEmails(String textoDestinatarios) throws Exception {
 
-        String[] emails;
+            String[] emails;
 
-        String patronEmail = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$";
+            String patronEmail = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$";
 
-        if(textoDestinatarios.contains(",")){
+            if (textoDestinatarios.contains(",")) {
 
-            StringTokenizer tokenizador = new StringTokenizer(textoDestinatarios, ",");
+                StringTokenizer tokenizador = new StringTokenizer(textoDestinatarios, ",");
 
-            int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
+                int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
 
-            emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
+                emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
+
+                /**
+                 * Rellenamos el array con los emails de los campos de texto.
+                 */
+                // Mientras haya tokens después de un serparador por ","
+
+                for (int i = 0; i < numeroEmails; i++) { // Para la longitud del array
+
+                    String email = tokenizador.nextToken();
+
+                    if (email.matches(patronEmail)) {
+
+                        emails[i] = email; // La posición del email será igual a la posición del token
+                    } else throw new Exception();
+                }
+
+            } else if (textoDestinatarios.matches(patronEmail)) {
+
+                emails = new String[1];
+                emails[0] = textoDestinatarios;
+
+            } else throw new Exception("Alguno de los emails no cumple un patrón correcto");
 
             /**
-             * Rellenamos el array con los emails de los campos de texto.
+             * Rellenamos el array con los emails de los contactos que han sido seleccionados
+             * en caso de que no haya habido un error.
              */
-            // Mientras haya tokens después de un serparador por ","
+            for (int i = emails.length; i < contactos_seleccionados.size(); i++) {
+                emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
 
-            for(int i = 0; i < numeroEmails; i++){ // Para la longitud del array
-
-                String email = tokenizador.nextToken();
-
-                if(email.matches(patronEmail)){
-
-                    emails[i] = email; // La posición del email será igual a la posición del token
-                }
-                else throw new Exception();
             }
 
+            return emails;
         }
-        else if(textoDestinatarios.matches(patronEmail)){
 
-            emails = new String[1];
-            emails[0] = textoDestinatarios;
-        }
-        else throw new Exception("Alguno de los emails no cumple un patrón correcto");
-
-        /**
-         * Rellenamos el array con los emails de los contactos que han sido seleccionados
-         * en caso de que no haya habido un error.
-         */
-        for(int i = emails.length; i< contactos_seleccionados.size(); i++){
-            emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
-
-        }
-         return emails;
-    }
 
 
     public void onCancelar(View v){
         finish();
-    }
-
-    public void limpiarTextos(){
-
-        et_Remitente.setText("");
-        et_Destinatarios.setText("");
-    }
-
-    public void cargarComponentes(){
-
-        et_Remitente = (EditText)findViewById(R.id.et_Remitente);
-        et_Destinatarios = (EditText)findViewById(R.id.et_Destinatarios);
-        et_Asunto = (EditText)findViewById(R.id.et_Asunto);
-        et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
-        tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
-        fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
-    }
-
-    public void cargarActionBar(){
-
-        Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbEnvioEmail);
-        setSupportActionBar(toolbarEmail);
-
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_launcher);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setTitle("");
     }
 
     @Override
