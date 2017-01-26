@@ -40,6 +40,8 @@ public class PerfilActivity extends AppCompatActivity {
 
     }
 
+
+
     private void obtener_datos_intent(){
         //ESTE PERFIL SE RECIBE MEDIANTE UNA BÚSQUEDA EN LA BBDD EN RELACIÓN AL PERFIL SELECCIONADO
         Intent intent = getIntent();
@@ -50,7 +52,7 @@ public class PerfilActivity extends AppCompatActivity {
         contacto_antiguo =  (Contacto) intent.getSerializableExtra("CONTACTO");
         perfil_nuevo = new Perfil();
 
-        contacto_nuevo = new Contacto(perfil_nuevo);
+        //contacto_nuevo = new Contacto(perfil_nuevo);
     }
     public void onEditar(View v){
         if(edicion == true){

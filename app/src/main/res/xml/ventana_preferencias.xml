@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/grupo_preferencias_permisos">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/checkbox_permitirSMS"
+            android:key="switch_preferenciasSMS"/>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/checkbox_permitirContactos"
+            android:key="switch_preferenciasContactos"
+            android:summary="@string/checkbox_summary_permitirContactos" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Preference category">
+
+    </PreferenceCategory>
+</PreferenceScreen>

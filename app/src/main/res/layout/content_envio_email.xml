@@ -15,6 +15,28 @@
 
     <EditText
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_Remitente"
+        android:hint="@string/remitente"
+        android:layout_marginEnd="23dp"
+        android:layout_alignBaseline="@+id/tv_De"
+        android:layout_alignBottom="@+id/tv_De"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_Asunto"
+        android:layout_alignBaseline="@+id/tv_Asunto"
+        android:layout_alignBottom="@+id/tv_Asunto"
+        android:layout_alignStart="@+id/et_Destinatarios" />
+
+    <EditText
+        android:layout_width="wrap_content"
         android:ems="10"
         android:id="@+id/et_TextoEmail"
         android:background="@color/verde_muy_claro"
@@ -28,22 +50,13 @@
         android:enabled="true" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="29dp"
-        android:id="@+id/tv_InformacionContactos"
-        android:text="@string/informacionContactos"
-        android:layout_above="@+id/et_Remitente"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:text="@string/seleccionarContacto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_ContactoSuperior"
         android:textStyle="normal|italic"
-        android:layout_marginBottom="55dp"
-        android:layout_above="@+id/tv_InformacionContactos"
+        android:layout_marginTop="54dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -51,47 +64,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_De"
-        android:textSize="24sp"
-        android:layout_above="@+id/et_Destinatarios"
-        android:layout_alignEnd="@+id/tv_Para" />
-
-    <TextView
-        android:text="@string/para"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_Para"
-        android:textSize="24sp"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/tv_Asunto" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/et_Remitente"
-        android:hint="@string/remitente"
-        android:layout_marginEnd="24dp"
-        android:layout_above="@+id/tv_Para"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/et_Destinatarios"
-        android:hint="@string/destinatario"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/et_Remitente" />
-
-    <TextView
-        android:text="@string/aseunto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_Asunto"
-        android:textSize="24sp"
-        android:layout_below="@+id/et_Destinatarios"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/et_Remitente"
+        android:layout_alignBottom="@+id/et_Remitente"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -100,7 +75,61 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_Asunto"
-        android:layout_alignBottom="@+id/tv_Asunto"
+        android:layout_above="@+id/et_TextoEmail"
+        android:layout_toEndOf="@+id/tv_Asunto"
+        android:layout_marginBottom="11dp" />
+
+    <TextView
+        android:text="@string/para"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_Para"
+        android:textSize="24sp"
+        android:layout_centerVertical="true" />
+        android:id="@+id/tv_Asunto"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/et_Asunto"
+        android:layout_alignBottom="@+id/et_Asunto"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_Destinatarios"
+        android:hint="@string/destinatario"
+        android:layout_above="@+id/et_Asunto"
+        android:layout_alignStart="@+id/et_Asunto" />
+
+    <TextView
+        android:text="@string/para"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_Para"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/et_Destinatarios"
+        android:layout_alignBottom="@+id/et_Destinatarios"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_Remitente"
+        android:hint="@string/remitente"
+        android:layout_above="@+id/et_Destinatarios"
         android:layout_alignStart="@+id/et_Destinatarios" />
+
+    <TextView
+        android:text="@string/aseunto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:id="@+id/tv_InformacionContactos"
+        android:text="@string/informacionContactos"
+        android:layout_above="@+id/et_Remitente"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

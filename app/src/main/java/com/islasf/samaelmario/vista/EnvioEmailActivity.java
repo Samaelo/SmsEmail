@@ -18,11 +18,14 @@ import android.widget.Toast;
 import java.util.StringTokenizer;
 
 import model.AccesoDatos;
+import model.Constantes;
 import model.Contacto;
 import model.EnvioMensajes;
 
-public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
+public class EnvioEmailActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
+    private ArrayList<Contacto>  lista_contactos;
+    private ArrayList<Integer> contactos_seleccionados;
     private EnvioMensajes envioMensajes;
     private Contacto contacto_seleccionado;
     private EditText et_Remitente, et_Destinatarios, et_Asunto, et_TextoEmail;
@@ -40,11 +43,65 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         setContentView(R.layout.activity_envio_email);
 
         cargarComponentes();
-        cargarActionBar();
+
+        cargar_intent();
+        contactos_seleccionados = new ArrayList<Integer>();
 
     }
 
-    public void onEnviar(View v){
+    //////////////////////////////////
+    //      Carga de elementos      //
+    //////////////////////////////////
+
+    /**
+     *Método encargado de vaciar los campos de texto de la actividad.
+     */
+    public void limpiarTextos(){
+
+        et_Remitente.setText("");
+        et_Destinatarios.setText("");
+    }
+
+    /**
+     * Carga los distintos componentes gráficos que se van a usar programáticamente a lo largo de
+     * la vida de la actividad. Tiene como finalidad realizar el menor número de accesos a los
+     * recursos de la aplicación  para el menor consumo de batería.
+     *
+     * Se invoca en el onCreate de la actividad.
+     */
+    public void cargarComponentes(){
+        cargarActionBar();
+
+        et_Remitente = (EditText)findViewById(R.id.et_Remitente);
+        et_Destinatarios = (EditText)findViewById(R.id.et_Destinatarios);
+        et_Asunto = (EditText)findViewById(R.id.et_Asunto);
+        et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
+        tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
+        fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
+
+        acceso = new AccesoDatos(this);
+    }
+
+    /**
+     *Método
+     */
+    public void cargarActionBar(){
+
+        Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbEnvioEmail);
+        setSupportActionBar(toolbarEmail);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setTitle("");
+    }
+
+    private void cargar_intent(){
+        Intent intent = getIntent();
+        this.lista_contactos = (ArrayList<Contacto>) intent.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+    }
+
+    public void onEnviarMail(View v){
 
         envioMensajes = new EnvioMensajes(this);
 
@@ -60,12 +117,10 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
             try {
                 toDestinatarios = recogerEmails(et_Destinatarios.getText().toString());
 
+                String[] opciones =  {"Aceptar", "Cancelar"};
                 if(asunto.toString().trim().isEmpty()){
 
-                    DialogoAlerta dialogo = new DialogoAlerta();
-                    String[] opciones =  {"Aceptar", "Cancelar"};
-                    dialogo.setDialogo(this,"¿ Deseas enviar el mensaje sin asunto ?", "E-mail sin asunto", opciones, 2);
-                    dialogo.show(getFragmentManager(), "tagAlerta");
+                    mostrar_dialogo(2,opciones,"¿ Deseas enviar el mensaje sin asunto ?", "E-mail sin asunto");
                 }else{
                     if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false){
                         Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -73,16 +128,24 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
                 }
             }
             catch (Exception e) {
-                DialogoAlerta dialogo = new DialogoAlerta();
                 String[] opciones =  {"Aceptar"};
-                dialogo.setDialogo(this,"Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail erróneo", opciones, 1);
-                dialogo.show(getFragmentManager(), "tagAlerta");
-
+                mostrar_dialogo(1,opciones,"Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail no enviado");
             }
 
             accesoDatos = new AccesoDatos(this);
             accesoDatos.insertar(ccRemitente, toDestinatarios, asunto, textoMail);
         }
+    }
+
+    public DialogoAlerta mostrar_dialogo(int opcion,String[] opciones, String mensaje, String titulo){
+        DialogoAlerta dialogo = new DialogoAlerta();
+        dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
+        return dialogo;
+    }
+
+    @Override
+    public void onAsyncTask(Object... objeto){
+      //  this.lista_contactos = (ArrayList<Contacto>) objeto[0];
     }
 
     @Override
@@ -91,7 +154,21 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
         if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2){
             Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        switch(opcion){
+            case 0:
+                //iniciar_lista_contactos();
+                break;
+            case 2:
+                if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
+                    Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }
+                break;
+            case 50:
+                String[] opciones = {"Aceptar"};
+                mostrar_dialogo(1,opciones,"Por favor, espere a que se carguen todos los contactos...","Cargando");
+                break;
         }
+
     }
 
     public String[] recogerEmails(String textoDestinatarios) throws Exception {
@@ -106,30 +183,41 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
             int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
 
-            emails = new String[numeroEmails]; // El array de Strings de los emails será igual al número de tokens
+            emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
 
+            /**
+             * Rellenamos el array con los emails de los campos de texto.
+             */
             // Mientras haya tokens después de un serparador por ","
 
-                for(int i = 0; i < emails.length; i++){ // Para la longitud del array
+            for(int i = 0; i < numeroEmails; i++){ // Para la longitud del array
 
-                    String email = tokenizador.nextToken();
+                String email = tokenizador.nextToken();
 
-                        if(email.matches(patronEmail)){
+                if(email.matches(patronEmail)){
 
-                            emails[i] = email; // La posición del email será igual a la posición del token
-                        }
-                        else throw new Exception();
-                    }
+                    emails[i] = email; // La posición del email será igual a la posición del token
+                }
+                else throw new Exception();
+            }
+
         }
-
         else if(textoDestinatarios.matches(patronEmail)){
 
-                emails = new String[1];
+            emails = new String[1];
             emails[0] = textoDestinatarios;
         }
         else throw new Exception("Alguno de los emails no cumple un patrón correcto");
 
-        return emails;
+        /**
+         * Rellenamos el array con los emails de los contactos que han sido seleccionados
+         * en caso de que no haya habido un error.
+         */
+        for(int i = emails.length; i< contactos_seleccionados.size(); i++){
+            emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
+
+        }
+         return emails;
     }
 
 
@@ -173,25 +261,55 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void seleccionar_Contacto(View v){
-
+    public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
+
+
+        iniciar_lista_contactos();
+        //acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
+    }
+
+    private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
-        startActivityForResult(intent,1);
+       // this.lista_contactos = this.acceso.obtener_contactos();
+
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS, lista_contactos);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
+
+        startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Obtenemos el contacto seleccionado
-        contacto_seleccionado = (Contacto)data.getSerializableExtra("CONTACTO");
+        //Leemos los datos del intent recibido de la actividad llamada.
+        if(resultCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
+
+           lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+            contactos_seleccionados = (ArrayList<Integer>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
 
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
 
-        String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_tfno_movil());
-        tv_ContactoSuperior.setText(textoContacto);
+            //String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
+
+            String txt = "";
+
+            for(int i = 0; i< contactos_seleccionados.size(); i++){
+                if(i!=0) {
+                    txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }else{
+                    txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }
+                if(txt.length()>=45){
+                    txt+="...";
+                    i=contactos_seleccionados.size();
+                }
+
+            }
+            tv_ContactoSuperior.setText(txt);
+        }
     }
 
     /**

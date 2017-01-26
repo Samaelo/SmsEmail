@@ -35,4 +35,9 @@
     <string name="title_activity_envio_sms">EnvioSMS</string>
     <string name="title_activity_email">EmailActivity</string>
     <string name="title_activity_lista_emails">ListaEmailsActivity</string>
+    <string name="pista_lista_contactos">Para seleccionar un contacto pulsa sobre él. Para seleccionar varios de ellos mantén pulsado sobre uno, y haz clic sobre el resto. Luego pulsa el botón de guardar.</string>
+    <string name="checkbox_permitirContactos">Permitir acceso a la lista de contactos</string>
+    <string name="checkbox_summary_permitirContactos">Permitir acceso a la lista de contactos del teléfono</string>
+    <string name="checkbox_permitirSMS">Permitir envío de SMS</string>
+    <string name="grupo_preferencias_permisos">Permisos</string>
 </resources>

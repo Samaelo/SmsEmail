@@ -9,14 +9,31 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+import model.AccesoDatos;
+import model.Constantes;
+import model.Contacto;
+
+public class MainActivity extends AppCompatActivity implements  FuncionalidadesComunes{
 /*
 TODO: los XML de Strings siempre ir haciéndolos conforme avanzan las activities.
 TODO: Puesto que hay que poner preferencias, vamos a poner que una de ellas sea poder modificar el tema. Por lo que hay que modificar también el XML de colores para crear los nuestros propios( al menos 4 temas en total).
 TODO: Lista de contactos agregados.
 TODO: Lista de Mensajes enviados.
 TODO: Actividades: Lista de contactos, lista de mensajes, preferencias (con preferences screen) , envío de mail, mostrar perfil, editar perfil, historial, agregar contacto, Acerca de
-TODO:Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
+TODO: Comprobar perfil anterior con el siguiente en algún método de la clase PerfiLActivity.
+TODO: Añadir botón de refresh para volver a cargar contactos.
+TODO: Comprobación de que si el array de contactos del intent del startactivity está vacío, que los cargue de partida.
+TODO: Operación de cargar contactos en AsyncTask
+TODO: Operación de cargar mensajes en AsyncTask
+TODO: No mostrar usuarios que tengan mail no válido( en la lista de elección de contactos de envío de email)
+TODO: No mostrar usuarios que tengan un teléfono no válido (en la lista de elección de contactos de envio de SMS)
+TODO: Indicar en al how-to que hemos hecho el campo de direcciones de mail multivalor por comodidad, que somos conscientes de que habría que crear una tabla, pero lo importante de ésto es aprender android.
+TODO:
+
+java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.util.ArrayList.isEmpty()' on a null object reference
+                      at com.islasf.samaelmario.vista.ListaContactosActivity$1.onItemClick(ListaContactosActivity.java:237)
  */
 
     /*
@@ -24,6 +41,9 @@ TODO:Comprobar perfil anterior con el siguiente en algún método de la clase Pe
     Calendar cal = Calendar.getInstance();
     cal.setDate(Objeto de tipo Date);
      */
+
+    private ArrayList<Contacto> contactos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +51,11 @@ TODO:Comprobar perfil anterior con el siguiente en algún método de la clase Pe
 
         //   Personalización del ActionBar   //
         cargar_actionBar();
-        startActivity(new Intent(this,ListaContactosActivity.class));
 
+
+        AccesoDatos acceso = new AccesoDatos(this);
+
+        acceso.ejecutar_carga_contactos(null,this);
 
     }
 
@@ -47,11 +70,29 @@ TODO:Comprobar perfil anterior con el siguiente en algún método de la clase Pe
 
     }
 
+    private void cargar_contactos(){
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onAlerta(Object... objeto) {
+
+    }
+
+    @Override
+    public void onAsyncTask(Object... objeto) {
+        this.contactos = (ArrayList<Contacto>) objeto[0];
+
+        Intent intent = new Intent(this,EnvioEmailActivity.class);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
+        startActivity(intent);
     }
 }
