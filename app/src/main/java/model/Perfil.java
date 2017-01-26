@@ -9,7 +9,7 @@ import java.util.Date;
  */
 
 public class Perfil implements Serializable {
-//
+
     private String nombre;
     private String apellidos;
     private String num_telefono_fijo;

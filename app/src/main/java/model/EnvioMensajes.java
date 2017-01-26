@@ -20,7 +20,7 @@ public class EnvioMensajes {
         this.actividad = actividad;
     }
 
-    public boolean enviar_email(String[] ToCorreos, String[] ccRemitente, String mensaje, String asunto){
+    public boolean enviar_email(String ccRemitente,String[] ToCorreos,String asunto, String mensaje){
 
         Log.i("Send email", "");
         //String[] ToCorreos = {"miniftorres@hotmail.com"};

@@ -3,7 +3,7 @@
     package="com.islasf.samaelmario.vista">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -23,21 +23,27 @@
             android:label="@string/title_activity_perfil"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.islasf.samaelmario.tuputamadre.EnvioSMS"
-            android:label="@string/title_activity_envio_sms"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".EnvioSMSActivity"
             android:label="@string/title_activity_envio_sms"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ListaContactosActivity"
+            android:name=".ListaSmsActivity"
             android:label="@string/title_activity_lista_contactos"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".EnvioEmailActivity"
             android:label="@string/title_activity_email"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ListaEmailsActivity"
+            android:label="@string/title_activity_lista_emails"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ListaContactosActivity"
+            android:label="@string/title_activity_lista_contactos"
+            android:theme="@style/AppTheme" />
+
+
     </application>
 
 </manifest>

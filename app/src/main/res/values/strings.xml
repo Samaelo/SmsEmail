@@ -34,4 +34,5 @@
     <string name="pista_fecha">Escoge una fecha</string>
     <string name="title_activity_envio_sms">EnvioSMS</string>
     <string name="title_activity_email">EmailActivity</string>
+    <string name="title_activity_lista_emails">ListaEmailsActivity</string>
 </resources>

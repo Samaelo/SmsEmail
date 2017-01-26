@@ -1,7 +1,15 @@
 [
     {
+        "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_contextual_email.xml",
+        "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\src\\main\\res\\menu\\menu_contextual_email.xml"
+    },
+    {
         "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_perfil.xml",
         "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\src\\main\\res\\menu\\menu_perfil.xml"
+    },
+    {
+        "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu_contextual_sms.xml",
+        "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\src\\main\\res\\menu\\menu_contextual_sms.xml"
     },
     {
         "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\menu\\menu.xml",

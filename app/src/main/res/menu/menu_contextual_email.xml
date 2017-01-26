@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/NuevoMail"
+        android:title="Nuevo Email"
+        app:showAsAction="always"
+        android:icon="@drawable/nuevo_mail">
+    </item>
+
+    <item
+        android:id="@+id/ListarMails"
+        android:title="Listar Emails"
+        app:showAsAction="always"
+        android:icon="@drawable/listar_mails">
+    </item>
+
+</menu>

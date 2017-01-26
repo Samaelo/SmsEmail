@@ -1,9 +1,12 @@
 package com.islasf.samaelmario.vista;
 
 import android.Manifest;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.drawable.Icon;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -11,14 +14,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -33,20 +45,37 @@ public class ListaContactosActivity extends AppCompatActivity {
     private ListView listaContactos;
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
-    ArrayList<Contacto> contactos = new ArrayList<Contacto>();
+
+    private View iconoEmails, iconoSMS;
+    ContactosAdapter listadoDeContactos;
+    TextView lblMensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_listview_listacontactos);
+        setContentView(R.layout.activity_lista_contactos);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Cargamos los componentes
+     // Cargamos los componentes
         cargar_componentes();
 
-        ContactosAdapter listadoDeContactos = new ContactosAdapter(this, cargarAgenda());
+        listadoDeContactos = new ContactosAdapter(this, cargarAgenda());
+        iconoEmails = findViewById(R.id.item_Mostrar_Emails);
+
+    }
+
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
     }
 
     private void aplicar_editable(){
@@ -59,12 +88,104 @@ public class ListaContactosActivity extends AppCompatActivity {
     }
 
     private void cargar_componentes(){
+
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
-        listaContactos = (ListView)findViewById(R.id.lvLista_mensajes);
+        listaContactos = (ListView)findViewById(R.id.listView);
+
+        iconoEmails = findViewById(R.id.item_Mostrar_Emails);
 
         crearListaDeContactos();
     }
 
+
+  // --- Método para dar funcionalidad a los botones del Menú
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.item_Mostrar_Emails)
+            abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
+        else if (id == R.id.item_Mostrar_SMS)
+            abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // -- POP UP
+    public void abrirPopupEmail(View iconoEmails) {
+
+        PopupMenu popupMenu = new PopupMenu(this, iconoEmails);
+        popupMenu.inflate(R.menu.menu_contextual_email);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.NuevoMail) {
+                    irEnvioEmailActivity();
+                }
+                else if (item.getItemId() == R.id.ListarMails) {
+
+                    try {
+                        irListaEmailsActivity();
+                    }catch(Exception e){}
+                }
+                return true;
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoEmails);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
+
+    public void abrirPopupSms(View iconoSms) {
+
+        PopupMenu popupMenu = new PopupMenu(this, iconoSms);
+        popupMenu.inflate(R.menu.menu_contextual_sms);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.NuevoSms) {
+                    irEnvioSmsActivity();
+                }
+                else if (item.getItemId() == R.id.ListarSmses) {
+                    irListaSmsActivity();
+                }
+                return true;
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoSms);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
+
+    public void irEnvioEmailActivity(){
+
+        Intent intent = new Intent(this, EnvioEmailActivity.class);
+        startActivity(intent);
+    }
+
+    public void irListaEmailsActivity(){
+
+        Intent intent = new Intent(this, ListaEmailsActivity.class);
+        startActivity(intent);
+    }
+
+    public void irEnvioSmsActivity(){
+
+        Intent intent = new Intent(this, EnvioSMSActivity.class);
+        startActivity(intent);
+    }
+
+    public void irListaSmsActivity(){
+
+        Intent intent = new Intent(this, ListaSmsActivity.class);
+        startActivity(intent);
+    }
+
+
+    // --------- CARGAMOS LOS CONTACTOS DE LA AGENDA
     private ArrayList<Contacto> cargarAgenda(){
 
         ArrayList<Contacto> listaContactos = new ArrayList<Contacto>();
@@ -74,7 +195,7 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         Cursor posicionContacto = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null);
 
-        while(posicionContacto.moveToNext()){
+        while(posicionContacto.moveToNext()){ // Inicio 1º While
 
             ID_contacto = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts._ID));
             nombre = posicionContacto.getString(posicionContacto.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -104,15 +225,15 @@ public class ListaContactosActivity extends AppCompatActivity {
                 }
             }
 
-            if(Integer.parseInt(telefonos) == 1){
+            if(Integer.parseInt(telefonos) == 1){ // Inicio If
 
                 Cursor cursor_Telefono = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "='"+ ID_contacto +"'",null, null);
 
-                while(cursor_Telefono.moveToNext()){
+                while(cursor_Telefono.moveToNext()){ // 2º While
 
                     String tipo_numero = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 
-                    switch(Integer.parseInt(tipo_numero)){
+                    switch(Integer.parseInt(tipo_numero)){ // Inicio Switch
 
                         // Insertamos switch cases para manejar todos los tipos de números de teléfono.
 
@@ -127,10 +248,15 @@ public class ListaContactosActivity extends AppCompatActivity {
                         default:
                                 telefonoFijo = cursor_Telefono.getString(cursor_Telefono.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 break;
-                    }
-                }
+
+                    } // Fin Switch
+
+                } // Fin 21 While
+
                 cursor_Telefono.close();
-            }
+
+            } // Fin de If
+
             else{
                 telefonoFijo = "";
                 telefonoMovil = "";
@@ -139,26 +265,26 @@ public class ListaContactosActivity extends AppCompatActivity {
             Cursor cursor_Email = this.getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,new String[]{ ContactsContract.CommonDataKinds.Email.DATA,
                     ContactsContract.CommonDataKinds.Email.TYPE},ContactsContract.CommonDataKinds.Email.CONTACT_ID + "='" + ID_contacto + "'", null, null);
 
-            while(cursor_Email.moveToNext()){
+            while(cursor_Email.moveToNext()){ // Inicio 3º While
 
                   email = cursor_Email.getString(cursor_Email.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
 
-                }
+                } // Fin 3º While
+
             cursor_Email.close();
 
             /* Añadimos un contacto a la lista de contactos. Para ello creamos un Contacto, cuyo Perfil que recibe en su constructor, está compuesto por los atributos que hemos obtenidos consultando los datos
                de dicho contacto en la agenda del teléfono */
-            contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
+            listaContactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
 
-            }
+            } // Fin 1º While
 
         posicionContacto.close();
         return listaContactos;
+
     } // Find de cargarAgenda()
 
     public void crearListaDeContactos(){
-
-        listaContactos = (ListView)findViewById(R.id.listView); // Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
         ArrayList<Contacto> listado = cargarAgenda(); // Creamos un ArrayList denominado 'listado' de tipo Titular (hace referencia a la clase 'Titular'
 
@@ -254,8 +380,8 @@ class ContactosAdapter extends ArrayAdapter<Contacto> {
             holder = (ViewHolder)item.getTag();
         }
 
-        holder.nombre.setText(contactos.get(posicion).obtener_nombre() + contactos.get(posicion).obtener_apellidos());
-        holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + contactos.get(posicion).obtener_correo());
+        holder.nombre.setText(contactos.get(posicion).obtener_nombre() + "   " + contactos.get(posicion).obtener_apellidos());
+        holder.datos.setText(contactos.get(posicion).obtener_tfno_movil() + "   " + contactos.get(posicion).obtener_correo());
 
         return item;
     }

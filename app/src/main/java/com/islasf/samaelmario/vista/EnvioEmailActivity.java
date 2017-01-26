@@ -2,17 +2,10 @@ package com.islasf.samaelmario.vista;
 
 import java.lang.Exception;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.app.FragmentManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,10 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import model.AccesoDatos;
 import model.Contacto;
 import model.EnvioMensajes;
 
@@ -38,10 +30,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
     private FloatingActionButton fabEnviar;
     private Button boton;
 
-    private String [] toDestinatarios, ccRemitente;
-    private String mensaje, asunto;
-
-
+    private String [] toDestinatarios;
+    private String ccRemitente, textoMail, asunto;
+    AccesoDatos accesoDatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +48,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
 
         envioMensajes = new EnvioMensajes(this);
 
-        ccRemitente = new String[1]; // Creamos el String ccRemitente, cogiendo el texto del EditText del Remitente
-        ccRemitente[0] =  et_Remitente.getText().toString();
-        mensaje = et_TextoEmail.getText().toString();
+        ccRemitente = new String(); // Creamos el String ccRemitente, cogiendo el texto del EditText del Remitente
+        ccRemitente =  et_Remitente.getText().toString();
+        textoMail = et_TextoEmail.getText().toString();
         asunto = et_Asunto.getText().toString();
 
         boolean camposCorrectos = comprobarCampos();
@@ -76,7 +67,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
                     dialogo.setDialogo(this,"¿ Deseas enviar el mensaje sin asunto ?", "E-mail sin asunto", opciones, 2);
                     dialogo.show(getFragmentManager(), "tagAlerta");
                 }else{
-                    if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false){
+                    if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false){
                         Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
                 }
@@ -88,6 +79,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
                 dialogo.show(getFragmentManager(), "tagAlerta");
 
             }
+
+            accesoDatos = new AccesoDatos(this);
+            accesoDatos.insertar(ccRemitente, toDestinatarios, asunto, textoMail);
         }
     }
 
@@ -95,7 +89,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
     public void onAlerta(Object... objeto){
         int opcion = (int) objeto[0];
 
-        if(envioMensajes.enviar_email(toDestinatarios,ccRemitente,mensaje,asunto) == false && opcion == 2){
+        if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2){
             Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
     }
@@ -131,9 +125,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         else if(textoDestinatarios.matches(patronEmail)){
 
                 emails = new String[1];
-                emails[0] = textoDestinatarios;
-            }
-            else throw new Exception("Alguno de los emails no cumple un patrón correcto");
+            emails[0] = textoDestinatarios;
+        }
+        else throw new Exception("Alguno de los emails no cumple un patrón correcto");
 
         return emails;
     }
@@ -157,7 +151,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Alerta{
         et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
         tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
         fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
-        boton = (Button)findViewById(R.id.button);
     }
 
     public void cargarActionBar(){

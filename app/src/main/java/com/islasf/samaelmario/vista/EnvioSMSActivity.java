@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import model.AccesoDatos;
 import model.Contacto;
 import model.EnvioMensajes;
 import model.Perfil;
@@ -62,6 +63,8 @@ public class EnvioSMSActivity extends AppCompatActivity {
     public void onEnviar(View v){
 
         String mensaje_resultado;
+        String destinatario = txtContacto.getText().toString();
+        String textoSMS = etTextoMensaje.getText().toString();
 
         if(contacto_seleccionado!=null){
             if(envio.enviar_SMS(etTextoMensaje.getText().toString(),contacto_seleccionado.obtener_tfno_movil())){
@@ -74,6 +77,10 @@ public class EnvioSMSActivity extends AppCompatActivity {
             Snackbar.make(v, "Por favor, seleccione un contacto.", Snackbar.LENGTH_LONG)
                     .show();
         }
+
+        AccesoDatos accesoDatos = new AccesoDatos(this); // Instanciamos un objeto de tipo AccesoDatos para poder guardar la información del mensaje en la base de datos
+
+        accesoDatos.insertar(destinatario, textoSMS); // Guardamos el SMS con el destinatario y el contenido del mensaje
     }
 
     public void onCancelar(View v){
@@ -95,4 +102,5 @@ public class EnvioSMSActivity extends AppCompatActivity {
         String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(),contacto_seleccionado.obtener_tfno_movil());
         txtContacto.setText(textoContacto);
     }
+
 }

@@ -644,6 +644,7 @@
     <string name="title_activity_email">EmailActivity</string>
     <string name="title_activity_envio_sms">EnvioSMS</string>
     <string name="title_activity_lista_contactos">Lista de contactos</string>
+    <string name="title_activity_lista_emails">ListaEmailsActivity</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="title_activity_sms">Envío de SMS</string>
     <string name="ver_perfil">Ver perfil</string>
