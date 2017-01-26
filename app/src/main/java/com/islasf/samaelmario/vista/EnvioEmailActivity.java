@@ -26,7 +26,8 @@ import model.EnvioMensajes;
 
 public class EnvioEmailActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
-    private ArrayList<Contacto>  lista_contactos,lista_contactos_seleccionados;
+    private ArrayList<Contacto>  lista_contactos;
+    private ArrayList<Integer> contactos_seleccionados;
     private EnvioMensajes envioMensajes;
     private Contacto contacto_seleccionado;
     private EditText et_Remitente, et_Destinatarios, et_Asunto, et_TextoEmail;
@@ -38,8 +39,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     private String mensaje, asunto;
     private  AccesoDatos acceso;
 
-    ArrayList<Contacto> lista_contactos_recibida;
-    ArrayList<Contacto> lista_contactos_seleccionados_recibida;
 
 
 
@@ -51,9 +50,11 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         cargarComponentes();
 
         cargar_intent();
-        lista_contactos_seleccionados = new ArrayList<Contacto>();
+        contactos_seleccionados = new ArrayList<Integer>();
 
     }
+
+
 
     //////////////////////////////////
     //      Carga de elementos      //
@@ -84,7 +85,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
         tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
         fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
-        boton = (Button)findViewById(R.id.button);
 
         acceso = new AccesoDatos(this);
     }
@@ -189,7 +189,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
             int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
 
-            emails = new String[numeroEmails + lista_contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
+            emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
 
             /**
              * Rellenamos el array con los emails de los campos de texto.
@@ -219,8 +219,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
          * Rellenamos el array con los emails de los contactos que han sido seleccionados
          * en caso de que no haya habido un error.
          */
-        for(int i=emails.length; i<lista_contactos_seleccionados.size();i++){
-            emails[i] = lista_contactos_seleccionados.get(i).obtener_correo();
+        for(int i = emails.length; i< contactos_seleccionados.size(); i++){
+            emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
+
         }
         return emails;
     }
@@ -252,7 +253,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
        // this.lista_contactos = this.acceso.obtener_contactos();
 
         intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS, lista_contactos);
-        intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, lista_contactos_seleccionados);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
 
         startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
@@ -265,7 +266,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         if(resultCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
 
            lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
-           lista_contactos_seleccionados = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+            contactos_seleccionados = (ArrayList<Integer>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
 
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
@@ -273,8 +274,18 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
             //String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
 
             String txt = "";
-            for(int i=0;i<lista_contactos_seleccionados.size();i++){
-                txt += lista_contactos_seleccionados.get(i).obtener_nombre() + " " + lista_contactos_seleccionados.get(i).obtener_apellidos() + " , ";
+
+            for(int i = 0; i< contactos_seleccionados.size(); i++){
+                if(i!=0) {
+                    txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }else{
+                    txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }
+                if(txt.length()>=45){
+                    txt+="...";
+                    i=contactos_seleccionados.size();
+                }
+
             }
             tv_ContactoSuperior.setText(txt);
         }

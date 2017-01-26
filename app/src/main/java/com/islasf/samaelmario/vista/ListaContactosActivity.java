@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +35,11 @@ public class ListaContactosActivity extends AppCompatActivity {
     boolean lista_editable;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
     private ArrayList<Contacto> contactos;
-    private ArrayList<Contacto> contactos_seleccionados;
+    private ArrayList<Integer> contactos_seleccionados;
     private  int COLOR_SELECCION,COLOR_DESELECCION;
+    private ArrayList<View> lista_views;
+    private boolean alguno_seleccionado;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +53,25 @@ public class ListaContactosActivity extends AppCompatActivity {
         //Cargamos los datos recibidos de la actividad llamante
         cargar_datos_intent();
 
+         lista_views = new ArrayList<View>();
         //Cargamos los componentes
         cargar_componentes();
 
+        seleccionar_contactos();
+
+        if(contactos_seleccionados.size()>0){
+            alguno_seleccionado = true;
+        }else{
+            alguno_seleccionado =false;
+        }
+
+
+
+
+
     }
+
+
 
     /**
      * Método encargado de cargar los datos recibidos de la actividad que invoca a ésta. Mediante
@@ -64,7 +82,7 @@ public class ListaContactosActivity extends AppCompatActivity {
         Intent intent_recibido = getIntent();
 
         contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
-        contactos_seleccionados = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+        contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
 
     }
@@ -86,13 +104,14 @@ public class ListaContactosActivity extends AppCompatActivity {
      * @param v
      */
     public void onFabGuardarContacto(View v){
+
         volver();
     }
 
     private void volver(){
 
         Intent intent_devuelto = new Intent();
-        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS,contactos_seleccionados);
+        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
         intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,contactos);
         setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
 
@@ -107,55 +126,81 @@ public class ListaContactosActivity extends AppCompatActivity {
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
 
+
     }
 
-    private void seleccionar_contacto(View view, int posicion, int listener){
+    private void seleccionar_contactos(){
+        for(int i=0;i<lista_views.size();i++){
+            lista_views.get(i).setBackgroundColor(COLOR_SELECCION);
+        }
+    }
 
-        LinearLayout layout;
-        Contacto contacto_seleccionado = contactos.get(posicion);
+    private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
+        if(codigo_listener==0){//Si el código listener corresponde al onItemClickListener
+            if(alguno_seleccionado == true){//Si ya hay contactos seleccionados, se añaden a la selección
+                if(contactos_seleccionados.contains(id_contacto)){//Si ya está en la lista de seleccionados lo borra
+                    contactos_seleccionados.remove(id_contacto);
+                    v.setBackgroundColor(COLOR_DESELECCION);
 
-        if(listener == 1){//onItemLongClickListener
-            layout = (LinearLayout)view;
-
-            if(contactos_seleccionados.contains(contacto_seleccionado)){
-                contactos_seleccionados.remove(contacto_seleccionado);
-                layout.setBackgroundColor(COLOR_DESELECCION);
-                Toast.makeText(null,contacto_seleccionado + "", Toast.LENGTH_SHORT).show();
-            }else{
-                contactos_seleccionados.add(contacto_seleccionado);
-                layout.setBackgroundColor(COLOR_SELECCION);
-            }
-        }else{//OnItemClickListener
-            if(!contactos_seleccionados.isEmpty()){
-
-                layout = (LinearLayout)view;
-
-                if(contactos_seleccionados.contains(contacto_seleccionado)){
-                    contactos_seleccionados.remove(contacto_seleccionado);
-                    layout.setBackgroundColor(COLOR_DESELECCION);
-                }else{
-                    contactos_seleccionados.add(contacto_seleccionado);
-                    layout.setBackgroundColor(COLOR_SELECCION);
+                }else{//Si no está en la lista de seleccionados, lo añade.
+                    contactos_seleccionados.add(id_contacto);
+                    v.setBackgroundColor(COLOR_SELECCION);
                 }
-            }else{
-                contactos_seleccionados.add(contacto_seleccionado);
+            }else{//Si no hay contactos seleccionados, se pasa un solo contacto a la actividad de envío.
+                contactos_seleccionados.add(id_contacto);
                 volver();
             }
 
+        }else{//Si el código listener corresponde al onItemLongClickListener
+            if(contactos_seleccionados.contains(id_contacto)){
+                contactos_seleccionados.remove(id_contacto);
+                v.setBackgroundColor(COLOR_DESELECCION);
+            }else{
+                contactos_seleccionados.add(id_contacto);
+                v.setBackgroundColor(COLOR_SELECCION);
+            }
         }
 
+        if(contactos_seleccionados.size()==0){
+            alguno_seleccionado = false;
+        }else if(alguno_seleccionado != true){
+            alguno_seleccionado = true;
+        }
     }
 
     public void crearListaDeContactos(){
 
+
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
+        lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int codigo_listener = 0;
+                Contacto contacto = (Contacto) parent.getAdapter().getItem(position);
+                seleccionar_contacto(codigo_listener,view,contacto.obtener_id());
+
+            }
+        });
+
+        lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                int codigo_listener = 1;
+                Contacto contacto = (Contacto) parent.getAdapter().getItem(position);
+                seleccionar_contacto(codigo_listener,view,contacto.obtener_id());
+                return true;
+            }
+        });
         ContactosAdapter adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
 
-        lvListaContactos.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
 
+
+        /*
         lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int posicion, long id) {
@@ -169,7 +214,14 @@ public class ListaContactosActivity extends AppCompatActivity {
                 return true;
             }
         });
+        */
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, lista_views.size()+"", Toast.LENGTH_SHORT).show();
+        seleccionar_contactos();
     }
 
     // --- PETICIÓN DE PERMISOS PARA ACCEDER A LA LISTA DE CONTACTOS DEL TELÉFONO --- //
@@ -251,6 +303,8 @@ public class ListaContactosActivity extends AppCompatActivity {
             super(contexto, -1, contactos_adapter); // Llamamos al constructor del padre y le pasamos el contexto que queremos y el ArrayList
             this.contactos_adapter = contactos_adapter;
             this.contexto = contexto;
+
+
         }
 
         /**
@@ -261,7 +315,7 @@ public class ListaContactosActivity extends AppCompatActivity {
          * @return
          */
         @Override
-        public View getView(int posicion, View convertView, ViewGroup parent) {
+        public View getView(final int posicion, View convertView, ViewGroup parent) {
 
             View item = convertView;
             ViewHolder holder;
@@ -273,33 +327,33 @@ public class ListaContactosActivity extends AppCompatActivity {
                 LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 item = inflater.inflate(R.layout.layout_listview_listacontactos, null);
 
-                Toast.makeText(contexto, contactos_seleccionados + "", Toast.LENGTH_SHORT).show();
-                Toast.makeText(contexto, contactos + "", Toast.LENGTH_SHORT).show();
-                if(contactos_seleccionados.contains(contactos.get(posicion))){
-
-                    item.setBackgroundColor(COLOR_SELECCION);
-                }else{
-                    item.setBackgroundColor(COLOR_DESELECCION);
-                }
-
                 holder = new ViewHolder();
-                holder.nombre = (TextView)item.findViewById(R.id.tv_listView_Nombre);
+                holder.nombre = (CheckedTextView) item.findViewById(R.id.tv_listView_Nombre);
                 holder.datos = (TextView)item.findViewById(R.id.tv_listView_Datos);
 
                 item.setTag(holder);
             }
             else{
+
                 holder = (ViewHolder)item.getTag();
+
             }
 
             holder.nombre.setText(contactos_adapter.get(posicion).obtener_nombre() + " " + contactos_adapter.get(posicion).obtener_apellidos());
             holder.datos.setText(contactos_adapter.get(posicion).obtener_tfno_movil() + " | " + contactos_adapter.get(posicion).obtener_correo());
 
+            if(contactos_seleccionados.contains(contactos_adapter.get(posicion).obtener_id())){
+                item.setBackgroundColor(COLOR_SELECCION);
+            }else{
+                item.setBackgroundColor(COLOR_DESELECCION);
+            }
+
+
             return item;
         }
 
         public class ViewHolder {
-            TextView nombre;
+            CheckedTextView nombre;
             TextView datos;
         }
 

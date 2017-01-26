@@ -171,7 +171,7 @@ public class AccesoDatos {
 
         @Override
         protected ArrayList<Contacto> doInBackground(FuncionalidadesComunes... params) {
-
+            int cont = 0;
 
             Activity actividad_llamante = (Activity) params[0];
             funcionalidades_recibidas = params[0];
@@ -274,10 +274,10 @@ public class AccesoDatos {
                 }
 
 
-                lista_contactos.add(new Contacto(new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
+                lista_contactos.add(new Contacto(cont,new Perfil(nombre,apellidos,telefonoFijo,telefonoMovil,email,fecha_nacimiento)));
                 nombre = ""; apellidos =""; telefonoFijo = ""; telefonoMovil = ""; email = ""; fecha_nacimiento=null;
 
-
+                cont++;
             }
 
             posicionContacto.close();

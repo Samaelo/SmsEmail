@@ -13,11 +13,17 @@ import java.util.Date;
 
 public class Contacto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    private int id;
     private Perfil perfil;
-    public Contacto(Perfil perfil){
+    public Contacto(int id,Perfil perfil){
+        this.id = id;
         this.perfil = perfil;
     }
 
+    public int obtener_id(){
+        return this.id;
+    }
     public String obtener_tfno_movil(){
         return this.perfil.getNum_telefono_movil();
     }

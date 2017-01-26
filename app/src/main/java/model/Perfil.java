@@ -11,7 +11,8 @@ import java.util.Date;
  * Created by Mario on 04/01/2017.
  */
 public class Perfil implements Serializable {
-    //
+
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private String apellidos;
     private String num_telefono_fijo;
