@@ -139,7 +139,7 @@ public class ListaContactosActivity extends AppCompatActivity {
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
         crearListaDeContactos();
     }
-
+A
     private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
 
         if(codigo_listener==0){//Si el código listener corresponde al onItemClickListener
