@@ -20,6 +20,7 @@ import com.islasf.samaelmario.vista.FuncionalidadesComunes;
  */
 
 public class AccesoDatos {
+
     private ArrayList<Contacto> lista_contactos;
 
     private DialogoAlerta dialogo;
@@ -65,9 +66,6 @@ public class AccesoDatos {
      * @param textoEmail Variable de tipo String que hace referencia al contenido del mensaje del E-mail
      */
     public void insertar(String remitente, String[] destinatarios, String asunto, String textoEmail){
-
-        ContentValues fila = new ContentValues();
-
         String nombres_destinatarios = "";
 
         for(int i = 0; i < destinatarios.length; i++){

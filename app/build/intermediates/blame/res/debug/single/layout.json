@@ -4,12 +4,12 @@
         "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\abc_popup_menu_header_item_layout.xml"
     },
     {
-        "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action_tombstone.xml",
-        "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\notification_action_tombstone.xml"
-    },
-    {
         "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_lista_contactos.xml",
         "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\src\\main\\res\\layout\\activity_lista_contactos.xml"
+    },
+    {
+        "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\25.1.0\\res\\layout\\notification_action_tombstone.xml"
     },
     {
         "merged": "C:\\Users\\Samael\\Desktop\\SmsEmail\\SmsEmail\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_menu_item_action_area.xml",

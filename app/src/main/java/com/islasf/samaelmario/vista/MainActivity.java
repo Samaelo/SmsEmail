@@ -3,10 +3,13 @@ package com.islasf.samaelmario.vista;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -49,37 +52,118 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //   Personalización del ActionBar   //
-        cargar_actionBar();
-
-
-        AccesoDatos acceso = new AccesoDatos(this);
-
-        acceso.ejecutar_carga_contactos(null,this);
+        cargarActionBar();
 
     }
 
-    private void cargar_actionBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tbMain);
-        setSupportActionBar(toolbar);
+    public void cargarActionBar(){
+
+        Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbMain);
+        setSupportActionBar(toolbarEmail);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         getSupportActionBar().setTitle("");
-
     }
 
-    private void cargar_contactos(){
-
-    }
-
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    // --- Método para dar funcionalidad a los botones del Menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.item_Mostrar_Emails)
+            abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
+        else if (id == R.id.item_Mostrar_SMS)
+            abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    // -- POP UP
+    public void abrirPopupEmail(View iconoEmails) {
+
+        PopupMenu popupMenu = new PopupMenu(this, iconoEmails);
+        popupMenu.inflate(R.menu.menu_contextual_email);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.NuevoMail) {
+                    irEnvioEmailActivity();
+                }
+                else if (item.getItemId() == R.id.ListarMails) {
+
+                    try {
+                        irListaEmailsActivity();
+                    }catch(Exception e){}
+                }
+                return true;
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoEmails);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
+
+    public void abrirPopupSms(View iconoSms) {
+
+        PopupMenu popupMenu = new PopupMenu(this, iconoSms);
+        popupMenu.inflate(R.menu.menu_contextual_sms);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.NuevoSms) {
+                    irEnvioSmsActivity();
+                }
+                else if (item.getItemId() == R.id.ListarSmses) {
+                    irListaSmsActivity();
+                }
+                return true;
+            }
+        });
+
+        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoSms);
+        menuHelper.setForceShowIcon(true);
+        menuHelper.show();
+    }
+
+    public void irEnvioEmailActivity(){
+
+        Intent intent = new Intent(this, EnvioEmailActivity.class);
+        startActivity(intent);
+    }
+
+    public void irListaEmailsActivity(){
+
+        Intent intent = new Intent(this, ListaEmailsActivity.class);
+        startActivity(intent);
+    }
+
+    public void irEnvioSmsActivity(){
+
+        Intent intent = new Intent(this, EnvioSMSActivity.class);
+        startActivity(intent);
+    }
+
+    public void irListaSmsActivity(){
+
+        Intent intent = new Intent(this, ListaSmsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -95,4 +179,6 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
         startActivity(intent);
     }
+
+
 }

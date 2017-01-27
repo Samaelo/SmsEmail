@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -229,14 +233,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         finish();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflamos el menú; añadimos los items al action bar si éste está presente.
-        MenuInflater infladorMenu = getMenuInflater();
-        infladorMenu.inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
@@ -315,4 +312,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         }
         return true;
     }
+
+
 }

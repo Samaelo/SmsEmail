@@ -43,7 +43,6 @@ import model.Perfil;
 
 public class ListaContactosActivity extends AppCompatActivity {
 
-
     private  FloatingActionButton fabAgregarContacto;
     private ListView lvListaContactos;
     boolean lista_editable;
@@ -53,10 +52,7 @@ public class ListaContactosActivity extends AppCompatActivity {
     private  int COLOR_SELECCION,COLOR_DESELECCION;
     private ArrayList<View> lista_views;
     private boolean alguno_seleccionado;
-    private View iconoEmails, iconoSMS;
-    ContactosAdapter listadoDeContactos;
-    TextView lblMensaje;
-
+    ContactosAdapter adaptador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +70,20 @@ public class ListaContactosActivity extends AppCompatActivity {
         //Cargamos los componentes
         cargar_componentes();
 
-        iconoEmails = findViewById(R.id.item_Mostrar_Emails);
-
         seleccionar_contactos();
 
-        if(contactos_seleccionados.size()>0){
+        if(contactos_seleccionados.size() > 0){
             alguno_seleccionado = true;
         }else{
-            alguno_seleccionado =false;
+            alguno_seleccionado = false;
         }
-
     }
 
+    private void seleccionar_contactos(){
+        for(int i=0;i<lista_views.size();i++){
+            lista_views.get(i).setBackgroundColor(COLOR_SELECCION);
+        }
+    }
 
     /**
      * Método encargado de cargar los datos recibidos de la actividad que invoca a ésta. Mediante
@@ -93,6 +91,7 @@ public class ListaContactosActivity extends AppCompatActivity {
      * contactos seleccionados en el anterior acceso.
      */
     private void cargar_datos_intent(){
+
         Intent intent_recibido = getIntent();
 
         contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
@@ -141,101 +140,8 @@ public class ListaContactosActivity extends AppCompatActivity {
         crearListaDeContactos();
     }
 
-
-  // --- Método para dar funcionalidad a los botones del Menú
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.item_Mostrar_Emails)
-            abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
-        else if (id == R.id.item_Mostrar_SMS)
-            abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    // -- POP UP
-    public void abrirPopupEmail(View iconoEmails) {
-
-        PopupMenu popupMenu = new PopupMenu(this, iconoEmails);
-        popupMenu.inflate(R.menu.menu_contextual_email);
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.NuevoMail) {
-                    irEnvioEmailActivity();
-                }
-                else if (item.getItemId() == R.id.ListarMails) {
-
-                    try {
-                        irListaEmailsActivity();
-                    }catch(Exception e){}
-                }
-                return true;
-            }
-        });
-
-        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoEmails);
-        menuHelper.setForceShowIcon(true);
-        menuHelper.show();
-    }
-
-    public void abrirPopupSms(View iconoSms) {
-
-        PopupMenu popupMenu = new PopupMenu(this, iconoSms);
-        popupMenu.inflate(R.menu.menu_contextual_sms);
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.NuevoSms) {
-                    irEnvioSmsActivity();
-                }
-                else if (item.getItemId() == R.id.ListarSmses) {
-                    irListaSmsActivity();
-                }
-                return true;
-            }
-        });
-
-        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoSms);
-        menuHelper.setForceShowIcon(true);
-        menuHelper.show();
-    }
-
-    public void irEnvioEmailActivity(){
-
-        Intent intent = new Intent(this, EnvioEmailActivity.class);
-        startActivity(intent);
-    }
-
-    public void irListaEmailsActivity(){
-
-        Intent intent = new Intent(this, ListaEmailsActivity.class);
-        startActivity(intent);
-    }
-
-    public void irEnvioSmsActivity(){
-
-        Intent intent = new Intent(this, EnvioSMSActivity.class);
-        startActivity(intent);
-    }
-
-    public void irListaSmsActivity(){
-
-        Intent intent = new Intent(this, ListaSmsActivity.class);
-        startActivity(intent);
-    }
-
-    private void seleccionar_contactos(){
-        for(int i=0;i<lista_views.size();i++){
-            lista_views.get(i).setBackgroundColor(COLOR_SELECCION);
-        }
-    }
-
-
     private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
+
         if(codigo_listener==0){//Si el código listener corresponde al onItemClickListener
             if(alguno_seleccionado == true){//Si ya hay contactos seleccionados, se añaden a la selección
                 if(contactos_seleccionados.contains(id_contacto)){//Si ya está en la lista de seleccionados lo borra
@@ -268,7 +174,6 @@ public class ListaContactosActivity extends AppCompatActivity {
 
     public void crearListaDeContactos(){
 
-
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
 
         lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -291,15 +196,9 @@ public class ListaContactosActivity extends AppCompatActivity {
                 return true;
             }
         });
-        ContactosAdapter adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
-
-
+        adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
         lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
-
-
-
-
     }
 
     @Override
@@ -328,23 +227,7 @@ public class ListaContactosActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
-     * @param menu Objeto de la clase Menu
-     * @return Retorna true si se puede crear el menú
-     */
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if(lista_editable){
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.menu,menu);
-        }
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
@@ -372,14 +255,10 @@ public class ListaContactosActivity extends AppCompatActivity {
      */
     class ContactosAdapter extends ArrayAdapter<Contacto> {
 
-        /**
-         * Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
-         */
+        // Contexto de tipo Context empleado para poder inflar el layout personalizado a modo de item.
         private Context contexto;
 
-        /**
-         * Lista de contactos que recibe el adaptador por el constructor para
-         */
+        // Lista de contactos que recibe el adaptador por el constructor para realizar el objeto ContactosAdapter
         private ArrayList<Contacto> contactos_adapter;
 
         /**
@@ -389,12 +268,9 @@ public class ListaContactosActivity extends AppCompatActivity {
          */
         public ContactosAdapter(Context contexto, ArrayList<Contacto> contactos_adapter) {
 
-
             super(contexto, -1, contactos_adapter); // Llamamos al constructor del padre y le pasamos el contexto que queremos y el ArrayList
             this.contactos_adapter = contactos_adapter;
             this.contexto = contexto;
-
-
         }
 
         /**
@@ -438,7 +314,6 @@ public class ListaContactosActivity extends AppCompatActivity {
                 item.setBackgroundColor(COLOR_DESELECCION);
             }
 
-
             return item;
         }
 
@@ -446,11 +321,7 @@ public class ListaContactosActivity extends AppCompatActivity {
             CheckedTextView nombre;
             TextView datos;
         }
-
-
     }
-
-
 }
 
 
