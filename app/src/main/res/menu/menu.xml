@@ -24,14 +24,8 @@ xmlns:yourapp="http://schemas.android.com/apk/res-auto"
         android:enabled="true"
         android:id="@+id/itemVerPerfil" />
 
-    <item android:title="@string/historial"
-        android:visible="true"
-        android:enabled="true"
-        android:id="@+id/itemHistorial" />
-
     <item android:title="@string/preferencias"
         android:id="@+id/itemPreferencias" />
-
     <item android:title="@string/acerca_de"
         android:id="@+id/itemAcercaDe" />
 </menu>

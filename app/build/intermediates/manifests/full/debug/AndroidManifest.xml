@@ -48,6 +48,10 @@
             android:name="com.islasf.samaelmario.vista.ListaContactosActivity"
             android:label="@string/title_activity_lista_contactos"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.islasf.samaelmario.vista.PreferenciasActivity"
+            android:label="Preferencias" >
+        </activity>
     </application>
 
 </manifest>

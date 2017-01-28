@@ -7,16 +7,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:weightSum="1"
-    android:background="@drawable/logoifgrande">
+    android:weightSum="1">
 
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_dark"
+        android:layout_height="51dp"
+        android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/tbMain" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:srcCompat="@drawable/fondodefinitivo"
+        android:id="@+id/imageView_Logo"
+        android:layout_marginTop="130sp" />
 
 </LinearLayout>

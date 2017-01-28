@@ -84,10 +84,19 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.item_Mostrar_Emails)
-            abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
-        else if (id == R.id.item_Mostrar_SMS)
-            abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
+        switch(id){
+            case R.id.item_Mostrar_Emails:
+                abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
+                break;
+            case R.id.item_Mostrar_SMS:
+                abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
+                break;
+            case R.id.itemPreferencias:
+                startActivity(new Intent(this,PreferenciasActivity.class));
+                break;
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }

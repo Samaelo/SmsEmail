@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/grupo_preferencias_permisos">
 
         <SwitchPreference
             android:defaultValue="false"
             android:title="@string/checkbox_permitirSMS"
-            android:key="switch_preferenciasSMS"/>
+            android:key="switch_preferenciasSMS" />
         <SwitchPreference
             android:defaultValue="false"
             android:title="@string/checkbox_permitirContactos"
             android:key="switch_preferenciasContactos"
             android:summary="@string/checkbox_summary_permitirContactos" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Preference category">
+    <PreferenceCategory android:title="Apariencia">
 
+
+        <ListPreference
+            android:defaultValue="1"
+            android:title="Escoger tema"
+            android:entries="@array/tema"
+            android:entryValues="@array/codigotema"
+            android:key="list_preference_1" />
     </PreferenceCategory>
 </PreferenceScreen>
