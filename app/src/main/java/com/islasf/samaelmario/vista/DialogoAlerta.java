@@ -71,6 +71,7 @@ public class DialogoAlerta extends DialogFragment {
                         })
                         .setNegativeButton(opciones[1], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                actividad.onAlerta(10);
                                 dialog.cancel();
                             }
                         });

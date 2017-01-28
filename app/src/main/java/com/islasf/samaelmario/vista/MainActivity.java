@@ -95,9 +95,6 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
                 startActivity(new Intent(this,PreferenciasActivity.class));
                 break;
         }
-
-
-
         return super.onOptionsItemSelected(item);
     }
 

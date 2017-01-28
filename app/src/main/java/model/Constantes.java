@@ -24,7 +24,16 @@ public class Constantes {
     public static final String LISTA_EDITABLE = "lista_editable";
 
     /**
-     * Constantes de opciones
+     * Constantes de opciones de diálogo
      */
-    public static final int MOSTRAR_DIALOGO=50;
+    public static final int DIALOGO_VACIO = 0;
+    public static final int DIALOGO_ACEPTAR = 1;
+    public static final int DIALOGO_DOS_OPCIONES = 2;
+
+        /**
+        * Constantes de resultados de los botones de los diálogos.
+        */
+    public static final int ACEPTAR = 2;
+    public static final int CANCELAR = 10;
+
 }
