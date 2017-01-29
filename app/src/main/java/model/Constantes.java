@@ -35,5 +35,12 @@ public class Constantes {
         */
     public static final int ACEPTAR = 2;
     public static final int CANCELAR = 10;
+    public static final int IGNORAR_DIALOGO = 0;
+    /**
+     * Requestcodes
+     */
+
+    public static final int REQUEST_PERMISOS_CONTACTOS = 0;
+    public static final int REQUEST_PERMISOS_SMS = 0;
 
 }

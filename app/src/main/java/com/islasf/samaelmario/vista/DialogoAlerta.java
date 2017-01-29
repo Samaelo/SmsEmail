@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import model.Constantes;
+
 /**
  * Created by Samael on 07/01/2017.
  */
@@ -53,7 +55,7 @@ public class DialogoAlerta extends DialogFragment {
                         .setTitle(titulo)
                         .setPositiveButton(opciones[0], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                actividad.onAlerta(1);
+                                actividad.onAlerta(1, Constantes.ACEPTAR);
                                 dialog.cancel();
                             }
                         });
@@ -65,13 +67,13 @@ public class DialogoAlerta extends DialogFragment {
                         .setTitle(titulo)
                         .setPositiveButton(opciones[0], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                actividad.onAlerta(2);
+                                actividad.onAlerta(2,Constantes.ACEPTAR);
                                 dialog.cancel();
                             }
                         })
                         .setNegativeButton(opciones[1], new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                actividad.onAlerta(10);
+                                actividad.onAlerta(2,Constantes.CANCELAR);
                                 dialog.cancel();
                             }
                         });
@@ -82,6 +84,6 @@ public class DialogoAlerta extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        actividad.onAlerta(0);
+        actividad.onAlerta(0,Constantes.IGNORAR_DIALOGO);
     }
 }
