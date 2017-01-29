@@ -1,12 +1,11 @@
 package com.islasf.samaelmario.vista;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -25,12 +22,14 @@ import model.Email;
 /**
  * Created by Samael on 25/01/2017.
  */
-public class ListaEmailsActivity extends AppCompatActivity {
+public class ListaEmailsActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
     private ListView listaEmails;
     AccesoDatos accesoDatos;
     EmailAdapter emailAdapter;
+    private ArrayList<Email> listado_emails;
 
+// ---- onCreate ListaEmails ---- //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -40,33 +39,46 @@ public class ListaEmailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton fab_nuevo_email = (FloatingActionButton)findViewById(R.id.fab_nuevo_email);
+
         accesoDatos = new AccesoDatos(this);
-        emailAdapter = new EmailAdapter(this, accesoDatos.recoger_Emails());
-
-        crearListaDeEmails();
-
+        accesoDatos.ejecutar_carga_emails(this);
     }
 
-    // -------------- CREAR MENU CONTEXTUAL EN EL ON LONG CLICK LISTENER
+// ---- onAsyncTask ---- //
+    @Override
+    public void onAsyncTask(Object... objeto) {
+        this.listado_emails = (ArrayList<Email>) objeto[0];
+        crearListaDeEmails();
+    }
+
+    @Override
+    public void onAlerta(Object... objeto) {
+
+    }
 
     public void crearListaDeEmails(){
 
         listaEmails = (ListView)findViewById(R.id.lv_lista_emails); // Volcamos en el ListView "listaEmails", el listView definido en el xml con su id denominado "lvLista_mensajes"
 
-        ArrayList<Email> listadoEmails = accesoDatos.recoger_Emails(); // Creamos un ArrayList denominado 'listado' de tipo Titular (hace referencia a la clase 'Titular'
+        emailAdapter = new EmailAdapter(this, listado_emails); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
-        EmailAdapter adaptador = new EmailAdapter(this,listadoEmails); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
-
-        listaEmails.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
-
+        if(listado_emails != null){
+            listaEmails.setAdapter(emailAdapter); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
 
             listaEmails.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
                 public void onItemClick(AdapterView adapter, View view, int position, long id) {
 
                     // MENU CONTEXTUAAAAAAAAAAAL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------------------------------------------------------------
                 }
-
             });
+        }
+    }
+
+    public void nuevoEmailFab(View botonFab){
+
+        Intent intent = new Intent(this, EnvioEmailActivity.class);
+        startActivity(intent);
     }
 
     class EmailAdapter extends ArrayAdapter<Email> {

@@ -8,8 +8,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Icon;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,11 +39,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
 import model.Perfil;
 
-public class ListaContactosActivity extends AppCompatActivity {
+public class ListaContactosActivity extends AppCompatActivity implements FuncionalidadesComunes{
 
     private  FloatingActionButton fabAgregarContacto;
     private ListView lvListaContactos;
@@ -53,6 +56,7 @@ public class ListaContactosActivity extends AppCompatActivity {
     private ArrayList<View> lista_views;
     private boolean alguno_seleccionado;
     ContactosAdapter adaptador;
+    AccesoDatos accesoDatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +67,11 @@ public class ListaContactosActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        lista_views = new ArrayList<View>();
+
         //Cargamos los datos recibidos de la actividad llamante
         cargar_datos_intent();
 
-         lista_views = new ArrayList<View>();
         //Cargamos los componentes
         cargar_componentes();
 
@@ -77,10 +82,13 @@ public class ListaContactosActivity extends AppCompatActivity {
         }else{
             alguno_seleccionado = false;
         }
+
+        accesoDatos = new AccesoDatos(this);
+        accesoDatos.ejecutar_carga_contactos(this);
     }
 
     private void seleccionar_contactos(){
-        for(int i=0;i<lista_views.size();i++){
+        for(int i = 0 ; i < lista_views.size(); i++){
             lista_views.get(i).setBackgroundColor(COLOR_SELECCION);
         }
     }
@@ -94,12 +102,10 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         Intent intent_recibido = getIntent();
 
-        contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
         contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
 
     }
-
 
     private void aplicar_editable(){
 
@@ -135,9 +141,8 @@ public class ListaContactosActivity extends AppCompatActivity {
 
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
         aplicar_editable();
-        COLOR_SELECCION = getResources().getColor(R.color.verde_claro,null);
+        COLOR_SELECCION = Color.parseColor("#E0F2F1");
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
-        crearListaDeContactos();
     }
 
     private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
@@ -175,6 +180,9 @@ public class ListaContactosActivity extends AppCompatActivity {
     public void crearListaDeContactos(){
 
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
+        adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+
+        lvListaContactos.setAdapter(adaptador);
 
         lvListaContactos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -196,9 +204,8 @@ public class ListaContactosActivity extends AppCompatActivity {
                 return true;
             }
         });
-        adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
-        lvListaContactos.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
+
     }
 
     @Override
@@ -227,8 +234,6 @@ public class ListaContactosActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
 
@@ -243,6 +248,19 @@ public class ListaContactosActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onAsyncTask(Object... objeto) {
+        this.contactos = (ArrayList<Contacto>) objeto[0];
+        crearListaDeContactos();
+    }
+
+    @Override
+    public void onAlerta(Object... objeto) {
+
+    }
+
+
 
 
     /**

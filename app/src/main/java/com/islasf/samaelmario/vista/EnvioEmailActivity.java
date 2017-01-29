@@ -51,12 +51,13 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         cargarComponentes();
 
         cargar_intent();
+        FloatingActionButton fab_seleccionar_contactos = (FloatingActionButton)findViewById(R.id.fabSeleccionarContacto); // Instanciamos el botón Fab para seleccionar un contacto
         contactos_seleccionados = new ArrayList<Integer>();
 
     }
 
-    //////////////////////////////////
-    //      Carga de elementos      //
+      //////////////////////////////////
+     //      Carga de elementos      //
     //////////////////////////////////
 
     /**
@@ -144,7 +145,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         }
     }
 
-
     public DialogoAlerta mostrar_dialogo(int opcion,String[] opciones, String mensaje, String titulo){
         DialogoAlerta dialogo = new DialogoAlerta();
         dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
@@ -158,6 +158,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     @Override
     public void onAlerta(Object... objeto){
+
         int opcion = (int) objeto[0];
 
         if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2) {
@@ -238,9 +239,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
 
-
         iniciar_lista_contactos();
-        //acceso.ejecutar_carga_contactos(mostrar_dialogo(0,null,"Por favor, espere mientras se cargan los contactos...","Cargando"),this);
+        accesoDatos.ejecutar_carga_contactos(this);
     }
 
     private void iniciar_lista_contactos(){

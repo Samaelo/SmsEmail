@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
+import model.Email;
+import model.SMS;
 
 public class MainActivity extends AppCompatActivity implements  FuncionalidadesComunes{
 /*
@@ -34,16 +36,7 @@ TODO: No mostrar usuarios que tengan mail no válido( en la lista de elección d
 TODO: No mostrar usuarios que tengan un teléfono no válido (en la lista de elección de contactos de envio de SMS)
 TODO: Indicar en al how-to que hemos hecho el campo de direcciones de mail multivalor por comodidad, que somos conscientes de que habría que crear una tabla, pero lo importante de ésto es aprender android.
 TODO:
-
-java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.util.ArrayList.isEmpty()' on a null object reference
-                      at com.islasf.samaelmario.vista.ListaContactosActivity$1.onItemClick(ListaContactosActivity.java:237)
- */
-
-    /*
-    Fechas:
-    Calendar cal = Calendar.getInstance();
-    cal.setDate(Objeto de tipo Date);
-     */
+*/
 
     private ArrayList<Contacto> contactos;
 
@@ -179,12 +172,11 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
 
     @Override
     public void onAsyncTask(Object... objeto) {
-        this.contactos = (ArrayList<Contacto>) objeto[0];
 
-        Intent intent = new Intent(this,EnvioEmailActivity.class);
-        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
-        startActivity(intent);
+       this.contactos = (ArrayList<Contacto>) objeto[0];
+
+       Intent intent = new Intent(this,EnvioEmailActivity.class);
+       intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
+       startActivity(intent);
     }
-
-
 }

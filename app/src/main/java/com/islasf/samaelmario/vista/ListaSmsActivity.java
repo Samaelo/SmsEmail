@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,12 @@ import model.SMS;
 /**
  * Creado por Samael Picazo Navarrete y Mario Garcia el 25/01/2017.
  */
-public class ListaSmsActivity extends AppCompatActivity{
+public class ListaSmsActivity extends AppCompatActivity implements FuncionalidadesComunes{
 
     private ListView listaSms;
     AccesoDatos accesoDatos;
     SmsAdapter smsAdapter;
+    private ArrayList<SMS> smses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,30 +40,40 @@ public class ListaSmsActivity extends AppCompatActivity{
             accesoDatos = new AccesoDatos(this);
             smsAdapter = new SmsAdapter(this, accesoDatos.recoger_SMS());
 
-            crearListaDeSmses();
+            accesoDatos.ejecutar_carga_smses(this); // Le pasamos la actividad pero hacemos referencia a la interfaz FuncionalidadesComunes, que es con la que trabajamos en la clase AccesoAdatos
+
         }
 
-        // -------------- CREAR MENU CONTEXTUAL EN EL ON LONG CLICK LISTENER
-
-        public void crearListaDeSmses(){
+     public void crearListaDeSmses(){
 
             listaSms = (ListView)findViewById(R.id.lv_lista_smses); // Volcamos en el ListView "listaEmails", el listView definido en el xml con su id denominado "lvLista_mensajes"
 
-            ArrayList<SMS> listadoSms= accesoDatos.recoger_SMS(); // Creamos un ArrayList denominado 'listado' de tipo Titular (hace referencia a la clase 'Titular'
+            SmsAdapter adaptador = new SmsAdapter(this,smses); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
-            SmsAdapter adaptador = new SmsAdapter(this,listadoSms); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
+            if(this.smses != null){
 
-            listaSms.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
+                listaSms.setAdapter(adaptador); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
+                listaSms.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
+                    public void onItemClick(AdapterView adapter, View view, int position, long id) {
 
-            listaSms.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
-                public void onItemClick(AdapterView adapter, View view, int position, long id) {
+                        // MENU CONTEXTUAAAAAAAAAAAL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------------------------------------------------------------
+                    }
+                });
+            }
+     }
 
-                    // MENU CONTEXTUAAAAAAAAAAAL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------------------------------------------------------------
-                }
-            });
-        }
+    @Override
+    public void onAlerta(Object... objeto) {
 
-        class SmsAdapter extends ArrayAdapter<SMS> {
+    }
+
+    @Override
+    public void onAsyncTask(Object... objeto) {
+        this.smses = (ArrayList<SMS>)objeto[0];
+        crearListaDeSmses();
+    }
+
+    class SmsAdapter extends ArrayAdapter<SMS> {
 
             private Context contexto; // Atributo 'contexto' de tipo Context
             private ArrayList<SMS> smses; // Atributo 'titulares' de tipo ArrayList
