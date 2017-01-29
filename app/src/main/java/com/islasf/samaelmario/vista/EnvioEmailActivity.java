@@ -41,7 +41,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     private String [] toDestinatarios;
     private String ccRemitente, textoMail, asunto;
-    AccesoDatos accesoDatos;
+    private AccesoDatos accesoDatos;
+
+    private boolean contactos_cargados = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,15 +242,16 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
 
         iniciar_lista_contactos();
-        accesoDatos.ejecutar_carga_contactos(this);
+
     }
 
     private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
        // this.lista_contactos = this.acceso.obtener_contactos();
 
-        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS, lista_contactos);
+        intent.putExtra(Constantes.LISTA_CARGADA,contactos_cargados);
         intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,lista_contactos);
 
         startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
@@ -281,6 +284,11 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
                     i=contactos_seleccionados.size();
                 }
 
+            }
+            if(contactos_seleccionados.size()>0){
+                contactos_cargados = true;
+            }else{
+                contactos_cargados = false;
             }
             tv_ContactoSuperior.setText(txt);
         }

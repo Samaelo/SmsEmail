@@ -54,9 +54,10 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     private ArrayList<Integer> contactos_seleccionados;
     private  int COLOR_SELECCION,COLOR_DESELECCION;
     private ArrayList<View> lista_views;
-    private boolean alguno_seleccionado;
+    private boolean alguno_seleccionado,seleccionados;
     ContactosAdapter adaptador;
     AccesoDatos accesoDatos;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,16 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         setSupportActionBar(toolbar);
 
         lista_views = new ArrayList<View>();
-
+        accesoDatos = new AccesoDatos(this);
         //Cargamos los datos recibidos de la actividad llamante
         cargar_datos_intent();
 
         //Cargamos los componentes
         cargar_componentes();
+        cargar_lista();
 
-        seleccionar_contactos();
+      //  seleccionar_contactos();
+
 
         if(contactos_seleccionados.size() > 0){
             alguno_seleccionado = true;
@@ -83,8 +86,16 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
             alguno_seleccionado = false;
         }
 
-        accesoDatos = new AccesoDatos(this);
-        accesoDatos.ejecutar_carga_contactos(this);
+
+
+
+    }
+
+    private void cargar_lista(){
+        if(seleccionados != true){
+            accesoDatos.ejecutar_carga_contactos(this);
+        }
+
     }
 
     private void seleccionar_contactos(){
@@ -102,7 +113,9 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
         Intent intent_recibido = getIntent();
 
+        contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
         contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+        seleccionados =  intent_recibido.getBooleanExtra(Constantes.LISTA_CARGADA,false);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
 
     }

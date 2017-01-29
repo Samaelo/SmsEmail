@@ -22,6 +22,6 @@
             android:title="Escoger tema"
             android:entries="@array/tema"
             android:entryValues="@array/codigotema"
-            android:key="list_preference_1" />
+            android:key="list_preference_tema" />
     </PreferenceCategory>
 </PreferenceScreen>
