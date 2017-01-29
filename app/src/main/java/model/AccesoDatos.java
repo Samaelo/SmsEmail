@@ -182,7 +182,7 @@ public class AccesoDatos {
     }
 
     class CargaSMS extends AsyncTask<FuncionalidadesComunes,Void,ArrayList<SMS>> {
-
+//
         private FuncionalidadesComunes funcionalidadesComunes;
 
         @Override
