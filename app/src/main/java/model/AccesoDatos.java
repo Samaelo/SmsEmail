@@ -75,13 +75,18 @@ public class AccesoDatos {
      */
     public void insertar(String remitente, String[] destinatarios, String asunto, String textoEmail){
         String nombres_destinatarios = "";
+        String[] destinatarios_a_guardar = {""};
 
-        for(int i = 0; i < destinatarios.length; i++){
+        if(destinatarios != null){
+               destinatarios_a_guardar = destinatarios;
+        }
 
-            if(destinatarios.length == 1)
-                nombres_destinatarios += destinatarios[i];
+        for(int i = 0; i < destinatarios_a_guardar.length; i++){
+
+            if(destinatarios_a_guardar.length == 1)
+                nombres_destinatarios += destinatarios_a_guardar[i];
             else
-                nombres_destinatarios += ", " + destinatarios[i];
+                nombres_destinatarios += ", " + destinatarios_a_guardar[i];
         }
 
        base_datos.execSQL("insert into Mensajes_Email(Remitente,Destinatarios,Asunto,Texto,Fecha_de_Envio) values ('" + remitente + "','" + nombres_destinatarios + "','" + asunto + "','" + textoEmail +"','"

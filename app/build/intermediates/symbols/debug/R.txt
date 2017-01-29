@@ -779,7 +779,7 @@ int id etNombre 0x7f0f009a
 int id etNumFijo 0x7f0f009d
 int id etNumMovil 0x7f0f009e
 int id et_Asunto 0x7f0f008a
-int id et_Destinatarios 0x7f0f008c
+int id et_Destinatarios 0x7f0f008d
 int id et_Remitente 0x7f0f0089
 int id et_TextoEmail 0x7f0f0086
 int id exitUntilCollapsed 0x7f0f001b
@@ -906,7 +906,7 @@ int id tv_Asunto 0x7f0f008b
 int id tv_ContactoSuperior 0x7f0f0087
 int id tv_De 0x7f0f0088
 int id tv_InformacionContactos 0x7f0f008e
-int id tv_Para 0x7f0f008d
+int id tv_Para 0x7f0f008c
 int id tv_listView_Datos 0x7f0f00ad
 int id tv_listView_Destinatario 0x7f0f00b2
 int id tv_listView_Destinatarios 0x7f0f00af

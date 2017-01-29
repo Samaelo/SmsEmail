@@ -1,31 +1,17 @@
 package com.islasf.samaelmario.vista;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.drawable.Icon;
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPopupHelper;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.graphics.Color;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,14 +21,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
-import model.Perfil;
 
 public class ListaContactosActivity extends AppCompatActivity implements FuncionalidadesComunes{
 
@@ -54,7 +37,8 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     private ArrayList<Integer> contactos_seleccionados;
     private  int COLOR_SELECCION,COLOR_DESELECCION;
     private ArrayList<View> lista_views;
-    private boolean alguno_seleccionado,seleccionados;
+    private boolean alguno_seleccionado;
+    private boolean lista_cargada;
     ContactosAdapter adaptador;
     AccesoDatos accesoDatos;
 
@@ -77,7 +61,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         cargar_componentes();
         cargar_lista();
 
-      //  seleccionar_contactos();
+        seleccionar_contactos();
 
 
         if(contactos_seleccionados.size() > 0){
@@ -92,8 +76,12 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     }
 
     private void cargar_lista(){
-        if(seleccionados != true){
+        if(!lista_cargada){
+
             accesoDatos.ejecutar_carga_contactos(this);
+
+        }else{
+            crearListaDeContactos();
         }
 
     }
@@ -107,7 +95,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     /**
      * Método encargado de cargar los datos recibidos de la actividad que invoca a ésta. Mediante
      * el método getIntent(), se obtiene la lista de contactos ya cargados, y la lista de los
-     * contactos seleccionados en el anterior acceso.
+     * contactos lista_cargada en el anterior acceso.
      */
     private void cargar_datos_intent(){
 
@@ -115,7 +103,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
         contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
         contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
-        seleccionados =  intent_recibido.getBooleanExtra(Constantes.LISTA_CARGADA,false);
+        lista_cargada =  intent_recibido.getBooleanExtra(Constantes.LISTA_CARGADA,true);
         lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
 
     }
@@ -131,7 +119,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
     /**
      * Método que se ejecuta cuando se pulsa el botón flotante(FloatingActionButton fabAgregarContactos)
-     * cuya finalidad es devolver los contactos seleccionados a la actividad llamante. Además devuelve
+     * cuya finalidad es devolver los contactos lista_cargada a la actividad llamante. Además devuelve
      * los contactos ya cargados
      * @param v
      */
@@ -143,8 +131,8 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     private void volver(){
 
         Intent intent_devuelto = new Intent();
-        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
         intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,contactos);
+        intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
         setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
 
         finish();
@@ -161,15 +149,15 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
 
         if(codigo_listener==0){//Si el código listener corresponde al onItemClickListener
-            if(alguno_seleccionado == true){//Si ya hay contactos seleccionados, se añaden a la selección
-                if(contactos_seleccionados.contains(id_contacto)){//Si ya está en la lista de seleccionados lo borra
+            if(alguno_seleccionado == true){//Si ya hay contactos lista_cargada, se añaden a la selección
+                if(contactos_seleccionados.contains(id_contacto)){//Si ya está en la lista de lista_cargada lo borra
                     contactos_seleccionados.remove(id_contacto);
                     v.setBackgroundColor(COLOR_DESELECCION);
-                }else{//Si no está en la lista de seleccionados, lo añade.
+                }else{//Si no está en la lista de lista_cargada, lo añade.
                     contactos_seleccionados.add(id_contacto);
                     v.setBackgroundColor(COLOR_SELECCION);
                 }
-            }else{//Si no hay contactos seleccionados, se pasa un solo contacto a la actividad de envío.
+            }else{//Si no hay contactos lista_cargada, se pasa un solo contacto a la actividad de envío.
                 contactos_seleccionados.add(id_contacto);
                 volver();
             }
@@ -191,7 +179,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     }
 
     public void crearListaDeContactos(){
-
+        lista_cargada = true;
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
         adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
 
@@ -223,8 +211,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, lista_views.size()+"", Toast.LENGTH_SHORT).show();
-        seleccionar_contactos();
+        volver();
     }
 
     // --- PETICIÓN DE PERMISOS PARA ACCEDER A LA LISTA DE CONTACTOS DEL TELÉFONO --- //

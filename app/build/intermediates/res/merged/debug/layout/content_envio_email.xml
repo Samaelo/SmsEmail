@@ -67,16 +67,6 @@
         android:layout_alignBottom="@+id/et_Asunto"
         android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/et_Destinatarios"
-        android:hint="@string/destinatario"
-        android:layout_above="@+id/et_Asunto"
-        android:layout_alignStart="@+id/et_Asunto" />
-
     <TextView
         android:text="@string/para"
         android:layout_width="wrap_content"
@@ -90,7 +80,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/et_Remitente"
         android:hint="@string/remitente"
@@ -105,5 +95,15 @@
         android:text="@string/informacionContactos"
         android:layout_above="@+id/et_Remitente"
         android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/et_Destinatarios"
+        android:hint="@string/destinatario"
+        android:layout_above="@+id/et_Asunto"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

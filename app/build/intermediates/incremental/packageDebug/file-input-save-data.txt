@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Jan 29 19:19:20 CET 2017
+#Sun Jan 29 20:32:42 CET 2017
 210.set=ANDROID_RESOURCE
 282.file=C\:\\Users\\Yo\\Desktop\\SMSMAIL\\SmsEmail\\app\\build\\intermediates\\res\\resources-debug.ap_\\res\\color\\abc_primary_text_material_light.xml
 14.set=ANDROID_RESOURCE

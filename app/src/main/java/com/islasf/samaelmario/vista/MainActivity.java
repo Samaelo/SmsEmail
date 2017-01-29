@@ -96,6 +96,9 @@ TODO:
             case R.id.itemPreferencias:
                 startActivity(new Intent(this,PreferenciasActivity.class));
                 break;
+            case R.id.itemVerPerfil:
+                startActivity(new Intent(this,PerfilActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

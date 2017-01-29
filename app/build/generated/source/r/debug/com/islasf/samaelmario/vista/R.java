@@ -2759,7 +2759,7 @@ containing a value of this type.
         public static final int etNumFijo=0x7f0f009d;
         public static final int etNumMovil=0x7f0f009e;
         public static final int et_Asunto=0x7f0f008a;
-        public static final int et_Destinatarios=0x7f0f008c;
+        public static final int et_Destinatarios=0x7f0f008d;
         public static final int et_Remitente=0x7f0f0089;
         public static final int et_TextoEmail=0x7f0f0086;
         public static final int exitUntilCollapsed=0x7f0f001b;
@@ -2886,7 +2886,7 @@ containing a value of this type.
         public static final int tv_ContactoSuperior=0x7f0f0087;
         public static final int tv_De=0x7f0f0088;
         public static final int tv_InformacionContactos=0x7f0f008e;
-        public static final int tv_Para=0x7f0f008d;
+        public static final int tv_Para=0x7f0f008c;
         public static final int tv_listView_Datos=0x7f0f00ad;
         public static final int tv_listView_Destinatario=0x7f0f00b2;
         public static final int tv_listView_Destinatarios=0x7f0f00af;

@@ -10,7 +10,12 @@ import android.content.SharedPreferences;
 public class Preferencias {
 
     /**
-     * Constante que de termina la etiqueta clave para el acceso a la preferencia del permiso de
+     * Constante que de termina la etiqueta clave para el acceso a las preferencias.
+     */
+    private final String PREFERENCIAS = "preferencias";
+
+    /**
+     * Constante que determina la etiqueta clave para el acceso a la preferencia del permiso de
      * lectura de contactos.
      */
     private final String PERMISOS_CONTACTOS = "p_contactos";
@@ -22,7 +27,7 @@ public class Preferencias {
     private final String PERMISOS_SMS = "p_sms";
 
     /**
-     * Constante que de termina la etiqueta clave para el acceso a la preferencia del tema escogido
+     * Constante que determina la etiqueta clave para el acceso a la preferencia del tema escogido
      * o no por el usuario.
      */
     private final String TEMA = "tema";
@@ -46,7 +51,7 @@ public class Preferencias {
      *                 tipo SharedPreferences).
      */
     public Preferencias(Context contexto){
-        this.preferencias = contexto.getSharedPreferences("preferencias",Context.MODE_PRIVATE);
+        this.preferencias = contexto.getSharedPreferences(PREFERENCIAS,Context.MODE_PRIVATE);
         this.editor = this.preferencias.edit();
     }
     //////////
@@ -79,6 +84,10 @@ public class Preferencias {
      */
     public void establecer_Tema(String valor){
         editor.putString(TEMA,valor);
+    }
+
+    public void establecer_cadena_generica(String clave, String valor){
+            editor.putString(clave,valor);
     }
 
     //////////
@@ -115,5 +124,8 @@ public class Preferencias {
         return preferencias.getString(TEMA,"estandar");
     }
 
+    public String obtener_cadena_generica(String clave, String valor){
+        return preferencias.getString(clave,valor);
+    }
 
 }

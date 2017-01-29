@@ -33,17 +33,15 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     private ArrayList<Contacto> lista_contactos;
     private ArrayList<Integer> contactos_seleccionados;
     private EnvioMensajes envioMensajes;
-    private Contacto contacto_seleccionado;
     private EditText et_Remitente, et_Destinatarios, et_Asunto, et_TextoEmail;
     private TextView tv_ContactoSuperior;
     private FloatingActionButton fabEnviar;
-    private Button boton;
 
     private String [] toDestinatarios;
     private String ccRemitente, textoMail, asunto;
     private AccesoDatos accesoDatos;
 
-    private boolean contactos_cargados = false;
+    private boolean contactos_cargados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +51,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         cargarComponentes();
 
         cargar_intent();
+        contactos_cargados = false;
         FloatingActionButton fab_seleccionar_contactos = (FloatingActionButton)findViewById(R.id.fabSeleccionarContacto); // Instanciamos el botón Fab para seleccionar un contacto
         contactos_seleccionados = new ArrayList<Integer>();
 
@@ -134,6 +133,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
                 }else{
                     if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false){
                         Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }else{
+                        insertar_mensaje();
                     }
                 }
             }
@@ -142,42 +143,42 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
                 mostrar_dialogo(1,opciones,"Alguna de las direcciones de correo no cumple un patrón válido. Por favor, revise los E-mails.", "E-mail no enviado");
             }
 
-            accesoDatos = new AccesoDatos(this);
-            accesoDatos.insertar(ccRemitente, toDestinatarios, asunto, textoMail);
+
         }
+    }
+
+    private void insertar_mensaje(){
+        accesoDatos = new AccesoDatos(this);
+        accesoDatos.insertar(ccRemitente, toDestinatarios, asunto, textoMail);
     }
 
     public DialogoAlerta mostrar_dialogo(int opcion,String[] opciones, String mensaje, String titulo){
         DialogoAlerta dialogo = new DialogoAlerta();
         dialogo.setDialogo(this,mensaje, titulo, opciones, opcion);
+        dialogo.show(getFragmentManager(),"dialogo_asunto");
         return dialogo;
     }
 
     @Override
     public void onAsyncTask(Object... objeto){
-      //  this.lista_contactos = (ArrayList<Contacto>) objeto[0];
     }
 
     @Override
     public void onAlerta(Object... objeto){
 
         int opcion = (int) objeto[0];
+        int boton_pulsado = (int) objeto[1];
 
-        if(envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false && opcion == 2) {
-            Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-            switch (opcion) {
-                case 0:
-                    //iniciar_lista_contactos();
-                    break;
-                case 2:
-                    if (envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false) {
-                        Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                    }
-                    break;
-                case 50:
-                    String[] opciones = {"Aceptar"};
-                    mostrar_dialogo(1, opciones, "Por favor, espere a que se carguen todos los contactos...", "Cargando");
-                    break;
+        if(opcion == 2) {
+            if(boton_pulsado == Constantes.ACEPTAR){
+                this.asunto = "";
+                if (envioMensajes.enviar_email(ccRemitente, toDestinatarios, asunto, textoMail) == false) {
+                    Snackbar.make(fabEnviar, "Error al enviar el E-mail", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                }else{
+                    insertar_mensaje();
+                }
+            }else{
+
             }
         }
     }
@@ -240,9 +241,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     public void onSeleccionar_Contacto(View v){
         // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
-
         iniciar_lista_contactos();
-
     }
 
     private void iniciar_lista_contactos(){
@@ -263,8 +262,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         //Leemos los datos del intent recibido de la actividad llamada.
         if(resultCode==Constantes.LISTA_CONTACTOS_ACTIVITY){
 
-           lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+            lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
             contactos_seleccionados = (ArrayList<Integer>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+            contactos_cargados = true;
 
         /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
            que hemos elegido, y su número de teléfono */
@@ -273,7 +273,10 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
             String txt = "";
 
+            et_Destinatarios.setText("");
             for(int i = 0; i< contactos_seleccionados.size(); i++){
+                et_Destinatarios.setText(et_Destinatarios.getText().toString() + "," + lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo());
+
                 if(i!=0) {
                     txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
                 }else{
@@ -285,12 +288,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
                 }
 
             }
-            if(contactos_seleccionados.size()>0){
-                contactos_cargados = true;
-            }else{
-                contactos_cargados = false;
-            }
+
             tv_ContactoSuperior.setText(txt);
+
         }
     }
 

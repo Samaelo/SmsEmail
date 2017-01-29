@@ -16,6 +16,7 @@ import java.util.Calendar;
 
 import model.Contacto;
 import model.Perfil;
+import model.Preferencias;
 
 public class PerfilActivity extends AppCompatActivity {
 

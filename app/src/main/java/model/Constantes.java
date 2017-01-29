@@ -22,7 +22,7 @@ public class Constantes {
     public static final String LISTADO_CONTACTOS_SELECCIONADOS = "contactos_seleccionados";
     public static final String LISTADO_CONTACTOS_CARGADOS = "contactos_cargados";
     public static final String LISTA_EDITABLE = "lista_editable";
-    public static final String LISTA_CARGADA = "contactos_cargados";
+    public static final String LISTA_CARGADA = "contactos_cargados_boolean";
 
     /**
      * Constantes de opciones de diálogo
