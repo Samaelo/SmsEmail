@@ -1,6 +1,9 @@
 package com.islasf.samaelmario.vista;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuBuilder;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,8 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
      */
 
     private ArrayList<Contacto> contactos;
+    private Permisos permisos;
+    private boolean permisos_contactos = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,9 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         setContentView(R.layout.activity_main);
 
         cargarActionBar();
+        permisos = new Permisos(this);
+
+        solicitarPermisos_Contactos();
 
     }
 
@@ -174,8 +183,84 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
 
     @Override
     public void onAlerta(Object... objeto) {
+        int tipo_dialogo = (int) objeto[0];
+        int boton_presionado = (int) objeto[1];
+        if(tipo_dialogo == Constantes.DIALOGO_DOS_OPCIONES){
+            if(boton_presionado == Constantes.ACEPTAR){
+               solicitarPermisos_Contactos();
+            }else{
+                permisos_contactos = false;
+                Toast.makeText(this, "No podrás escoger contactos a la hora de enviar mensajes.", Toast.LENGTH_LONG).show();
+            }
+        }
+
 
     }
+
+
+    /*
+
+    @Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if (requestCode == REQUEST_PERMISSION) {
+        // for each permission check if the user granted/denied them
+        // you may want to group the rationale in a single dialog,
+        // this is just an example
+        for (int i = 0, len = permissions.length; i < len; i++) {
+            String permission = permissions[i];
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+            // user rejected the permission
+                boolean showRationale = shouldShowRequestPermissionRationale( permission );
+                if (! showRationale) {
+                    // user also CHECKED "never ask again"
+                    // you can either enable some fall back,
+                    // disable features of your app
+                    // or open another dialog explaining
+                    // again the permission and directing to
+                    // the app setting
+                } else if (Manifest.permission.WRITE_CONTACTS.equals(permission)) {
+                    showRationale(permission, R.string.permission_denied_contacts);
+                    // user did NOT check "never ask again"
+                    // this is a good place to explain the user
+                    // why you need the permission and ask if he wants
+                    // to accept it (the rationale)
+                } else if ( /* possibly check more permissions... ) {
+    }
+}
+}
+        }
+        }
+
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        String permisos;
+        boolean mostrar_rationale;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            switch (requestCode) {
+                case Constantes.REQUEST_PERMISOS_CONTACTOS:
+                    for (int i = 0; i < permissions.length; i++) {
+                        permisos = permissions[i];
+                        if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                            mostrar_rationale = shouldShowRequestPermissionRationale(permisos);
+
+                            if(!mostrar_rationale){ //El usuario ha hecho "check" en  la opción "No mostrar de nuevo".
+                                Toast.makeText(this, "No podrás escoger contactos a la hora de enviar mensajes.", Toast.LENGTH_LONG).show();
+                                //Desactivar funcionalidades
+                            }else{
+                                mostrar_rationale_Contactos();
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
 
     @Override
     public void onAsyncTask(Object... objeto) {
@@ -184,6 +269,18 @@ java.lang.NullPointerException: Attempt to invoke virtual method 'boolean java.u
         Intent intent = new Intent(this,EnvioEmailActivity.class);
         intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,this.contactos);
         startActivity(intent);
+    }
+
+    private void solicitarPermisos_Contactos(){
+        if(!permisos.verificarPermisos_Contactos()){
+            permisos.solicitarPermisos_Contactos();
+        }
+
+    }
+
+    private void mostrar_rationale_Contactos(){
+        String[] opciones = {"No permitir","Intentar de nuevo"};
+        permisos.mostrar_Rationale(this,opciones);
     }
 
 

@@ -2,23 +2,38 @@ package com.islasf.samaelmario.vista;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
 import model.Constantes;
 
 /**
- * Created by Mario on 27/01/2017.
+ * Clase destinada a la gestión de los permisos de la aplicación. Se encarga de verificar y solicitar
+ * los permisos garantizados por el usuario a la aplicación. Además muestra al los usuarios más cabezotas
+ * el por qué debería aceptar los permisos solicitados.
  */
 
 public class Permisos {
 
-    private int REQUEST_CONTACTOS = 0;
-    private final int REQUEST_SMS = 1;
+
+    /**
+     * Atributo de tipo Activity que hace referencia a la actividad que instancia un objeto de esta clase.
+     */
     private Activity actividad_llamante;
+
+    /**
+     * Constante de tipo String que hace referencia al mensaje que mostrar en el método "mostrarRationale".
+     * Este mensaje es la explicación al usuario de por qué debería garantizar los permisos de
+     * acceso de lectura a los contactos del teléfono a la aplicación.
+     */
     private final String RATIONALE_CONTACTOS="Para poder tener acceso a tus contactos y obtener sus" +
             "direcciones de correo electrónico o teléfono, necesitamos que aceptes los permisos.";
+
+    /**
+     * Constante de tipo String que hace referencia al mensaje que mostrar en el método "mostrarRationale".
+     * Este mensaje es la explicación al usuario de por qué debería garantizar los permisos de
+     * envío SMS a la aplicación.
+     */
     private final String RATIONALE_SMS="Para poder realizar envíos SMS, es necesario que nos des" +
             "permisos de envío SMS.";
 
@@ -36,10 +51,8 @@ public class Permisos {
      * no lo están.
      */
     public boolean verificarPermisos_Contactos(){
-
         boolean resultado = ActivityCompat.checkSelfPermission(actividad_llamante, Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED;
-
+                == PackageManager.PERMISSION_GRANTED;
 
         return resultado;
     }
@@ -52,17 +65,33 @@ public class Permisos {
      * invocamos al método para solicitar dichos permisos.
      *
      */
-    public void solicitarPermisos_Contactos(FuncionalidadesComunes actividad_dialogo){
-        String[] opciones = {"No permitir","Intentar de nuevo"};
+    public void solicitarPermisos_Contactos(){
+            ActivityCompat.requestPermissions(
+                    actividad_llamante, new String[]{Manifest.permission.READ_CONTACTS},
+                    Constantes.REQUEST_PERMISOS_CONTACTOS);
+    }
+
+    /**
+     * Método encargado de mostrar la razón de por qué se deberían garantizar los permisos a la
+     * aplicación. Este método debe ser llamado cuando el usuario ha denegado los permisos, pero no
+     * ha hecho "check" en la opción "No preguntarme más".
+     * @param actividad_dialogo - Actividad que llama al método, de la que se obtiene un objeto
+     *                          de tipo FragmentManager mediante el método Activity.getFragmentManager.
+     *                          Éste es empleado para invocar al diálogo de explicación.
+     * @param opciones - Parámetro de tipo array primitivo de String que hace referencia a la
+     *                 serie de botones que va a tener el diálogo mostrado. Por lo general son
+     *                 "No permitir" e "Intentar de nuevo".
+     */
+    public void mostrar_Rationale(FuncionalidadesComunes actividad_dialogo, String[] opciones){
         if (ActivityCompat.shouldShowRequestPermissionRationale(actividad_llamante,
                 Manifest.permission.READ_CONTACTS)) {
             DialogoAlerta dialogo = new DialogoAlerta();
             dialogo.setDialogo(actividad_dialogo,RATIONALE_CONTACTOS,"Permisos de contactos",opciones, Constantes.DIALOGO_DOS_OPCIONES);
             dialogo.show(((Activity) actividad_dialogo).getFragmentManager(),"permisos_contactos");
+
         } else {
-            ActivityCompat.requestPermissions(
-                    actividad_llamante, new String[]{Manifest.permission.READ_CONTACTS},
-                    REQUEST_CONTACTOS);
+            solicitarPermisos_Contactos();
         }
+
     }
 }
