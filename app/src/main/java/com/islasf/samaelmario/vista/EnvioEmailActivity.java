@@ -352,4 +352,33 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
 
 
+
+
+    // ---------- GUARDAMOS EL ESTADO DE LA ACTIVIDAD CUANDO GIRAMOS EL MÓVIL ---------- //
+
+    @Override
+    protected void onSaveInstanceState(Bundle guardarEstado) {
+        super.onSaveInstanceState(guardarEstado);
+
+        guardarEstado.putString("contactosSeleccionados", tv_ContactoSuperior.getText().toString());
+        guardarEstado.putString("remitente", ccRemitente);
+        guardarEstado.putString("para", et_Destinatarios.getText().toString());
+        guardarEstado.putString("asunto", asunto);
+        guardarEstado.putString("texto", textoMail);
+
+    }
+
+    // ---------- RECUPERAMOS EL ESTADO DE LA ACTIVIDAD CUANDO GIRAMOS EL MÓVIL ---------- //
+
+    @Override
+    protected void onRestoreInstanceState(Bundle recuperarEstado) {
+        super.onRestoreInstanceState(recuperarEstado);
+
+        recuperarEstado.getString("contactosSeleccionados", tv_ContactoSuperior.getText().toString());
+        recuperarEstado.getString("remitente", ccRemitente);
+        recuperarEstado.getString("para", et_Destinatarios.getText().toString());
+        recuperarEstado.getString("asunto", asunto);
+        recuperarEstado.getString("texto", textoMail);
+    }
+
 }

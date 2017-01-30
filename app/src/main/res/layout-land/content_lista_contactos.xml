@@ -26,8 +26,9 @@
         android:id="@+id/lv_lista_contactos"
         android:choiceMode="multipleChoice"
         android:layout_height="400dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/lvListaContactos"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
 
     android:id="@+id/txtPista_lista_contactos"
         android:layout_alignParentStart="true" />

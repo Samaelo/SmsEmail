@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.islasf.samaelmario.vista.EnvioSMSActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbEnvioSMS"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCancelar"
+        android:layout_width="50dp"
+        android:layout_height="54dp"
+        app:backgroundTint="@color/rojo_oscuro"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="onCancelar"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEnviarSMS"
+        app:backgroundTint="@android:color/holo_green_light"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_send"
+        android:onClick="onEnviarMail"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabSeleccionarContacto"
+        android:layout_width="54dp"
+        android:layout_height="53dp"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:layout_marginTop="55sp"
+        android:onClick="onSeleccionar_contacto"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="60sp" />
+
+    <include layout="@layout/content_envio_sms" />
+
+</android.support.design.widget.CoordinatorLayout>

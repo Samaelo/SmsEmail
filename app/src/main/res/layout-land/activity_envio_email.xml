@@ -14,24 +14,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:clickable="true"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        android:id="@+id/fabSeleccionarContacto"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        android:onClick="onSeleccionar_Contacto"
-
-        android:layout_marginTop="100sp"
-        android:layout_marginStart="140sp" />
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEnviarMail"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_send"
@@ -41,8 +28,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCancelar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
         android:layout_gravity="bottom|start"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
@@ -56,6 +43,24 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        android:id="@+id/fabSeleccionarContacto"
+        app:backgroundTint="@android:color/holo_blue_dark"
+        android:onClick="onSeleccionar_Contacto"
+
+        android:layout_marginTop="55sp"
+        android:layout_marginStart="160sp"
+        app:layout_anchor="@+id/include"
+        android:forceHasOverlappingRendering="true"
+        android:layout_marginLeft="50sp"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal" />
 
     <include layout="@layout/content_envio_email"
         android:id="@+id/include"

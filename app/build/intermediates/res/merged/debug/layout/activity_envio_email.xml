@@ -58,7 +58,9 @@
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <include layout="@layout/content_envio_email"
-        android:id="@+id/include" />
+        android:id="@+id/include"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
 
 </android.support.design.widget.CoordinatorLayout>
