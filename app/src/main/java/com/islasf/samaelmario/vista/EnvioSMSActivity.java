@@ -30,7 +30,7 @@ public class EnvioSMSActivity extends AppCompatActivity {
     private GestorMenus gestorMenus = new GestorMenus(this);
 
     private ArrayList<Contacto> lista_contactos;
-    private ArrayList<Integer> contactos_seleccionados;
+    private ArrayList<Integer> contactos_seleccionados = new ArrayList<Integer>();
     private boolean contactos_cargados;
     private Permisos permisos;
 

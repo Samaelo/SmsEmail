@@ -89,6 +89,11 @@ public class Preferencias {
         editor.commit();
     }
 
+    /**
+     * Método encargado de almacenar una preferencia cualquiera mediante los parámetros recibidos.
+     * @param clave - Parámetro cuya finalidad es dar valor a la clave de la preferencia a almacenar.
+     * @param valor - Parámetor cuya finalidad es dar valor a la preferencia a almacenar.
+     */
     public void establecer_cadena_generica(String clave, String valor){
             editor.putString(clave,valor);
             editor.commit();

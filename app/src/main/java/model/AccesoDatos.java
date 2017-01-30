@@ -13,35 +13,66 @@ import java.util.ArrayList;
 import java.util.Locale;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
-import android.view.View;
 
-import com.islasf.samaelmario.vista.DialogoAlerta;
 import com.islasf.samaelmario.vista.FuncionalidadesComunes;
-import com.islasf.samaelmario.vista.ListaContactosActivity;
 
 /**
- * Created by Mario on 07/01/2017.
+ * Clase cuya tarea es realizar todos los accesos a la base de datos de los mensajes y a los content
+ * providers de la aplicación de contactos integrada en el propio teléfono.
  */
 
 public class AccesoDatos {
 
+    /**
+     * Atributo de tipo ArrayList<Contacto> que hace referencia a la lista de los contactos que
+     * son leídos del teléfono en el AsyncTask
+     */
     private ArrayList<Contacto> lista_contactos;
-    private ArrayList<SMS> lista_smses;
-    private ArrayList<Email> lista_emails;
 
-    private DialogoAlerta dialogo;
-    private Activity actividad_dialogo;
-
+    /**
+     * Constante de tipo String que determina el nombre de la base de datos donde se almacenan
+     * los mensajes email y SMS.
+     */
     private final String NOMBRE_BD ="Mensajes";
+
+    /**
+     * Constante de tipo String que hace referencia a la tabla donde se almacenan los mensajes SMS.
+     */
     private final String TABLA_SMS ="Mensajes_SMS";
+
+    /**
+     * Constante de tipo String que determina el nombre de la tabla donde se almacenan los emails.
+     */
     private final String TABLA_EMAILS ="Mensajes_Email";
+
+    /**
+     * Atributo de tipo MensajesSQLiteHelper cuya misión es facilitarnos el uso de la base de datos,
+     * permitiendo el acceso a ésta de forma sencilla.
+     */
     private MensajesSQLiteHelper mensajesSQLiteHelper;
+
+    /**
+     * Atributo de tipo SQLiteDatabase que es empleado para realizar las operaciones de inserción,
+     * borrado o consulta.
+     */
     private SQLiteDatabase base_datos;
+
+    /**
+     * Contexto de la actividad que instancia un objeto de la clase AccesoDatos, necesario para
+     * acceder a la base de datos sqlite.
+     */
     private Context contexto;
 
-    ProgressDialog dialogoProgreso;
+    /**
+     * Diálogo de progreso empleado para las cargas de mensajes y contactos. Se va actualizando
+     * en función de la iteración.
+     */
+    private ProgressDialog dialogoProgreso;
 
-
+    /**
+     * Método constructor que recibe por parámetro el contexto que es empleado para acceso a la BDBD.
+     * @param contexto - Contexto que es empleado para acceso a la BDBD.
+     */
     public AccesoDatos(Context contexto){
         this.contexto = contexto;
         mensajesSQLiteHelper = new MensajesSQLiteHelper(contexto,NOMBRE_BD, null, 1);
@@ -53,7 +84,7 @@ public class AccesoDatos {
     //
 
     /**
-     * Método para guardar un mensaje de tipo SMS
+     * Método empleado para guardar un mensaje de tipo SMS
      * @param destinatario Variable de tipo String que hace referencia al nombre del contacto al cual se desea enviar el SMS
      * @param textoSMS Variable de tipo String que hace referencia al contenido del mensaje del SMS
      */
@@ -61,13 +92,13 @@ public class AccesoDatos {
         ContentValues fila = new ContentValues();
         fila.put("Destinatario", destinatario);
         fila.put("Texto", textoSMS);
-        fila.put("Fecha_de_Envio",getDateTime());
+        fila.put("Fecha_de_Envio", obtener_fecha_actual());
         base_datos.insert(TABLA_SMS, null, fila);
         base_datos.close();
     }
 
     /**
-     * Método para guardar un mensaje de tipo E-mail
+     * Método empleado para guardar un mensaje de tipo E-mail
      * @param remitente Variabel de tipo String que hace referencia al nombre del remitente que desea enviar el E-Mail
      * @param destinatarios Variable de tipo Array (de tipo String) que hace referencia al conjunto de contactos a los cuales se desea enviar el E-mail
      * @param asunto Variable de tipo String que hace referencia al asunto del E-mail
@@ -90,16 +121,22 @@ public class AccesoDatos {
         }
 
        base_datos.execSQL("insert into Mensajes_Email(Remitente,Destinatarios,Asunto,Texto,Fecha_de_Envio) values ('" + remitente + "','" + nombres_destinatarios + "','" + asunto + "','" + textoEmail +"','"
-                         + getDateTime() + "')");
+                         + obtener_fecha_actual() + "')");
          base_datos.close();
     }
 
-    private String getDateTime() {
+    /**
+     * Método encargado de obtener la fecha y hora actual para que tenga reflejo en la base de datos
+     * a la hora de almacenar un mensaje enviado.
+     * @return - Devuelve la cadena obtenida de la conversión de la fecha de tipo Date a String.
+     */
+    private String obtener_fecha_actual() {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }
+
 
     public void eliminar_Mensaje(int indice, String tabla){
 
@@ -136,6 +173,12 @@ public class AccesoDatos {
 
     // ------------ MÉTODOS ASYNCTASK ------------ //
 
+    /**
+     * Método encargado de iniciar la ejecución en segundo plano de la carga de SMS mediante el método
+     * execute de la clase CargaSMS.
+     * @param funcionalidadesComunes - La interfaz que implementan las actividades que llaman
+     *                               a este método. Para más información mire la interfaz "FuncionalidadesComunes".
+     */
     public void ejecutar_carga_smses(FuncionalidadesComunes funcionalidadesComunes){
 
         dialogoProgreso = new ProgressDialog(contexto);
@@ -143,9 +186,7 @@ public class AccesoDatos {
         dialogoProgreso.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialogoProgreso.setIndeterminate(false);
         dialogoProgreso.setProgress(0);
-        this.actividad_dialogo = (Activity)funcionalidadesComunes;
 
-        lista_smses = new ArrayList<SMS>();
         CargaSMS cargaSMS = new CargaSMS();
         cargaSMS.execute(funcionalidadesComunes);
     }
@@ -153,6 +194,13 @@ public class AccesoDatos {
     //
     //  Acceso a los Emails
     //
+
+    /**
+     * Método encargado de iniciar la ejecución en segundo plano de la carga de emails mediante el método
+     * execute de la clase CargaEmails.
+     * @param funcionalidadesComunes - La interfaz que implementan las actividades que llaman
+     *                               a este método. Para más información mire la interfaz "FuncionalidadesComunes".
+     */
     public void ejecutar_carga_emails(FuncionalidadesComunes funcionalidadesComunes){
         dialogoProgreso = new ProgressDialog(contexto);
         dialogoProgreso.setMessage("Cargando la lista de emails...");
@@ -160,9 +208,7 @@ public class AccesoDatos {
         dialogoProgreso.setIndeterminate(false);
         dialogoProgreso.setProgress(0);
 
-        this.actividad_dialogo = (Activity)funcionalidadesComunes;
 
-        lista_emails = new ArrayList<Email>();
         CargaEmails cargaEmails = new CargaEmails();
         cargaEmails.execute(funcionalidadesComunes);
     }
@@ -170,6 +216,13 @@ public class AccesoDatos {
     //
     //  Acceso a los contactos
     //
+
+    /**
+     * Método encargado de iniciar la ejecución en segundo plano de la carga de los contactos mediante el método
+     * execute de la clase CargaContactos.
+     * @param funcionalidadesComunes - La interfaz que implementan las actividades que llaman
+     *                               a este método. Para más información mire la interfaz "FuncionalidadesComunes".
+     */
     public void ejecutar_carga_contactos(FuncionalidadesComunes funcionalidadesComunes){
         dialogoProgreso = new ProgressDialog(contexto);
         dialogoProgreso.setMessage("Cargando contactos de la agenda...");
@@ -178,14 +231,19 @@ public class AccesoDatos {
         dialogoProgreso.setProgress(0);
         dialogoProgreso.setSecondaryProgress(0);
 
-
-        this.actividad_dialogo = (Activity)funcionalidadesComunes;
-
         lista_contactos = new ArrayList<Contacto>();
         CargaContactos cargaContactos = new CargaContactos();
         cargaContactos.execute(funcionalidadesComunes);
     }
 
+    /**
+     * Clase interna de la clase AccesoDatos cuya finalidad es, extendiendo de AsyncTask, realizar
+     * la carga de SMS en segundo plano.
+     * En el método doInBackGround se accede a la base de datos y se devuelve un arraylist con la lista
+     * de los SMS almacenados. En el onPostExecute se llama al método onAsyncTask de la actividad
+     * llamante que implemente la interfaz "FuncionalidadesComunes", que es un método que funciona
+     *  a modo de setter del atributo de la lista a obtener.
+     */
     class CargaSMS extends AsyncTask<FuncionalidadesComunes,Void,ArrayList<SMS>> {
 //
         private FuncionalidadesComunes funcionalidadesComunes;
@@ -193,9 +251,7 @@ public class AccesoDatos {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(dialogo!=null){
-                dialogo.show(actividad_dialogo.getFragmentManager(), "alerta_cargando_smses");
-            }
+
         }
 
         @Override
@@ -208,13 +264,19 @@ public class AccesoDatos {
         protected void onPostExecute(ArrayList<SMS> smses) {
             super.onPostExecute(smses);
 
-            if(dialogo!=null){
-                dialogo.dismiss();
-            }
+
             funcionalidadesComunes.onAsyncTask(smses);
         }
     }
 
+    /**
+     * Clase interna de la clase AccesoDatos cuya finalidad es, extendiendo de AsyncTask, realizar
+     * la carga de Emails en segundo plano.
+     * En el método doInBackGround se accede a la base de datos y se devuelve un arraylist con la lista
+     * de los Emails almacenados. En el onPostExecute se llama al método onAsyncTask de la actividad
+     * llamante que implemente la interfaz "FuncionalidadesComunes", que es un método que funciona
+     *  a modo de setter del atributo de la lista a obtener.
+     */
     class CargaEmails extends AsyncTask<FuncionalidadesComunes,Void,ArrayList<Email>> {
 
         private FuncionalidadesComunes funcionalidadesComunes;
@@ -222,9 +284,7 @@ public class AccesoDatos {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(dialogo!=null){
-                dialogo.show(actividad_dialogo.getFragmentManager(), "alerta_cargando_emails");
-            }
+
         }
 
         @Override
@@ -237,14 +297,18 @@ public class AccesoDatos {
         @Override
         protected void onPostExecute(ArrayList<Email> emails) {
             super.onPostExecute(emails);
-
-            if(dialogo!=null){
-                dialogo.dismiss();
-            }
             funcionalidadesComunes.onAsyncTask(emails);
         }
     }
 
+    /**
+     * Clase interna de la clase AccesoDatos cuya finalidad es, extendiendo de AsyncTask, realizar
+     * la carga de contactos en segundo plano.
+     * En el método doInBackGround se accede a la base de datos y se devuelve un arraylist con la lista
+     * de los contactos del teléfono, obtenidos mediante su contentprovider. En el onPostExecute se llama al método onAsyncTask de la actividad
+     * llamante que implemente la interfaz "FuncionalidadesComunes", que es un método que funciona
+     *  a modo de setter del atributo de la lista a obtener.
+     */
     class CargaContactos extends AsyncTask<FuncionalidadesComunes,Integer,ArrayList<Contacto>> {
 
         FuncionalidadesComunes funcionalidadesComunes;
@@ -281,11 +345,7 @@ public class AccesoDatos {
             funcionalidadesComunes.onAsyncTask(contactos);
         }
 
-        /**
-         *
-         * @param params
-         * @return
-         */
+
     public ArrayList<Contacto> recogerContactos(FuncionalidadesComunes... params){
 
         Activity actividad_llamante = (Activity)params[0];

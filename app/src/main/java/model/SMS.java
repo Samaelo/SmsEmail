@@ -1,16 +1,33 @@
 package model;
 
-import java.util.Date;
 
 /**
- * Created by Samael on 22/01/2017.
+ * Clase cuya finalidad es el almacenado de los datos de un SMS.
  */
 
 public class SMS {
 
-    private String destinatario, texto;
+    /**
+     * Atributo de tipo String que hace referencia al destinatario que recibirá el mensaje.
+     */
+    private String destinatario;
+
+    /**
+     * Atributo de tipo String que hace referencia al contenido del mensaje.
+     */
+    private String texto;
+
+    /**
+     * Atributo de tipo String que hace referencia a la fecha de envío.
+     */
     private String fecha_de_envio;
 
+    /**
+     * Método constructor.
+     * @param destinatario
+     * @param texto
+     * @param fecha_de_envio
+     */
     public SMS(String destinatario, String texto, String fecha_de_envio){
 
         this.destinatario = destinatario;

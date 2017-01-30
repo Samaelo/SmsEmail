@@ -62,11 +62,12 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         cargar_lista();
 
         seleccionar_contactos();
-
-        if(contactos_seleccionados.size() > 0){
-            alguno_seleccionado = true;
-        }else{
-            alguno_seleccionado = false;
+        if(contactos_seleccionados!=null){
+            if(contactos_seleccionados.size() > 0){
+                alguno_seleccionado = true;
+            }else{
+                alguno_seleccionado = false;
+            }
         }
     }
 

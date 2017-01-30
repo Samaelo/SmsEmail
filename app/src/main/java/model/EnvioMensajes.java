@@ -10,16 +10,33 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 /**
- * Created by Mario on 04/01/2017.
+ * Clase destinada al envío de los mensajes email y SMS.
  */
-//
 public class EnvioMensajes {
 
+    /**
+     * Atributo que hace referencia a la actividad que instancia un objeto de esta clase.
+     */
     private Activity actividad;
+
+    /**
+     * Método constructor que recibe por parámetro el valor que debe tomar el atributo actividad.
+     * @param actividad - Parámetro que da valor al atributo actividad.
+     */
     public EnvioMensajes(Activity actividad){
         this.actividad = actividad;
     }
 
+    /**
+     * Método encargado de enviar un email mediante un intent que llama a la aplicación gestora de mensajería
+     * mail por defecto del teléfono. Recibe por parámetro los datos necesarios para ello.
+     *
+     * @param ccRemitente - Parámetro que hace referencia a la lista de remitentes del mensaje.
+     * @param ToCorreos - Parámetro que hace referencia a la lista de destinatarios.
+     * @param asunto - Parámetro que hace referencia al asunto del mensaje.
+     * @param mensaje - Parámetro que hace referencia al contenido del mensaje.
+     * @return - Devuelve true si el mensaje ha sido enviado, false si no.
+     */
     public boolean enviar_email(String ccRemitente,String[] ToCorreos,String asunto, String mensaje){
 
         Log.i("Send email", "");
@@ -44,7 +61,14 @@ public class EnvioMensajes {
         }
         return true;
     }
-    
+
+    /**
+     * Método encargado de enviar mensajes SMS desde la aplicación propia, gracias a la clase
+     * SMSManager, que permite enviar mensajes de forma directa.
+     * @param mensaje - Parámetro que da valor al contenido del mensaje.
+     * @param telefono - Parámetro que da valor al número de teléfono de
+     * @return - Devuelve true si el mensaje se ha enviado. Devuelve false si se ha enviado.
+     */
     public boolean enviar_SMS(String mensaje, String telefono){
         SmsManager emisor;
 
@@ -55,21 +79,5 @@ public class EnvioMensajes {
             return false;
         }
         return true;
-    }
-
-    public void verificar_permisos(Activity actividad){
-
-        String PERMISOS_ENVIO_MENSAJES = Manifest.permission.SEND_SMS;
-
-        int permisos = ActivityCompat.checkSelfPermission(actividad, PERMISOS_ENVIO_MENSAJES);
-        if(permisos== PackageManager.PERMISSION_DENIED){
-            solicitar_permisos(actividad, PERMISOS_ENVIO_MENSAJES);
-        }
-    }
-
-
-    public void solicitar_permisos(Activity actividad, String PERMISOS_ENVIO_MENSAJES){
-        String[] lista_permisos = {PERMISOS_ENVIO_MENSAJES};
-        ActivityCompat.requestPermissions(actividad,lista_permisos,0);
     }
 }
