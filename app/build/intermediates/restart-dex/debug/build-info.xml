@@ -5,22 +5,26 @@
     density="xhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="1479151525558352"
+    timestamp="1480152014055803"
     token="9114537365156845911"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="153" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="44" />
     <task
         name="verifier"
-        duration="0" />
+        duration="1" />
+
+    <artifact
+        location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
+        type="DEX" />
 
     <build
         timestamp="1470039125857860"
@@ -30,14 +34,11 @@
             type="MAIN" />
     </build>
     <build
-        timestamp="1479043081443985"
+        timestamp="1480152014055803"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="C:\Users\Samael\Desktop\SmsEmail\SmsEmail\app\build\intermediates\transforms\dex\debug\folders\1000\5\slice_5\classes.dex"
             type="DEX" />
     </build>
-    <build
-        timestamp="1479151525558352"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>

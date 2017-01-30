@@ -42,7 +42,7 @@ public class Constantes {
      */
 
     public static final int REQUEST_PERMISOS_CONTACTOS = 0;
-    public static final int REQUEST_PERMISOS_SMS = 0;
+    public static final int REQUEST_PERMISOS_SMS = 1;
 
     /**
      * Preferencias del perfil

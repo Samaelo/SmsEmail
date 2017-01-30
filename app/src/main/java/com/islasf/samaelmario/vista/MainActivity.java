@@ -49,6 +49,7 @@ TODO:
         permisos = new Permisos(this);
 
         solicitarPermisos_Contactos();
+        solicitarPermisos_Sms();
 
     }
 
@@ -124,6 +125,23 @@ TODO:
                             }
                         }
                     }
+
+                    break;
+                case Constantes.REQUEST_PERMISOS_SMS:
+                    for (int i = 0; i < permissions.length; i++) {
+                        permisos = permissions[i];
+                        if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                            mostrar_rationale = shouldShowRequestPermissionRationale(permisos);
+
+                            if(!mostrar_rationale){ //El usuario ha hecho "check" en  la opción "No mostrar de nuevo".
+                                Toast.makeText(this, "No podrás enviar mensajes de texto.", Toast.LENGTH_LONG).show();
+
+                                permisos_contactos = false;
+                            }else{
+                                mostrar_rationale_Contactos();
+                            }
+                        }
+                    }
                     break;
             }
         }
@@ -151,4 +169,15 @@ TODO:
         String[] opciones = {"Intentar de nuevo","No permitir"};
         permisos.mostrar_RationaleContactos(this,opciones);
    }
+
+    private void solicitarPermisos_Sms(){
+        if(!permisos.verificarPermisos_SMS()){
+            permisos.solicitarPermisos_SMS();
+        }
+    }
+
+    private void mostrar_rationale_SMS(){
+        String[] opciones = {"Intentar de nuevo","No permitir"};
+        permisos.mostrar_RationaleSMS(this,opciones);
+    }
 }
