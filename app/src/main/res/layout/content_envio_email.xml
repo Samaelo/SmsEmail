@@ -12,7 +12,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.islasf.samaelmario.vista.EnvioEmailActivity"
     tools:showIn="@layout/activity_envio_email">
-
+<!---->
     <EditText
         android:layout_width="wrap_content"
         android:ems="10"
