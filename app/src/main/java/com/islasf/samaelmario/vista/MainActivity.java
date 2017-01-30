@@ -276,7 +276,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     }
 
     private void mostrar_rationale_Contactos(){
-        String[] opciones = {"No permitir","Intentar de nuevo"};
+        String[] opciones = {"Intentar de nuevo","No permitir"};
         permisos.mostrar_Rationale(this,opciones);
     }
 
