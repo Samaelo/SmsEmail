@@ -30,6 +30,7 @@ import model.EnvioMensajes;
 
 public class EnvioEmailActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
+    private GestorMenus gestorMenus = new GestorMenus(this);
     private ArrayList<Contacto> lista_contactos;
     private ArrayList<Integer> contactos_seleccionados;
     private EnvioMensajes envioMensajes;
@@ -97,13 +98,40 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     public void cargarActionBar(){
 
         Toolbar toolbarEmail = (Toolbar)findViewById(R.id.tbEnvioEmail);
+
         setSupportActionBar(toolbarEmail);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setTitle("");
+        toolbarEmail.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
+
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        gestorMenus.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    // --- Método para dar funcionalidad a los botones del Menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        gestorMenus.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void cargar_intent(){
         Intent intent = getIntent();
@@ -321,6 +349,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         }
         return true;
     }
+
 
 
 }

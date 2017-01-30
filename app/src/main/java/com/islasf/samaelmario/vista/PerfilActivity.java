@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -23,6 +24,7 @@ import model.Preferencias;
 
 public class PerfilActivity extends AppCompatActivity {
 
+    private GestorMenus gestorMenus;
     private EditText etNombre, etApellidos, etTfnoFijo, etTfnoMovil, etCorreo, etFecha;
     private FloatingActionButton fabEditarContacto;
 
@@ -137,6 +139,9 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
     private void cargar_componentes(){
         this.etNombre = (EditText) findViewById(R.id.etNombre);
         this.etApellidos = (EditText) findViewById(R.id.etApellidos);

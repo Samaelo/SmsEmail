@@ -42,6 +42,7 @@ TODO: Indicar en al how-to que hemos hecho el campo de direcciones de mail multi
 TODO:
 */
 
+    private GestorMenus gestorMenus = new GestorMenus(this);
     private ArrayList<Contacto> contactos;
     private Permisos permisos;
     private boolean permisos_contactos = true;
@@ -77,105 +78,18 @@ TODO:
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu, menu);
+        gestorMenus.onCreateOptionsMenu(menu);
         return true;
     }
 
     // --- Método para dar funcionalidad a los botones del Menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch(id){
-            case R.id.item_Mostrar_Emails:
-                abrirPopupEmail(this.findViewById(R.id.item_Mostrar_Emails));
-                break;
-            case R.id.item_Mostrar_SMS:
-                abrirPopupSms(this.findViewById(R.id.item_Mostrar_SMS));
-                break;
-            case R.id.itemPreferencias:
-                startActivity(new Intent(this,PreferenciasActivity.class));
-                break;
-            case R.id.itemVerPerfil:
-                startActivity(new Intent(this,PerfilActivity.class));
-                break;
-        }
+        gestorMenus.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 
-    // -- POP UP
-    public void abrirPopupEmail(View iconoEmails) {
 
-        PopupMenu popupMenu = new PopupMenu(this, iconoEmails);
-        popupMenu.inflate(R.menu.menu_contextual_email);
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.NuevoMail) {
-                    irEnvioEmailActivity();
-                }
-                else if (item.getItemId() == R.id.ListarMails) {
-
-                    try {
-                        irListaEmailsActivity();
-                    }catch(Exception e){}
-                }
-                return true;
-            }
-        });
-
-        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoEmails);
-        menuHelper.setForceShowIcon(true);
-        menuHelper.show();
-    }
-
-    public void abrirPopupSms(View iconoSms) {
-
-        PopupMenu popupMenu = new PopupMenu(this, iconoSms);
-        popupMenu.inflate(R.menu.menu_contextual_sms);
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.NuevoSms) {
-                    irEnvioSmsActivity();
-                }
-                else if (item.getItemId() == R.id.ListarSmses) {
-                    irListaSmsActivity();
-                }
-                return true;
-            }
-        });
-
-        MenuPopupHelper menuHelper = new MenuPopupHelper(this, (MenuBuilder) popupMenu.getMenu(), iconoSms);
-        menuHelper.setForceShowIcon(true);
-        menuHelper.show();
-    }
-
-    public void irEnvioEmailActivity(){
-
-        Intent intent = new Intent(this, EnvioEmailActivity.class);
-        startActivity(intent);
-    }
-
-    public void irListaEmailsActivity(){
-
-        Intent intent = new Intent(this, ListaEmailsActivity.class);
-        startActivity(intent);
-    }
-
-    public void irEnvioSmsActivity(){
-
-        Intent intent = new Intent(this, EnvioSMSActivity.class);
-        startActivity(intent);
-    }
-
-    public void irListaSmsActivity(){
-
-        Intent intent = new Intent(this, ListaSmsActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onAlerta(Object... objeto) {
@@ -193,43 +107,6 @@ TODO:
 
     }
 
-
-    /*
-
-    @Override
-public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    if (requestCode == REQUEST_PERMISSION) {
-        // for each permission check if the user granted/denied them
-        // you may want to group the rationale in a single dialog,
-        // this is just an example
-        for (int i = 0, len = permissions.length; i < len; i++) {
-            String permission = permissions[i];
-            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-            // user rejected the permission
-                boolean showRationale = shouldShowRequestPermissionRationale( permission );
-                if (! showRationale) {
-                    // user also CHECKED "never ask again"
-                    // you can either enable some fall back,
-                    // disable features of your app
-                    // or open another dialog explaining
-                    // again the permission and directing to
-                    // the app setting
-                } else if (Manifest.permission.WRITE_CONTACTS.equals(permission)) {
-                    showRationale(permission, R.string.permission_denied_contacts);
-                    // user did NOT check "never ask again"
-                    // this is a good place to explain the user
-                    // why you need the permission and ask if he wants
-                    // to accept it (the rationale)
-                } else if ( /* possibly check more permissions... ) {
-    }
-}
-}
-        }
-        }
-
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
