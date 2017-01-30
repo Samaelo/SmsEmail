@@ -58,7 +58,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     }
 
-      //////////////////////////////////
+      ///////////////////////////////////
      //      Carga de elementos      //
     //////////////////////////////////
 
