@@ -38,6 +38,7 @@ TODO:
     private ArrayList<Contacto> contactos;
     private Permisos permisos;
     private boolean permisos_contactos = true;
+    private boolean permisos_sms = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ TODO:
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         String permisos;
         boolean mostrar_rationale;
@@ -115,7 +117,8 @@ TODO:
 
                             if(!mostrar_rationale){ //El usuario ha hecho "check" en  la opción "No mostrar de nuevo".
                                 Toast.makeText(this, "No podrás escoger contactos a la hora de enviar mensajes.", Toast.LENGTH_LONG).show();
-                                //Desactivar funcionalidades
+
+                                permisos_contactos = false;
                             }else{
                                 mostrar_rationale_Contactos();
                             }

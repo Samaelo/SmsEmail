@@ -1,13 +1,11 @@
 package com.islasf.samaelmario.vista;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
-import android.view.View;
-import android.widget.Toast;
 
 import model.Preferencias;
 
@@ -18,36 +16,44 @@ import model.Preferencias;
 public class PreferenciasFragment extends PreferenceFragment {
 
     private Preferencias preferencias;
+    private Permisos permisos;
     private SwitchPreference switchSMS,switchContactos;
-    private ListPreference listPreferenceTema;
-    private Context contexto;
+    private Activity actividad;
+    private boolean permisos_contactos;
+    private boolean permisos_SMS;
 
-    public void establecer_contexto(Context contexto){
-        this.contexto = contexto;
+
+    public void establecer_contexto(Activity actividad){
+        this.actividad = actividad;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.ventana_preferencias);
-        preferencias = new Preferencias(contexto);
-        cargar_componentes();
+        preferencias = new Preferencias(actividad);
+        permisos = new Permisos(actividad);
 
+        permisos_contactos = permisos.verificarPermisos_Contactos();
+        permisos_SMS = permisos.verificarPermisos_SMS();
+
+        cargar_componentes();
     }
 
     /**
      * Método encargado de cargar los componentes gráficos de las preferencias.
      */
     private void cargar_componentes(){
-        boolean permisos_contactos = preferencias.obtenerPermisos_Contactos();
-        boolean permisos_SMS = preferencias.obtenerPermisos_Mensajes();
 
         this.switchContactos = (SwitchPreference) findPreference("switch_preferenciasContactos");
         this.switchSMS = (SwitchPreference) findPreference("switch_preferenciasSMS");
 
+        this.switchContactos.setChecked(permisos_contactos);
+        this.switchSMS.setChecked(permisos_SMS);
 
-        switchContactos.setChecked(permisos_contactos);
-        switchContactos.setEnabled(!permisos_contactos);
+        this.switchContactos.setEnabled(!permisos_contactos);
+        this.switchSMS.setEnabled(!permisos_SMS);
+
         switchContactos.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -56,8 +62,6 @@ public class PreferenciasFragment extends PreferenceFragment {
             }
         });
 
-        switchContactos.setChecked(permisos_SMS);
-        switchContactos.setEnabled(!permisos_SMS);
         switchSMS.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -67,13 +71,17 @@ public class PreferenciasFragment extends PreferenceFragment {
         });
     }
 
-
     public void onSwitch_Contactos(){
-        preferencias.establecerPermisos_Contactos(switchContactos.isChecked());
+        permisos.solicitarPermisos_Contactos();
+        switchContactos.setEnabled(false);
+        switchContactos.setChecked(true);
     }
 
     public void onSwitch_SMS(){
-        preferencias.establecerPermisos_SMS(switchSMS.isChecked());
+        permisos.solicitarPermisos_SMS();
+        switchSMS.setChecked(true);
+        switchSMS.setEnabled(false);
     }
 
 }
+

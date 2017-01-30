@@ -50,8 +50,7 @@ public class Permisos {
      * no lo están.
      */
     public boolean verificarPermisos_Contactos(){
-        boolean resultado = ActivityCompat.checkSelfPermission(actividad_llamante, Manifest.permission.READ_CONTACTS)
-                == PackageManager.PERMISSION_GRANTED;
+        boolean resultado = ActivityCompat.checkSelfPermission(actividad_llamante, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
 
         return resultado;
     }

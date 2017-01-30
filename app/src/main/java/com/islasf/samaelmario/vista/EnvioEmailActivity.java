@@ -36,13 +36,14 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     private EnvioMensajes envioMensajes;
     private EditText et_Remitente, et_Destinatarios, et_Asunto, et_TextoEmail;
     private TextView tv_ContactoSuperior;
-    private FloatingActionButton fabEnviar;
+    private FloatingActionButton fabEnviar,fabSeleccionarContacto;
 
     private String [] toDestinatarios;
     private String ccRemitente, textoMail, asunto;
     private AccesoDatos accesoDatos;
 
     private boolean contactos_cargados;
+    private Permisos permisos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +57,12 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         FloatingActionButton fab_seleccionar_contactos = (FloatingActionButton)findViewById(R.id.fabSeleccionarContacto); // Instanciamos el botón Fab para seleccionar un contacto
         contactos_seleccionados = new ArrayList<Integer>();
 
+        permisos = new Permisos(this);
+
     }
 
-    ///////////////////////////////////
-    //      Carga de elementos      //
+      ///////////////////////////////////
+     //      Carga de elementos      //
     //////////////////////////////////
 
     /**
@@ -88,6 +91,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         et_TextoEmail = (EditText)findViewById(R.id.et_TextoEmail);
         tv_ContactoSuperior = (TextView)findViewById(R.id.tv_ContactoSuperior);
         fabEnviar = (FloatingActionButton) findViewById(R.id.fabEnviarMail);
+        fabSeleccionarContacto = (FloatingActionButton) findViewById(R.id.fabSeleccionarContacto);
 
         accesoDatos = new AccesoDatos(this);
     }
@@ -131,7 +135,6 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         gestorMenus.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
-
 
     private void cargar_intent(){
         Intent intent = getIntent();
@@ -268,11 +271,17 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
 
     public void onSeleccionar_Contacto(View v){
-        // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
-        iniciar_lista_contactos();
+        if(!permisos.verificarPermisos_Contactos()){
+            Toast.makeText(this, "Para poder seleccionar contactos desde este botón, debes activar los permisos de acceso a los contactos en las preferencias.", Toast.LENGTH_SHORT).show();
+
+        }
+        else
+            // Mediante el icono de la agenda de contactos, iremos a la actividad que contiene la lista de contactos
+            iniciar_lista_contactos();
     }
 
     private void iniciar_lista_contactos(){
+
         Intent intent = new Intent(this, ListaContactosActivity.class);
         // this.lista_contactos = this.acceso.obtener_contactos();
 
@@ -301,10 +310,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
             String txt = "";
 
-
             for(int i = 0; i< contactos_seleccionados.size(); i++){
                 if(!lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo().trim().equals("")) {
-
 
                     if (!et_Destinatarios.getText().toString().contains(lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo()))
                         et_Destinatarios.setText(et_Destinatarios.getText().toString() + "," + lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo());
@@ -320,9 +327,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
                     }
                 }
             }
-
             tv_ContactoSuperior.setText(txt);
-
         }
     }
 
@@ -352,7 +357,4 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         }
         return true;
     }
-
-
-
 }

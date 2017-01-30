@@ -8,6 +8,7 @@ import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 /**
  * Created by Mario on 30/01/2017.
@@ -15,9 +16,11 @@ import android.view.View;
 
 public class GestorMenus {
 
+    private  Permisos permisos;
     private Activity actividad_llamante;
     public GestorMenus(Activity actividad){
         this.actividad_llamante = actividad;
+        permisos = new Permisos(actividad_llamante);
     }
 
 
@@ -80,7 +83,9 @@ public class GestorMenus {
 
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.NuevoSms) {
-                    irEnvioSmsActivity();
+                    if(permisos.verificarPermisos_SMS())
+                        irEnvioSmsActivity();
+                    else Toast.makeText(actividad_llamante, "No tiene permisos para enviar SMS. Por favor, vaya a preferencias y seleccione habilitar el envío de SMS", Toast.LENGTH_LONG).show();
                 }
                 else if (item.getItemId() == R.id.ListarSmses) {
                     irListaSmsActivity();

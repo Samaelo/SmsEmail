@@ -7,24 +7,30 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
- * Created by Mario on 06/01/2017.
+ * Created by Mario García Ramos y Samael Picazo Navarrete. Fecha: 06/01/2017.
  */
 
 public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    private PerfilActivity perfil_Activity; // Variable de tipo PerfilActivity
 
-    private PerfilActivity actividad;
-
+    /**
+     * Método setter al cual igualamos la actividad en la cual se va a trabajar en la clase DialogoFecha a la actividad que recibe dicho método por parámetro.
+     * @param actividad Variable del tipo PerfilActivity
+     */
     public void setActivity(PerfilActivity  actividad){
-        this.actividad = actividad;
+        this.perfil_Activity = actividad;
     }
 
+    /**
+     * Este método muestra un Diálogo en el cual
+     * @param savedInstanceState Variable de tipo Bundle que guarda la información de la actividad cuando se crea un diálogo.
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -43,7 +49,7 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
         cal.clear();
         cal.set(anno,mes,dia);
 
-        actividad.establecer_fecha(cal);
+        perfil_Activity.establecer_fecha(cal);
         try {
             dismiss();
         } catch (Throwable throwable) {

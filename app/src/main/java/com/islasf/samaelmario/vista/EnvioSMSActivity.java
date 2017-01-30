@@ -32,16 +32,18 @@ public class EnvioSMSActivity extends AppCompatActivity {
     private ArrayList<Contacto> lista_contactos;
     private ArrayList<Integer> contactos_seleccionados;
     private boolean contactos_cargados;
+    private Permisos permisos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_envio_sms);
-        //   Personalización del ActionBar   //
+
         cargar_componentes();
         cargar_actionBar();
 
         envio = new EnvioMensajes(this);
+        permisos = new Permisos(this);
         lista_contactos = new ArrayList<Contacto>();
         contactos_cargados = false;
 
@@ -101,7 +103,12 @@ public class EnvioSMSActivity extends AppCompatActivity {
     }
 
     public void onSeleccionar_contacto(View v){
-        iniciar_listaContactos();
+        if(!permisos.verificarPermisos_Contactos()){
+            Toast.makeText(this, "Para poder seleccionar contactos desde este botón, debes activar los permisos de acceso a los contactos en las preferencias.", Toast.LENGTH_LONG).show();
+
+        }else{
+            iniciar_listaContactos();
+        }
 
     }
 
