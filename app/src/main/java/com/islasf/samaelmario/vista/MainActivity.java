@@ -6,23 +6,15 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.view.menu.MenuPopupHelper;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
-import model.Email;
-import model.SMS;
 
 public class MainActivity extends AppCompatActivity implements  FuncionalidadesComunes{
 /*
@@ -154,8 +146,6 @@ TODO:
 
     private void mostrar_rationale_Contactos(){
         String[] opciones = {"Intentar de nuevo","No permitir"};
-        permisos.mostrar_Rationale(this,opciones);
-    }
-
-
+        permisos.mostrar_RationaleContactos(this,opciones);
+   }
 }

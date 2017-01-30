@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,6 +27,7 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
     private AccesoDatos accesoDatos;
     SmsAdapter smsAdapter;
     private ArrayList<SMS> smses;
+    private GestorMenus gestorMenus = new GestorMenus(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,4 +136,23 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
                 TextView texto;
             }
      }
+
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        gestorMenus.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    // --- Método para dar funcionalidad a los botones del Menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        gestorMenus.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
+    }
 }

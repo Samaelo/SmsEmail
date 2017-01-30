@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
     AccesoDatos accesoDatos;
     EmailAdapter emailAdapter;
     private ArrayList<Email> listado_emails;
+    private GestorMenus gestorMenus = new GestorMenus(this);
 
 // ---- onCreate ListaEmails ---- //
     @Override
@@ -149,5 +152,24 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
             TextView fecha;
             TextView texto;
         }
+    }
+
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        gestorMenus.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    // --- Método para dar funcionalidad a los botones del Menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        gestorMenus.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -63,16 +63,11 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
         seleccionar_contactos();
 
-
         if(contactos_seleccionados.size() > 0){
             alguno_seleccionado = true;
         }else{
             alguno_seleccionado = false;
         }
-
-
-
-
     }
 
     private void cargar_lista(){
@@ -105,10 +100,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_cargada =  intent_recibido.getBooleanExtra(Constantes.LISTA_CARGADA,true);
         seleccion_multiple = intent_recibido.getBooleanExtra(Constantes.SELECCION_MULTIPLE,false);
-
     }
-
-
 
     /**
      * Método que se ejecuta cuando se pulsa el botón flotante(FloatingActionButton fabAgregarContactos)

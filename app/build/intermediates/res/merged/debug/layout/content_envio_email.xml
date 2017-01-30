@@ -12,7 +12,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.islasf.samaelmario.vista.EnvioEmailActivity"
     tools:showIn="@layout/activity_envio_email">
-
+    <!---->
     <EditText
         android:layout_width="wrap_content"
         android:ems="10"
@@ -77,16 +77,6 @@
         android:layout_alignBottom="@+id/et_Destinatarios"
         android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/et_Remitente"
-        android:hint="@string/remitente"
-        android:layout_above="@+id/et_Destinatarios"
-        android:layout_alignStart="@+id/et_Destinatarios" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,5 +95,15 @@
         android:hint="@string/destinatario"
         android:layout_above="@+id/et_Asunto"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/et_Remitente"
+        android:hint="@string/remitente"
+        android:layout_above="@+id/et_Destinatarios"
+        android:layout_alignStart="@+id/et_Asunto" />
 
 </RelativeLayout>

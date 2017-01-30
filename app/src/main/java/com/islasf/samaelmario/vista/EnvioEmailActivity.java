@@ -58,8 +58,8 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     }
 
-      ///////////////////////////////////
-     //      Carga de elementos      //
+    ///////////////////////////////////
+    //      Carga de elementos      //
     //////////////////////////////////
 
     /**
@@ -213,51 +213,51 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     private String[] recogerEmails(String textoDestinatarios) throws Exception {
 
-            String[] emails;
+        String[] emails;
 
-            String patronEmail = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$";
+        String patronEmail = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$";
 
-            if (textoDestinatarios.contains(",")) {
+        if (textoDestinatarios.contains(",")) {
 
-                StringTokenizer tokenizador = new StringTokenizer(textoDestinatarios, ",");
+            StringTokenizer tokenizador = new StringTokenizer(textoDestinatarios, ",");
 
-                int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
+            int numeroEmails = tokenizador.countTokens(); // Contamos el número de Tokens que equivaldrá al número de emails y lo volcamos en la variable numeroEmails
 
-                emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
-
-                /**
-                 * Rellenamos el array con los emails de los campos de texto.
-                 */
-                // Mientras haya tokens después de un serparador por ","
-
-                for (int i = 0; i < numeroEmails; i++) { // Para la longitud del array
-
-                    String email = tokenizador.nextToken();
-
-                    if (email.matches(patronEmail)) {
-
-                        emails[i] = email; // La posición del email será igual a la posición del token
-                    } else throw new Exception();
-                }
-
-            } else if (textoDestinatarios.matches(patronEmail)) {
-
-                emails = new String[1];
-                emails[0] = textoDestinatarios;
-
-            } else throw new Exception("Alguno de los emails no cumple un patrón correcto");
+            emails = new String[numeroEmails + contactos_seleccionados.size()]; // El array de Strings de los emails será igual al número de tokens
 
             /**
-             * Rellenamos el array con los emails de los contactos que han sido seleccionados
-             * en caso de que no haya habido un error.
+             * Rellenamos el array con los emails de los campos de texto.
              */
-            for (int i = emails.length; i < contactos_seleccionados.size(); i++) {
-                emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
+            // Mientras haya tokens después de un serparador por ","
 
+            for (int i = 0; i < numeroEmails; i++) { // Para la longitud del array
+
+                String email = tokenizador.nextToken();
+
+                if (email.matches(patronEmail)) {
+
+                    emails[i] = email; // La posición del email será igual a la posición del token
+                } else throw new Exception();
             }
 
-            return emails;
+        } else if (textoDestinatarios.matches(patronEmail)) {
+
+            emails = new String[1];
+            emails[0] = textoDestinatarios;
+
+        } else throw new Exception("Alguno de los emails no cumple un patrón correcto");
+
+        /**
+         * Rellenamos el array con los emails de los contactos que han sido seleccionados
+         * en caso de que no haya habido un error.
+         */
+        for (int i = emails.length; i < contactos_seleccionados.size(); i++) {
+            emails[i] = lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo();
+
         }
+
+        return emails;
+    }
 
 
 
@@ -274,7 +274,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
     private void iniciar_lista_contactos(){
         Intent intent = new Intent(this, ListaContactosActivity.class);
-       // this.lista_contactos = this.acceso.obtener_contactos();
+        // this.lista_contactos = this.acceso.obtener_contactos();
 
         intent.putExtra(Constantes.LISTA_CARGADA,contactos_cargados);
         intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
@@ -303,19 +303,22 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
 
             for(int i = 0; i< contactos_seleccionados.size(); i++){
-                if(!et_Destinatarios.getText().toString().contains(lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo()))
-                et_Destinatarios.setText(et_Destinatarios.getText().toString() + "," + lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo());
+                if(!lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo().trim().equals("")) {
 
-                if(i!=0) {
-                    txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
-                }else{
-                    txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
-                }
-                if(txt.length()>=45){
-                    txt+="...";
-                    i=contactos_seleccionados.size();
-                }
 
+                    if (!et_Destinatarios.getText().toString().contains(lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo()))
+                        et_Destinatarios.setText(et_Destinatarios.getText().toString() + "," + lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo());
+
+                    if (i != 0) {
+                        txt = txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                    } else {
+                        txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                    }
+                    if (txt.length() >= 45) {
+                        txt += "...";
+                        i = contactos_seleccionados.size();
+                    }
+                }
             }
 
             tv_ContactoSuperior.setText(txt);
@@ -351,34 +354,5 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
     }
 
 
-
-
-
-    // ---------- GUARDAMOS EL ESTADO DE LA ACTIVIDAD CUANDO GIRAMOS EL MÓVIL ---------- //
-
-    @Override
-    protected void onSaveInstanceState(Bundle guardarEstado) {
-        super.onSaveInstanceState(guardarEstado);
-
-        guardarEstado.putString("contactosSeleccionados", tv_ContactoSuperior.getText().toString());
-        guardarEstado.putString("remitente", ccRemitente);
-        guardarEstado.putString("para", et_Destinatarios.getText().toString());
-        guardarEstado.putString("asunto", asunto);
-        guardarEstado.putString("texto", textoMail);
-
-    }
-
-    // ---------- RECUPERAMOS EL ESTADO DE LA ACTIVIDAD CUANDO GIRAMOS EL MÓVIL ---------- //
-
-    @Override
-    protected void onRestoreInstanceState(Bundle recuperarEstado) {
-        super.onRestoreInstanceState(recuperarEstado);
-
-        recuperarEstado.getString("contactosSeleccionados", tv_ContactoSuperior.getText().toString());
-        recuperarEstado.getString("remitente", ccRemitente);
-        recuperarEstado.getString("para", et_Destinatarios.getText().toString());
-        recuperarEstado.getString("asunto", asunto);
-        recuperarEstado.getString("texto", textoMail);
-    }
 
 }

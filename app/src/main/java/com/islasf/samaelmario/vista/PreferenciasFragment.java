@@ -42,16 +42,6 @@ public class PreferenciasFragment extends PreferenceFragment {
         boolean permisos_contactos = preferencias.obtenerPermisos_Contactos();
         boolean permisos_SMS = preferencias.obtenerPermisos_Mensajes();
 
-        listPreferenceTema = (ListPreference) findPreference("list_preference_tema") ;
-        listPreferenceTema.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-                Toast.makeText(contexto, listPreferenceTema.getEntry(), Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
         this.switchContactos = (SwitchPreference) findPreference("switch_preferenciasContactos");
         this.switchSMS = (SwitchPreference) findPreference("switch_preferenciasSMS");
 
@@ -85,6 +75,5 @@ public class PreferenciasFragment extends PreferenceFragment {
     public void onSwitch_SMS(){
         preferencias.establecerPermisos_SMS(switchSMS.isChecked());
     }
-
 
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class EnvioSMSActivity extends AppCompatActivity {
     private TextView txtContacto;
     private Contacto contacto_seleccionado;
     private EnvioMensajes envio;
+    private GestorMenus gestorMenus = new GestorMenus(this);
 
     private ArrayList<Contacto> lista_contactos;
     private ArrayList<Integer> contactos_seleccionados;
@@ -59,14 +61,6 @@ public class EnvioSMSActivity extends AppCompatActivity {
         etTextoMensaje = (EditText) findViewById(R.id.etMensaje);
         etDestinatarioSMS = (EditText) findViewById(R.id.et_DestinatarioSMS);
         txtContacto = (TextView) findViewById(R.id.txtContacto);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     //Métodos para los listeners de los botones
@@ -142,23 +136,41 @@ public class EnvioSMSActivity extends AppCompatActivity {
 
 
             for(int i = 0; i< contactos_seleccionados.size(); i++){
+                if(!lista_contactos.get(contactos_seleccionados.get(i)).obtener_tfno_movil().trim().equals("")) {
                     etDestinatarioSMS.setText(lista_contactos.get(contactos_seleccionados.get(i)).obtener_tfno_movil());
 
-                if(i!=0) {
-                    txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
-                }else{
-                    txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                    if (i != 0) {
+                        txt = txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                    } else {
+                        txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                    }
+                    if (txt.length() >= 45) {
+                        txt += "...";
+                        i = contactos_seleccionados.size();
+                    }
                 }
-                if(txt.length()>=45){
-                    txt+="...";
-                    i=contactos_seleccionados.size();
-                }
-
             }
-
             txtContacto.setText(txt);
-
         }
+    }
+
+    /**
+     * Crea el menú de la ToolBar, que contiene el icono para acceder a la lista de Emails y el icono para acceder a la lista de SMS's
+     * @param menu Objeto de la clase Menu
+     * @return Retorna true si se puede crear el menú
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        gestorMenus.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    // --- Método para dar funcionalidad a los botones del Menú
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        gestorMenus.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
 }
