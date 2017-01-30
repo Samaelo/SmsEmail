@@ -15,7 +15,7 @@
             android:textSize="13dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tv_listView_Destinatario"
+            android:id="@+id/tv_listView_DestinatarioSMS"
             android:layout_weight="1"
             />
 
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="13dp"
-            android:id="@+id/tv_listView_TextoSms"
+            android:id="@+id/tv_listView_TextoSMS"
             android:layout_weight="1"
             />
 
@@ -31,7 +31,7 @@
             android:textSize="13dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tv_listView_Fecha"
+            android:id="@+id/tv_listView_FechaSMS"
             android:layout_weight="1"
             />
 

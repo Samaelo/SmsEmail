@@ -59,9 +59,9 @@ public class AccesoDatos {
      */
     public void insertar(String destinatario, String textoSMS){
         ContentValues fila = new ContentValues();
-        fila.put("destinatario", destinatario);
-        fila.put("textoSMS", textoSMS);
-
+        fila.put("Destinatario", destinatario);
+        fila.put("Texto", textoSMS);
+        fila.put("Fecha_de_Envio",getDateTime());
         base_datos.insert(TABLA_SMS, null, fila);
         base_datos.close();
     }
@@ -471,7 +471,7 @@ public class AccesoDatos {
     public ArrayList<SMS> recoger_SMS(){
 
         Cursor cursorSMS =  select_buscar_Sms(); // Obtenemos un cursor denominado 'cursorEmails' a partir del cursor que nos devuelve el método 'select_buscar_Emails()'
-        ArrayList<SMS> lista_de_Sms = null; // Iniciamos un ArrayList de Email
+        ArrayList<SMS> lista_de_Sms = new ArrayList<SMS>(); // Iniciamos un ArrayList de Email
 
        /* Cuando recorremos el cursor de los Emails, lo que recogemos es un String, por tanto necesitamos establecer un formato de fecha para poder convertir el String fecha_de_envío, que hará referencia al
           método 'curTime()', a una variable de tipo Date; */

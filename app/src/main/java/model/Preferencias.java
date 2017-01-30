@@ -67,6 +67,7 @@ public class Preferencias {
      */
     public void establecerPermisos_Contactos(boolean valor){
         editor.putBoolean(PERMISOS_CONTACTOS, valor);
+        editor.commit();
     }
 
     /**
@@ -76,6 +77,7 @@ public class Preferencias {
      */
     public void establecerPermisos_SMS(boolean valor){
         editor.putBoolean(PERMISOS_SMS,valor);
+        editor.commit();
     }
 
     /**
@@ -84,10 +86,12 @@ public class Preferencias {
      */
     public void establecer_Tema(String valor){
         editor.putString(TEMA,valor);
+        editor.commit();
     }
 
     public void establecer_cadena_generica(String clave, String valor){
             editor.putString(clave,valor);
+            editor.commit();
     }
 
     //////////
@@ -124,8 +128,8 @@ public class Preferencias {
         return preferencias.getString(TEMA,"estandar");
     }
 
-    public String obtener_cadena_generica(String clave, String valor){
-        return preferencias.getString(clave,valor);
+    public String obtener_cadena_generica(String clave){
+        return preferencias.getString(clave,"");
     }
 
 }

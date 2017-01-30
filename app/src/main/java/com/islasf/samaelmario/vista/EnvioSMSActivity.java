@@ -12,17 +12,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import model.AccesoDatos;
+import model.Constantes;
 import model.Contacto;
 import model.EnvioMensajes;
 import model.Perfil;
 
 public class EnvioSMSActivity extends AppCompatActivity {
 
-    private EditText etTextoMensaje;
+    private EditText etTextoMensaje, etDestinatarioSMS;
     private TextView txtContacto;
     private Contacto contacto_seleccionado;
-    EnvioMensajes envio;
+    private EnvioMensajes envio;
+
+    private ArrayList<Contacto> lista_contactos;
+    private ArrayList<Integer> contactos_seleccionados;
+    private boolean contactos_cargados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +38,10 @@ public class EnvioSMSActivity extends AppCompatActivity {
         //   Personalización del ActionBar   //
         cargar_componentes();
         cargar_actionBar();
+
         envio = new EnvioMensajes(this);
+        lista_contactos = new ArrayList<Contacto>();
+        contactos_cargados = false;
 
     }
 
@@ -47,6 +57,7 @@ public class EnvioSMSActivity extends AppCompatActivity {
 
     private void cargar_componentes(){
         etTextoMensaje = (EditText) findViewById(R.id.etMensaje);
+        etDestinatarioSMS = (EditText) findViewById(R.id.et_DestinatarioSMS);
         txtContacto = (TextView) findViewById(R.id.txtContacto);
     }
 
@@ -63,21 +74,29 @@ public class EnvioSMSActivity extends AppCompatActivity {
     public void onEnviar(View v){
 
         String mensaje_resultado;
-        String destinatario = txtContacto.getText().toString();
+        String destinatario = etDestinatarioSMS.getText().toString();
         String textoSMS = etTextoMensaje.getText().toString();
 
-        if(contacto_seleccionado!=null){
-            if(envio.enviar_SMS(etTextoMensaje.getText().toString(),contacto_seleccionado.obtener_tfno_movil())){
+        if(!etDestinatarioSMS.getText().toString().trim().equals("")){
+            if(envio.enviar_SMS(textoSMS,destinatario)){
                 mensaje_resultado = "El mensaje ha sido enviado con éxito.";
+                insertar_mensaje(destinatario,textoSMS);
             }else{
                 mensaje_resultado = "El mensaje no ha sido enviado por algún error.";
             }
             Toast.makeText(this,mensaje_resultado,Toast.LENGTH_LONG).show();
+        }else if(etTextoMensaje.getText().toString().trim().equals("")){
+            Snackbar.make(v, "Por favor, rellene el campo de texto del mensaje.", Snackbar.LENGTH_LONG)
+                    .show();
         }else{
-            Snackbar.make(v, "Por favor, seleccione un contacto.", Snackbar.LENGTH_LONG)
+            Snackbar.make(v, "Por favor, seleccione un contacto o añada un número de teléfono de forma manual.", Snackbar.LENGTH_LONG)
                     .show();
         }
 
+
+    }
+
+    private void insertar_mensaje(String destinatario, String textoSMS){
         AccesoDatos accesoDatos = new AccesoDatos(this); // Instanciamos un objeto de tipo AccesoDatos para poder guardar la información del mensaje en la base de datos
 
         accesoDatos.insertar(destinatario, textoSMS); // Guardamos el SMS con el destinatario y el contenido del mensaje
@@ -88,19 +107,58 @@ public class EnvioSMSActivity extends AppCompatActivity {
     }
 
     public void onSeleccionar_contacto(View v){
-        //Esperamos que nos devuelva el objeto contacto para poder extraer el número de teléfono de éste.
-        Intent intent = new Intent(this,ListaContactosActivity.class);
-        startActivityForResult(intent,1);
+        iniciar_listaContactos();
 
+    }
+
+    private void iniciar_listaContactos(){
+        Intent intent = new Intent(this, ListaContactosActivity.class);
+
+        intent.putExtra(Constantes.LISTA_CARGADA,contactos_cargados);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
+        intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,lista_contactos);
+        intent.putExtra(Constantes.SELECCION_MULTIPLE,false);
+        startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        contacto_seleccionado = (Contacto) data.getSerializableExtra("CONTACTO");
-        //Poner nombre en un textview
-        String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(),contacto_seleccionado.obtener_tfno_movil());
-        txtContacto.setText(textoContacto);
+
+        //Leemos los datos del intent recibido de la actividad llamada.
+        if(resultCode== Constantes.LISTA_CONTACTOS_ACTIVITY){
+
+            lista_contactos = (ArrayList<Contacto>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
+            contactos_seleccionados = (ArrayList<Integer>) data.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
+            contactos_cargados = true;
+            contacto_seleccionado = lista_contactos.get(0);
+
+        /* Una vez seleccionamos el contacto de la lista de contactos, sustituimos el text view "Selecciona un contacto pulsando el icono de la parte superior", por el nombre del contacto
+           que hemos elegido, y su número de teléfono */
+
+            //String textoContacto = String.format(getResources().getString(R.string.contacto_seleccionado), contacto_seleccionado.obtener_nombre(), contacto_seleccionado.obtener_correo());
+
+            String txt = "";
+
+
+            for(int i = 0; i< contactos_seleccionados.size(); i++){
+                    etDestinatarioSMS.setText(lista_contactos.get(contactos_seleccionados.get(i)).obtener_tfno_movil());
+
+                if(i!=0) {
+                    txt =  txt + " , " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }else{
+                    txt += lista_contactos.get(contactos_seleccionados.get(i)).obtener_nombre() + " " + lista_contactos.get(contactos_seleccionados.get(i)).obtener_apellidos();
+                }
+                if(txt.length()>=45){
+                    txt+="...";
+                    i=contactos_seleccionados.size();
+                }
+
+            }
+
+            txtContacto.setText(txt);
+
+        }
     }
 
 }

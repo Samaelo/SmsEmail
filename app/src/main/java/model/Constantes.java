@@ -21,7 +21,7 @@ public class Constantes {
      */
     public static final String LISTADO_CONTACTOS_SELECCIONADOS = "contactos_seleccionados";
     public static final String LISTADO_CONTACTOS_CARGADOS = "contactos_cargados";
-    public static final String LISTA_EDITABLE = "lista_editable";
+    public static final String SELECCION_MULTIPLE = "lista_editable";
     public static final String LISTA_CARGADA = "contactos_cargados_boolean";
 
     /**
@@ -44,4 +44,14 @@ public class Constantes {
     public static final int REQUEST_PERMISOS_CONTACTOS = 0;
     public static final int REQUEST_PERMISOS_SMS = 0;
 
+    /**
+     * Preferencias del perfil
+     */
+
+    public static final String PERFIL_NOMBRE = "perfil_nombre";
+    public static final String PERFIL_APELLIDOS = "perfil_apellidos";
+    public static final String PERFIL_TFNO_FIJO = "perfil_tfno_fijo";
+    public static final String PERFIL_TFNO_MOVIL = "perfil_tfno_movil";
+    public static final String PERFIL_CORREO = "perfil_correo";
+    public static final String PERFIL_FECHA = "perfil_fecha";
 }

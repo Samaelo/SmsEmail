@@ -31,7 +31,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
     private  FloatingActionButton fabAgregarContacto;
     private ListView lvListaContactos;
-    boolean lista_editable;
+    boolean seleccion_multiple;
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1 ;
     private ArrayList<Contacto> contactos;
     private ArrayList<Integer> contactos_seleccionados;
@@ -104,18 +104,11 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         contactos = (ArrayList<Contacto>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_CARGADOS);
         contactos_seleccionados = (ArrayList<Integer>) intent_recibido.getSerializableExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS);
         lista_cargada =  intent_recibido.getBooleanExtra(Constantes.LISTA_CARGADA,true);
-        lista_editable = intent_recibido.getBooleanExtra(Constantes.LISTA_EDITABLE,false);
+        seleccion_multiple = intent_recibido.getBooleanExtra(Constantes.SELECCION_MULTIPLE,false);
 
     }
 
-    private void aplicar_editable(){
 
-        if(lista_editable == false){//Si no es editable, la pantalla irá destinada a escoger un
-            // contacto al que enviar un mensaje, por lo que se cambia el icono al de guardar.
-
-            fabAgregarContacto.setImageResource(android.R.drawable.ic_menu_save);
-        }
-    }
 
     /**
      * Método que se ejecuta cuando se pulsa el botón flotante(FloatingActionButton fabAgregarContactos)
@@ -135,13 +128,19 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         intent_devuelto.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
         setResult(Constantes.LISTA_CONTACTOS_ACTIVITY,intent_devuelto);
 
-        finish();
+        if(seleccion_multiple){
+            finish();
+        }else if(contactos_seleccionados.size()<=1){
+            finish();
+        }else{
+            Toast.makeText(this, "Por favor, selecicone un solo contacto.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void cargar_componentes(){
 
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
-        aplicar_editable();
         COLOR_SELECCION = Color.parseColor("#E0F2F1");
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
     }
@@ -199,7 +198,12 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                int codigo_listener = 1;
+                int codigo_listener;
+                if(seleccion_multiple){
+                    codigo_listener = 1;
+                }else{
+                    codigo_listener = 0;
+                }
                 Contacto contacto = (Contacto) parent.getAdapter().getItem(position);
                 seleccionar_contacto(codigo_listener,view,contacto.obtener_id());
                 return true;

@@ -49,7 +49,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_send"
-        android:onClick="onEnviarMail"/>
+        android:onClick="onEnviar"/>
 
     <include layout="@layout/content_envio_sms" />
 

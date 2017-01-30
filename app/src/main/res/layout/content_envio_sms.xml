@@ -21,23 +21,12 @@
         android:hint="@string/pista_mensaje_SMS"
         android:maxLength="160"
         android:layout_height="170dp"
-        android:enabled="false"
         android:layout_marginBottom="81dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:elevation="0dp" />
-
-    <TextView
-        android:text="@string/contacto_seleccionado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtContacto"
-        android:textSize="14sp"
-        android:layout_marginBottom="56dp"
-        android:layout_above="@+id/etMensaje"
-        android:layout_alignParentStart="true"
-        android:textStyle="normal|italic" />
+        android:elevation="0dp"
+        android:enabled="true" />
 
     <TextView
         android:text="@string/seleccionar_contacto"
@@ -47,5 +36,26 @@
         android:textStyle="normal|bold"
         android:textSize="18sp"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/contacto_seleccionado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtContacto"
+        android:textSize="14sp"
+        android:layout_marginBottom="80dp"
+        android:textStyle="normal|italic"
+        android:layout_above="@+id/etMensaje"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/et_DestinatarioSMS"
+        android:layout_above="@+id/etMensaje"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

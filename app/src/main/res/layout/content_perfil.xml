@@ -27,12 +27,12 @@
         <EditText
             android:layout_width="337dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/etApellidos"
             android:hint="@string/pista_apellidos"
             android:enabled="false"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:layout_width="336dp"

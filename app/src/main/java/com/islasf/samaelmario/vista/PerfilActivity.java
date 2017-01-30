@@ -12,8 +12,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import model.Constantes;
 import model.Contacto;
 import model.Perfil;
 import model.Preferencias;
@@ -27,43 +30,77 @@ public class PerfilActivity extends AppCompatActivity {
     private Contacto contacto_nuevo,contacto_antiguo;
     private Perfil perfil_nuevo;
 
+    private String nombre, apellidos, tfnoFijo, tfnoMovil, correo, fecha;
+
+    Date fecha_escogida;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+
+        perfil_nuevo = new Perfil();
+        contacto_nuevo = new Contacto(-1, perfil_nuevo);
+        fecha_escogida = new Date();
+
 
         //Cargamos el actionBar
         cargar_actionBar();
         //Cargamos los componentes
         cargar_componentes();
 
-
+        //Cargamos el perfil
+        cargar_perfil();
 
     }
 
+    private void cargar_campos(){
+        etNombre.setText(nombre);
+        etApellidos.setText(apellidos);
+        etTfnoFijo.setText(tfnoFijo);
+        etTfnoMovil.setText(tfnoMovil);
+        etCorreo.setText(correo);
+        etFecha.setText(fecha);
 
-
-    private void obtener_datos_intent(){
-        //ESTE PERFIL SE RECIBE MEDIANTE UNA BÚSQUEDA EN LA BBDD EN RELACIÓN AL PERFIL SELECCIONADO
-        Intent intent = getIntent();
-
-        //Si se abre desde la pantalla de envío de mensaje, no se permite la edición.
-        // Si obtenemos false, se da ese caso. Si obtenemos true, se ha accedido desde la pantalla de lista de contactos.
-        //Por defecto es false.
-        contacto_antiguo =  (Contacto) intent.getSerializableExtra("CONTACTO");
-        perfil_nuevo = new Perfil();
-
-        //contacto_nuevo = new Contacto(perfil_nuevo);
     }
+
+   private void cargar_perfil(){
+       Preferencias preferencias = new Preferencias(getApplicationContext());
+       SimpleDateFormat format;
+       Date fecha_formateada = new Date();
+
+       nombre = preferencias.obtener_cadena_generica(Constantes.PERFIL_NOMBRE);
+       apellidos = preferencias.obtener_cadena_generica(Constantes.PERFIL_APELLIDOS);
+       tfnoFijo = preferencias.obtener_cadena_generica(Constantes.PERFIL_TFNO_FIJO);
+       tfnoMovil = preferencias.obtener_cadena_generica(Constantes.PERFIL_TFNO_MOVIL);
+       fecha = preferencias.obtener_cadena_generica(Constantes.PERFIL_FECHA);
+       correo = preferencias.obtener_cadena_generica(Constantes.PERFIL_CORREO);
+
+       cargar_campos();
+
+       format = new SimpleDateFormat("dd/MM/yyyy");
+       try{
+           fecha_formateada = format.parse(fecha);
+       }catch(Exception e){
+
+       }
+
+       contacto_antiguo = new Contacto(-1,new Perfil());
+       contacto_antiguo.obtener_perfil().establecer_perfil(nombre,apellidos,tfnoFijo,tfnoMovil,correo,fecha_formateada);
+
+
+   }
     public void onEditar(View v){
+        String mensaje;
         if(edicion == true){
             activar_edicion(false);
+            mensaje = "Cambios guardados.";
         }else{
             activar_edicion(true);
+            mensaje = "Edición habilitada.";
         }
 
-
-        Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
+        Snackbar.make(v, mensaje, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
 
@@ -91,6 +128,8 @@ public class PerfilActivity extends AppCompatActivity {
     private void cargar_actionBar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.tbPerfil);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,9 +154,11 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     public void establecer_fecha(Calendar fecha){
+        fecha_escogida = fecha.getTime();
         this.perfil_nuevo.establecer_fecha(fecha);
         this.etFecha.setText(fechaToString(fecha));
     }
+
     public String fechaToString(Calendar fecha){
         return fecha.get(Calendar.DAY_OF_MONTH) + "/" + (fecha.get(Calendar.MONTH)+1) + "/" + fecha.get(Calendar.YEAR);
 
@@ -128,9 +169,16 @@ public class PerfilActivity extends AppCompatActivity {
         salir();
     }
     private void salir(){
-        if (comprobar_cambios()) {//Se han detectado cambios
+        if (comprobar_cambios() && !edicion) {//Se han detectado cambios
+        Preferencias preferencias = new Preferencias(getApplicationContext());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_NOMBRE,etNombre.getText().toString());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_APELLIDOS,etApellidos.getText().toString());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_TFNO_FIJO,etTfnoFijo.getText().toString());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_TFNO_MOVIL,etTfnoMovil.getText().toString());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_FECHA,etFecha.getText().toString());
+            preferencias.establecer_cadena_generica(Constantes.PERFIL_CORREO,etCorreo.getText().toString());
 
-            //aqui guardamos en la BBDD
+
 
         }
         //Finalizamos la activity
@@ -138,7 +186,7 @@ public class PerfilActivity extends AppCompatActivity {
     }
     private void recoger_datos(){
         contacto_nuevo.obtener_perfil().establecer_perfil(etNombre.getText().toString(),etApellidos.getText().toString(),
-                etTfnoFijo.getText().toString(),etTfnoMovil.getText().toString(),etCorreo.getText().toString());
+                etTfnoFijo.getText().toString(),etTfnoMovil.getText().toString(),etCorreo.getText().toString(),fecha_escogida);
     }
 
     /**
@@ -148,11 +196,11 @@ public class PerfilActivity extends AppCompatActivity {
     public boolean comprobar_cambios(){
         recoger_datos();
         if(contacto_nuevo.obtener_nombre().equals(contacto_antiguo.obtener_nombre())
-                || contacto_nuevo.obtener_apellidos().equals(contacto_antiguo.obtener_apellidos())
-                || contacto_nuevo.obtener_tfno_fijo().equals(contacto_antiguo.obtener_tfno_fijo())
-                || contacto_nuevo.obtener_tfno_movil().equals(contacto_antiguo.obtener_tfno_movil())
-                || contacto_nuevo.obtener_correo().equals(contacto_antiguo.obtener_correo())
-                || contacto_nuevo.obtener_fecha().equals(contacto_antiguo.obtener_fecha())){
+                && contacto_nuevo.obtener_apellidos().equals(contacto_antiguo.obtener_apellidos())
+                && contacto_nuevo.obtener_tfno_fijo().equals(contacto_antiguo.obtener_tfno_fijo())
+                && contacto_nuevo.obtener_tfno_movil().equals(contacto_antiguo.obtener_tfno_movil())
+                && contacto_nuevo.obtener_correo().equals(contacto_antiguo.obtener_correo())
+                && contacto_nuevo.obtener_fecha().equals(contacto_antiguo.obtener_fecha())){
             return false;
         }else{
             return true;

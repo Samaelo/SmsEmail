@@ -251,7 +251,7 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
         intent.putExtra(Constantes.LISTA_CARGADA,contactos_cargados);
         intent.putExtra(Constantes.LISTADO_CONTACTOS_SELECCIONADOS, contactos_seleccionados);
         intent.putExtra(Constantes.LISTADO_CONTACTOS_CARGADOS,lista_contactos);
-
+        intent.putExtra(Constantes.SELECCION_MULTIPLE,true);
         startActivityForResult(intent, Constantes.LISTA_CONTACTOS_ACTIVITY);
     }
 
@@ -273,8 +273,9 @@ public class EnvioEmailActivity extends AppCompatActivity implements Funcionalid
 
             String txt = "";
 
-            et_Destinatarios.setText("");
+
             for(int i = 0; i< contactos_seleccionados.size(); i++){
+                if(!et_Destinatarios.getText().toString().contains(lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo()))
                 et_Destinatarios.setText(et_Destinatarios.getText().toString() + "," + lista_contactos.get(contactos_seleccionados.get(i)).obtener_correo());
 
                 if(i!=0) {
