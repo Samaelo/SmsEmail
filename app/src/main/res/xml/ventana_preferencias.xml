@@ -14,14 +14,4 @@
             android:key="switch_preferenciasContactos"
             android:summary="@string/checkbox_summary_permitirContactos" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Apariencia">
-
-
-        <ListPreference
-            android:defaultValue="1"
-            android:title="Escoger tema"
-            android:entries="@array/tema"
-            android:entryValues="@array/codigotema"
-            android:key="list_preference_tema" />
-    </PreferenceCategory>
 </PreferenceScreen>
