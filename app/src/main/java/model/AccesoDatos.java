@@ -345,7 +345,13 @@ public class AccesoDatos {
             funcionalidadesComunes.onAsyncTask(contactos);
         }
 
-
+        /**
+         * Este método recorre los contactos que están guardados en la propia base de datos de Android. Para ello se hace uso de cursores, mediante las clases ContactsContract y
+         * CommonDataKinds. Cuando recorremos los cursores de todos los datos de los contactos que queremos recoger, se instancia un objeto de tipo Contacto y se añade al Array List de
+         * <Contacto> que será el ArrayList que finalmente devuelva el método. Un ArrayList que contendrá todos los contactos que tenemos en el teléfono.
+         * @param params Recibe por parámetro la interfaz FuncionalidadesComunes, a través de la cual se va a poder hacer un casteo a una Activity para poder trabajar con los cursores.
+         * @return Retorna un ArrayList de tipo <Contacto> que hace referencia a la lista de contactos que tenemos en el teléfono.
+         */
     public ArrayList<Contacto> recogerContactos(FuncionalidadesComunes... params){
 
         Activity actividad_llamante = (Activity)params[0];

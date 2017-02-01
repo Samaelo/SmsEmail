@@ -18,6 +18,7 @@ public class GestorMenus {
 
     private  Permisos permisos;
     private Activity actividad_llamante;
+
     public GestorMenus(Activity actividad){
         this.actividad_llamante = actividad;
         permisos = new Permisos(actividad_llamante);
@@ -29,6 +30,7 @@ public class GestorMenus {
     }
 
     public void onOptionsItemSelected( MenuItem item){
+
         int id = item.getItemId();
 
         switch(id){
