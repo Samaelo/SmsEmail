@@ -27,6 +27,9 @@ import model.AccesoDatos;
 import model.Constantes;
 import model.Contacto;
 
+/**
+ * Esta clase hace referencia a la Interfaz donde se muestra la lista de contactos que se recogen de la base de datos del móvil y se cargan en un listview personalizado.
+ */
 public class ListaContactosActivity extends AppCompatActivity implements FuncionalidadesComunes{
 
     private  FloatingActionButton fabAgregarContacto;
@@ -39,10 +42,17 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     private ArrayList<View> lista_views;
     private boolean alguno_seleccionado;
     private boolean lista_cargada;
+
     ContactosAdapter adaptador;
     AccesoDatos accesoDatos;
 
-
+    /**
+     * Método sobrescrito de la clase Activity, en la cual se crea la actividad. En este método, se hace referencia a la Toolbar con la cual va a poder interactuar el usuario, recogiendo la id
+     * de la misma de la clase R. También se cargan los componentes mediante el método 'cargar_componentes()', se cargan los datos del intent )que hace referencia a los datos de los contactos
+     * en caso de que ya se haya seleccionado algún contacto y estén reflejados en la Activity de la cual es llamda esta actividad.
+     *
+     * @param savedInstanceState Objeto de la clase Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,6 +64,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
         lista_views = new ArrayList<View>();
         accesoDatos = new AccesoDatos(this);
+
         //Cargamos los datos recibidos de la actividad llamante
         cargar_datos_intent();
 
@@ -62,6 +73,7 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         cargar_lista();
 
         seleccionar_contactos();
+
         if(contactos_seleccionados!=null){
             if(contactos_seleccionados.size() > 0){
                 alguno_seleccionado = true;
@@ -71,6 +83,10 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }
     }
 
+    /**
+     * Este método se encarga de cargar la lista de los contactos. Para ello se usa el método 'ejecutar_carga_contactos(Activity activity)' de la clase AccesoDatos, el cual recibe la actividad
+     * de la cual ha sido llamado.
+     */
     private void cargar_lista(){
         if(!lista_cargada){
 
@@ -79,7 +95,6 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }else{
             crearListaDeContactos();
         }
-
     }
 
     private void seleccionar_contactos(){
@@ -107,13 +122,16 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
      * Método que se ejecuta cuando se pulsa el botón flotante(FloatingActionButton fabAgregarContactos)
      * cuya finalidad es devolver los contactos lista_cargada a la actividad llamante. Además devuelve
      * los contactos ya cargados
-     * @param v
+     * @param fabGuardar Hace referencia al FloatingActionButton fabAgregarContactos
      */
-    public void onFabGuardarContacto(View v){
+    public void onFabGuardarContacto(View fabGuardar){
 
         volver();
     }
 
+    /**
+     * Método encargado de volver a la Actividad anterior de la que ha sido llamada.
+     */
     private void volver(){
 
         Intent intent_devuelto = new Intent();
@@ -128,9 +146,11 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }else{
             Toast.makeText(this, "Por favor, selecicone un solo contacto.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
+    /**
+     * Método que carga los componentes de la Activity.
+     */
     private void cargar_componentes(){
 
         fabAgregarContacto = (FloatingActionButton) findViewById(R.id.fabAgregarContactos);
@@ -138,16 +158,23 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         COLOR_DESELECCION = Color.parseColor("#FAFAFA");
     }
 
-    private void seleccionar_contacto(int codigo_listener,View v,Integer id_contacto){
+    /**
+     * Este método selecciona un contacto cuando el usuario interactúa con el ListView que contiene los contacots. En él se comprueba si el contacto está seleccionado. Si no lo está, se cambia el
+     * color de dicho ítem del list view y se agrega a un Array de contactos.
+     * @param codigo_listener
+     * @param vista
+     * @param id_contacto
+     */
+    private void seleccionar_contacto(int codigo_listener,View vista,Integer id_contacto){
 
         if(codigo_listener==0){//Si el código listener corresponde al onItemClickListener
             if(alguno_seleccionado == true){//Si ya hay contactos lista_cargada, se añaden a la selección
                 if(contactos_seleccionados.contains(id_contacto)){//Si ya está en la lista de lista_cargada lo borra
                     contactos_seleccionados.remove(id_contacto);
-                    v.setBackgroundColor(COLOR_DESELECCION);
+                    vista.setBackgroundColor(COLOR_DESELECCION);
                 }else{//Si no está en la lista de lista_cargada, lo añade.
                     contactos_seleccionados.add(id_contacto);
-                    v.setBackgroundColor(COLOR_SELECCION);
+                    vista.setBackgroundColor(COLOR_SELECCION);
                 }
             }else{//Si no hay contactos lista_cargada, se pasa un solo contacto a la actividad de envío.
                 contactos_seleccionados.add(id_contacto);
@@ -157,10 +184,10 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }else{//Si el código listener corresponde al onItemLongClickListener
             if(contactos_seleccionados.contains(id_contacto)){
                 contactos_seleccionados.remove(id_contacto);
-                v.setBackgroundColor(COLOR_DESELECCION);
+                vista.setBackgroundColor(COLOR_DESELECCION);
             }else{
                 contactos_seleccionados.add(id_contacto);
-                v.setBackgroundColor(COLOR_SELECCION);
+                vista.setBackgroundColor(COLOR_SELECCION);
             }
         }
         if(contactos_seleccionados.size()==0){
@@ -170,7 +197,17 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }
     }
 
+    /**
+     * Este método crea la lista de contactos. Para ello se crea un ListView recogiendo el id del ListView de R que hace referencia al ListView y de dicha Actividad.
+     * Posteriormente, mediante un adaptador, al cual pasamos la Actividad en la que estamos y el Array de contactos (que recogemos mediante el método 'cargar_datos_intent()'. Este método tiene dos
+     * opciones: 1.- Si se hace click en el ítem, se obtiene el contacto de la vista padre "parent" mediante el método getAdapter().getItem(posicion)" al cual le pasamos la posicion del item del listview pulsado.
+     *              Después de haber obtenido el contacto, simplemente seleccionamos la posición equivalente a la id del mismo (así evitamos que se seleccione siempre el mismo item, debido al view holder).
+     *
+     * 2.- Dependiendo de la variable booleana "seleccion_multiple" (recibida al iniciar la actividad mediante un intent), se enviará el contacto de vuelta a la actividad de envío llamante (en caso de
+     *      que ésta sea el envioSMS, puesto que sólo se puede seleccionar un contacto) o se seleccionará el contacto en el que se mantuvo pulsado el click para dar opción a seleccionar más contactos.
+     */
     public void crearListaDeContactos(){
+
         lista_cargada = true;
         lvListaContactos = (ListView) findViewById(R.id.lv_lista_contactos);// Volcamos en el atributo 'lista' el listView definido en el xml con su id
         adaptador = new ContactosAdapter(this, contactos); // Instanciamos un objeto denominado 'adapter' de tipo TitularAdapter que recibe el contexto en el que se crea y un ArrayList
@@ -181,17 +218,20 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 int codigo_listener = 0;
+
                 Contacto contacto = (Contacto) parent.getAdapter().getItem(position);
                 seleccionar_contacto(codigo_listener,view,contacto.obtener_id());
-
             }
         });
 
         lvListaContactos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                 int codigo_listener;
+
                 if(seleccion_multiple){
                     codigo_listener = 1;
                 }else{
@@ -202,10 +242,11 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
                 return true;
             }
         });
-
-
     }
 
+    /**
+     * Método sobrescrito cuando se pulsa la tecla atrás del móvil. Se invoca al método 'volver()' de la propia clase.
+     */
     @Override
     public void onBackPressed() {
         volver();
@@ -214,15 +255,13 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     // --- PETICIÓN DE PERMISOS PARA ACCEDER A LA LISTA DE CONTACTOS DEL TELÉFONO --- //
 
     /**
-     * Este método comprueba si la aplicación tiene permisos garantizados, si es así
+     * Este método comprueba si la aplicación tiene permisos garantizados. Rn caso de que no los tenga, se llama al método onRequestPermissionsResult.
      *
      */
     public void requestPermissions(){
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)){
-                /* Aquí se mostrará la explicación al usuario de porqué es necesario el uso de un determinado permiso, pudiéndose mostrar de manera asíncrona, o lo que es lo mismo, desde un hilo secundario,
-                sin bloquear el hilo principal, y a la espera de que el usuario concede el permiso necesario tras visualizar la explicación.*/
             }
             else{
                 /* Se realiza la petición del permiso. En este caso permisos para leer los contactos.*/
@@ -231,6 +270,12 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }
     }
 
+    /**
+     * Devolución de llamada para el resultado de solicitar los permisos. Este método se invoca para cada llamada en el método 'requestPermissions()'
+     * @param requestCode Variable de tipo int que corresponde al código que pasámos a través del método 'requestPermissions()'
+     * @param permissions Variable de tipo Array de String que hace referencia a los permisos de la aplicación. Nunca pueden ser nulos.
+     * @param grantResults Variable de tipo Array de int que recoge el resultado de los permisos correspondientes
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
 
@@ -246,6 +291,10 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }
     }
 
+    /**
+     * Este método da el valor al ArrayList
+     * @param objeto - Parámetro que puede recibir de 0 a varios objetos de tipo Object.
+     */
     @Override
     public void onAsyncTask(Object... objeto) {
         this.contactos = (ArrayList<Contacto>) objeto[0];
@@ -256,9 +305,6 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
     public void onAlerta(Object... objeto) {
 
     }
-
-
-
 
     /**
      * Clase que hereda de ArrayAdapter de tipo Contacto, que está destinada a actuar como modelo
@@ -289,11 +335,13 @@ public class ListaContactosActivity extends AppCompatActivity implements Funcion
         }
 
         /**
-         * Sobreescribimos el método getView para poder adaptar
-         * @param posicion
-         * @param convertView
-         * @param parent
-         * @return
+         * Sobreescribimos el método getView para poder adaptar los datos que queremos mostrar, al listView que hemos personalizado.
+         * Este método sirve para obtener una vista que muestra los datos en la posición especificada en el conjunto de datos.
+         * @param posicion La posición del elemento dentro de los datos del sistema de adaptador de la tarea cuyos vista que queremos.
+         * @param convertView Hace referencia a la vista vieja para su reutilización, si es posible. Nota: Se debe comprobar que este punto de vista no es nulo y de un tipo adecuado antes de usar.
+         *                    Si no es posible convertir esta vista para mostrar los datos correctos, este método puede crear una nueva vista
+         * @param parent El padre que finalmente, se adjuntará a este punto de vista
+         * @return Una vista correspondiente a los datos en la posición especificada
          */
         @Override
         public View getView(final int posicion, View convertView, ViewGroup parent) {

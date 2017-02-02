@@ -125,14 +125,16 @@ public class Preferencias {
     }
 
     /**
-     * Método cuya función es extraer el valor de la preferencia asociada al tema de la aplicación.
-     * @return - El valor string asociado al tema escogido o no por el usuario.
-     * Por defecto es estandar.
+     * Método encargado de obtener una preferencia en función de la etiqueta o clave que recibe por
+     * paámetro, mediante el método getString(clave,valor por defecto) del atributo "preferencias"
+     * de tipo SharedPreferences.
+     *
+     * @param clave - Parámetro que hace referencia a la clave o etiqueta por la que buscar el valor
+     *              de la preferencia.
+     *
+     * @return - Deviuelve el valor de la preferencia asociado a la etiqueta o clave recibida por
+     * parámetro.
      */
-    public String obtener_Tema(){
-        return preferencias.getString(TEMA,"estandar");
-    }
-
     public String obtener_cadena_generica(String clave){
         return preferencias.getString(clave,"");
     }

@@ -9,7 +9,7 @@ import android.support.v7.app.AlertDialog;
 import model.Constantes;
 
 /**
- * Creado por Mario García Ramos y Samael Picazo Navarrete. Fecha : 07/01/2017.
+ * Esta clase consiste en crear diálogos de información par el usuario, cuando éste ha realizado alguna operación en la interfaz y se estima oportuno avisarle de ciertos eventos.
  */
 
 public class DialogoAlerta extends DialogFragment {

@@ -22,7 +22,7 @@ import model.AccesoDatos;
 import model.Email;
 
 /**
- * Created by Samael on 25/01/2017.
+ * Esta clase hace referencia a la Actividad donde se muestra la interfaz de usuario, para que éste vea el listado de Emails.
  */
 public class ListaEmailsActivity extends AppCompatActivity implements FuncionalidadesComunes {
 
@@ -33,6 +33,12 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
     private GestorMenus gestorMenus = new GestorMenus(this);
 
 // ---- onCreate ListaEmails ---- //
+
+    /**
+     * Este método crea la Activity. Dentro se crea el Toolbar que contiene los iconos del Menú, y se instancia un objeto de la clase AccesoDatos, al cual se le pasa la Actividad
+     * ListaEmailsActivity (haciendo referencia con la palabra reservada "this") y se ejecuta el método de dicha clase 'ejecutar_carga_emails(this)'.
+     * @param savedInstanceState Objeto de tipo Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,24 +48,35 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab_nuevo_email = (FloatingActionButton)findViewById(R.id.fab_nuevo_email);
-
         accesoDatos = new AccesoDatos(this);
         accesoDatos.ejecutar_carga_emails(this);
     }
 
 // ---- onAsyncTask ---- //
+
+    /**
+     * Este método vuelca el valor del parámetro en el ArrayList que hace referencia al atributo de la clase. Posteriormente se invoca al método 'crearListaDeEmails()'
+     * @param objeto - Parámetro que puede recibir de 0 a varios objetos de tipo Object.
+     */
     @Override
     public void onAsyncTask(Object... objeto) {
         this.listado_emails = (ArrayList<Email>) objeto[0];
         crearListaDeEmails();
     }
 
+    /**
+     * En esta clase este método no hace nada. Pertenece a la clase porque esta implementa la interfaz FuncionalidadesComunes y es obligatorio implementarla.
+     * @param objeto - Parámetro que puede recibir de 0 a varios objetos de tipo Object.
+     */
     @Override
     public void onAlerta(Object... objeto) {
 
     }
 
+    /**
+     * Este método crea un ListView donde se vuelcan los E-mails. Primero se comprueba si el Array con el cual se quiere llenar el ListView está vacío. Si está vacío, no se infla el ListView
+     * sino, se infla el ListView.
+     */
     public void crearListaDeEmails(){
 
         listaEmails = (ListView)findViewById(R.id.lv_lista_emails); // Volcamos en el ListView "listaEmails", el listView definido en el xml con su id denominado "lvLista_mensajes"
@@ -68,30 +85,30 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
 
         if(listado_emails != null){
             listaEmails.setAdapter(emailAdapter); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
-
-            listaEmails.setOnItemClickListener(new AdapterView.OnItemClickListener() { // Acción para cuando pulsamos algún ítem del TextView
-                public void onItemClick(AdapterView adapter, View view, int position, long id) {
-
-                    // MENU CONTEXTUAAAAAAAAAAAL <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<----------------------------------------------------------------------
-                }
-            });
         }
     }
 
+    /**
+     * Este método instancia un Intent que lleva a la Activity EnvioEmailActivity
+     * @param botonFab Botón de tipo Floating Action Button
+     */
     public void nuevoEmailFab(View botonFab){
 
         Intent intent = new Intent(this, EnvioEmailActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Esta clase sirve para crear un ArrayAdapter referente a la lista de E-mails
+     */
     class EmailAdapter extends ArrayAdapter<Email> {
 
         private Context contexto; // Atributo 'contexto' de tipo Context
         private ArrayList<Email> emails; // Atributo 'titulares' de tipo ArrayList
 
         /**
-         * Constructor de la clase TitularAdapter. Recibe un contexto(donde se va a implementar) y un ArrayList(que contiene la información de los datos que se van a mostrar)
-         * @param contexto Hace referencia al contexto en el cual se va a implementar el TitularAdapter
+         * Constructor de la clase EmailAdapter. Recibe un contexto(donde se va a implementar) y un ArrayList(que contiene la información de los datos que se van a mostrar)
+         * @param contexto Hace referencia al contexto en el cual se va a implementar el EmailAdapter
          * @param emails Hace referencia al modelo de datos que recibe el EmailAdapter, que contiene la información de los Emails que será mostrada en el ListView
          */
         public EmailAdapter(Context contexto, ArrayList<Email> emails) {
@@ -102,11 +119,13 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
         }
 
         /**
-         * Sobreescribimos el método getView para poder adaptar
-         * @param posicion
-         * @param convertView
-         * @param parent
-         * @return
+         * Sobreescribimos el método getView para poder adaptar los datos que queremos mostrar, al listView que hemos personalizado.
+         * Este método sirve para obtener una vista que muestra los datos en la posición especificada en el conjunto de datos.
+         * @param posicion La posición del elemento dentro de los datos del sistema de adaptador de la tarea cuyos vista que queremos.
+         * @param convertView Hace referencia a la vista vieja para su reutilización, si es posible. Nota: Se debe comprobar que este punto de vista no es nulo y de un tipo adecuado antes de usar.
+         *                    Si no es posible convertir esta vista para mostrar los datos correctos, este método puede crear una nueva vista
+         * @param parent El padre que finalmente, se adjuntará a este punto de vista
+         * @return Una vista correspondiente a los datos en la posición especificada
          */
         @Override
         public View getView(int posicion, View convertView, ViewGroup parent) {
@@ -167,6 +186,12 @@ public class ListaEmailsActivity extends AppCompatActivity implements Funcionali
     }
 
     // --- Método para dar funcionalidad a los botones del Menú
+    /**
+     * Este método llama al objeto GestorMenus instanciado en el onCreate, para ejecutar su método onOptionsItemSelected(item), el cual recibe el item del Menú que recibe el propio método por
+     * parámetro.
+     * @param item Item del Menu
+     * @return Retorna un valor de tipo booleano
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         gestorMenus.onOptionsItemSelected(item);

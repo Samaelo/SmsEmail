@@ -64,9 +64,7 @@ public class Permisos {
      *
      */
     public void solicitarPermisos_Contactos(){
-            ActivityCompat.requestPermissions(
-                    actividad_llamante, new String[]{Manifest.permission.READ_CONTACTS},
-                    Constantes.REQUEST_PERMISOS_CONTACTOS);
+            ActivityCompat.requestPermissions(actividad_llamante, new String[]{Manifest.permission.READ_CONTACTS}, Constantes.REQUEST_PERMISOS_CONTACTOS);
     }
 
     /**

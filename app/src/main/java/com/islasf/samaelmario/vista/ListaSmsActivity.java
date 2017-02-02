@@ -19,7 +19,7 @@ import model.AccesoDatos;
 import model.SMS;
 
 /**
- * Creado por Samael Picazo Navarrete y Mario Garcia el 25/01/2017.
+ * Esta clase hace referencia a la Actividad donde se muestra la interfaz de usuario, para que éste vea el listado de SMSes.
  */
 public class ListaSmsActivity extends AppCompatActivity implements FuncionalidadesComunes{
 
@@ -29,6 +29,13 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
     private ArrayList<SMS> smses;
     private GestorMenus gestorMenus = new GestorMenus(this);
 
+    // ---- onCreate ListaSMS ---- //
+
+    /**
+     * Este método crea la Activity. Dentro se crea el Toolbar que contiene los iconos del Menú, y se instancia un objeto de la clase AccesoDatos, al cual se le pasa la Actividad
+     * ListaSmsActivity (haciendo referencia con la palabra reservada "this") y se ejecuta el método de dicha clase 'ejecutar_carga_emails(this)'.
+     * @param savedInstanceState Objeto de tipo Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -45,6 +52,10 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
 
         }
 
+    /**
+     * Este método crea un ListView donde se vuelcan los Smses. Primero se comprueba si el Array con el cual se quiere llenar el ListView está vacío. Si está vacío, no se infla el ListView
+     * sino, se infla el ListView.
+     */
      public void crearListaDeSmses(){
 
              // Volcamos en el ListView "listaEmails", el listView definido en el xml con su id denominado "lvLista_mensajes"
@@ -54,21 +65,33 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
             if(this.smses != null){
 
                 listaSms.setAdapter(smsAdapter); // Rellenamos el ListView denominado 'lista' con el contenido del adaptador, que tendrá los valores del ArrayList
-
             }
      }
 
+    /**
+     * En esta clase este método no hace nada. Pertenece a la clase porque esta implementa la interfaz FuncionalidadesComunes y es obligatorio implementarla.
+     * @param objeto - Parámetro que puede recibir de 0 a varios objetos de tipo Object.
+     */
     @Override
     public void onAlerta(Object... objeto) {
 
     }
 
+// ---- onAsyncTask ---- //
+
+    /**
+     * Este método vuelca el valor del parámetro en el ArrayList que hace referencia al atributo de la clase. Posteriormente se invoca al método 'crearListaDeEmails()'
+     * @param objeto - Parámetro que puede recibir de 0 a varios objetos de tipo Object.
+     */
     @Override
     public void onAsyncTask(Object... objeto) {
         this.smses = (ArrayList<SMS>)objeto[0];
         crearListaDeSmses();
     }
 
+    /**
+     * Esta clase sirve para crear un ArrayAdapter referente a la lista de Smses
+     */
     class SmsAdapter extends ArrayAdapter<SMS> {
 
             private Context contexto; // Atributo 'contexto' de tipo Context
@@ -86,12 +109,14 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
                 this.contexto = contexto;
             }
 
-            /**
-             * Sobreescribimos el método getView para poder adaptar
-             * @param posicion
-             * @param convertView
-             * @param parent
-             * @return
+           /**
+             * Sobreescribimos el método getView para poder adaptar los datos que queremos mostrar, al listView que hemos personalizado.
+             * Este método sirve para obtener una vista que muestra los datos en la posición especificada en el conjunto de datos.
+             * @param posicion La posición del elemento dentro de los datos del sistema de adaptador de la tarea cuyos vista que queremos.
+             * @param convertView Hace referencia a la vista vieja para su reutilización, si es posible. Nota: Se debe comprobar que este punto de vista no es nulo y de un tipo adecuado antes de usar.
+             *                    Si no es posible convertir esta vista para mostrar los datos correctos, este método puede crear una nueva vista
+             * @param parent El padre que finalmente, se adjuntará a este punto de vista
+             * @return Una vista correspondiente a los datos en la posición especificada
              */
             @Override
             public View getView(int posicion, View convertView, ViewGroup parent) {
@@ -150,6 +175,13 @@ public class ListaSmsActivity extends AppCompatActivity implements Funcionalidad
     }
 
     // --- Método para dar funcionalidad a los botones del Menú
+
+    /**
+     * Este método llama al objeto GestorMenus instanciado en el onCreate, para ejecutar su método onOptionsItemSelected(item), el cual recibe el item del Menú que recibe el propio método por
+     * parámetro.
+     * @param item Item del Menu
+     * @return Retorna un valor de tipo booleano
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         gestorMenus.onOptionsItemSelected(item);

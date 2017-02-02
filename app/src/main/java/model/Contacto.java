@@ -100,35 +100,4 @@ public class Contacto implements Serializable {
 
         return this.perfil;
     }
-
-/*
-    protected Contacto(Parcel in) {
-        perfil = (Perfil) in.readValue(Perfil.class.getClassLoader());
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(perfil);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Contacto> CREATOR = new Parcelable.Creator<Contacto>() {
-        @Override
-        public Contacto createFromParcel(Parcel in) {
-            return new Contacto(in);
-        }
-
-        @Override
-        public Contacto[] newArray(int size) {
-            return new Contacto[size];
-        }
-    };
-     */
-
 }

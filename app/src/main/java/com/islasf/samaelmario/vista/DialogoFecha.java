@@ -11,7 +11,7 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 
 /**
- * Created by Mario García Ramos y Samael Picazo Navarrete. Fecha: 06/01/2017.
+ * Esta clase sirve para mostrar un calendario al usuario para que pueda elegir una fecha de cumpleaños, etc...
  */
 
 public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -27,24 +27,32 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
     }
 
     /**
-     * Este método muestra un Diálogo en el cual
+     * Este método muestra un Diálogo en el cual se muestra un calendario donde el usuario podrá elegir su fecha de nacimiento.
      * @param savedInstanceState Variable de tipo Bundle que guarda la información de la actividad cuando se crea un diálogo.
-     * @return
+     * @return Retorna un objeto de la clase DatePicxkerDialog
      */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
+
         final Calendar c = Calendar.getInstance();
         int anno = c.get(Calendar.YEAR);
         int mes = c.get(Calendar.MONTH);
         int dia = c.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of DatePickerDialog and return it
+         // Creamos una nueva instancia de PickerDialog y la retornamos
         return new DatePickerDialog(getActivity(), this, anno, mes, dia);
     }
 
+    /**
+     * Método sobrescrito de la clase DatePickerDialog que se encarga de recoger la fecha del calendario
+     * @param datePicker Objeto de la clase DatePicker
+     * @param anno Variable de tipo integer que hace referencia al año del calendario
+     * @param mes Variable de tipo integer que hace referencia al mes del calendario
+     * @param dia Variable de tipo integer que hace referencia al dia del calendario
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int anno, int mes, int dia) {
+
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(anno,mes,dia);
@@ -57,13 +65,17 @@ public class DialogoFecha extends DialogFragment implements DatePickerDialog.OnD
         }
     }
 
+    /**
+     * Método sobrescrito de la clase DatePickerDialog, el cual cierra el diálogo que muestra el calendario.
+     * @param dialog Variable de tipo DialogInterface
+     */
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+
         try {
             finalize();
         } catch (Throwable throwable) {
         }
     }
-
 }

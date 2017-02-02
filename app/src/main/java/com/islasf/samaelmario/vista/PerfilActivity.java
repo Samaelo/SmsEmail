@@ -214,11 +214,10 @@ public class PerfilActivity extends AppCompatActivity {
     /**
      * Método encargado de transformar el formato de fecha de tipo Calendar a String.
      * @param fecha - Devuelve la fecha recibida como calendar transformada a String.
-     * @return
+     * @return Devuelve la fecha con formato mes/dia/año
      */
     public String fechaToString(Calendar fecha){
         return fecha.get(Calendar.DAY_OF_MONTH) + "/" + (fecha.get(Calendar.MONTH)+1) + "/" + fecha.get(Calendar.YEAR);
-
     }
 
     /**
@@ -245,9 +244,6 @@ public class PerfilActivity extends AppCompatActivity {
             preferencias.establecer_cadena_generica(Constantes.PERFIL_TFNO_MOVIL,etTfnoMovil.getText().toString());
             preferencias.establecer_cadena_generica(Constantes.PERFIL_FECHA,etFecha.getText().toString());
             preferencias.establecer_cadena_generica(Constantes.PERFIL_CORREO,etCorreo.getText().toString());
-
-
-
         }
         //Finalizamos la activity
         finish();
@@ -277,7 +273,6 @@ public class PerfilActivity extends AppCompatActivity {
         }else{
             return true;
         }
-
     }
 
     @Override
